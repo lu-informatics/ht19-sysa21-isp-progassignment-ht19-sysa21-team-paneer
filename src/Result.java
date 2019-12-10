@@ -30,6 +30,27 @@ public class Result {
 		this.student = student;
 	}
 	
+	public char gradeCalculator() {
+		if (result >= 0 && result < 50) {
+			return 'F';
+		}
+		else if (result < 55) {
+			return 'E';
+		}
+		else if (result < 65) {
+			return 'D';
+		}
+		else if (result < 75) {
+			return 'C';
+		}
+		else if (result < 85) {
+			return 'B';
+		}
+		else if (result <= 100) {
+			return 'A';
+		}
+	}
+	
 	
 	
 
