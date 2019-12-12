@@ -2,9 +2,13 @@
 public class Result {
 	private int result;
 	private char letterGrade;
+<<<<<<< Updated upstream
 	private WrittenExam exam;
 	private Student student;
 	
+=======
+
+>>>>>>> Stashed changes
 	public int getResult() {
 		return result;
 	}
@@ -17,6 +21,7 @@ public class Result {
 	public void setLetterGrade(char letterGrade) {
 		this.letterGrade = letterGrade;
 	}
+<<<<<<< Updated upstream
 	public WrittenExam getExam() {
 		return exam;
 	}
@@ -50,4 +55,11 @@ public class Result {
 			return 'A';
 		}
 	}
+=======
+
+
+
+
+
+>>>>>>> Stashed changes
 }
