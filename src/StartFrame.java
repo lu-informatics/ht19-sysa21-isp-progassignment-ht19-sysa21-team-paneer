@@ -11,54 +11,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class StartFrame extends JFrame {
-
-	private JPanel contentPane;
+	//Problemområdeskomponenter
+	CourseRegister courseRegister;
+	StudentRegister studentRegister;
+	//ExamRegister examRegister;
+	
+	//Controllerklassen
 	private ViewController controller;
+	
+	//Gränssnittsobjekt
+	private JPanel contentPane;
 	private JLabel lblWelcomeToResult;
-
 	private JLabel lblPleaseMakeOne;
 	private JButton btnAdministrateStudents;
 	private JButton btnAdministrateCourses;
 	private JButton btnResultReports;
-	
-	public JLabel getLblWelcomeToResult() {
-		return lblWelcomeToResult;
-	}
-
-	public JLabel getLblPleaseMakeOne() {
-		return lblPleaseMakeOne;
-	}
-
-	public JButton getBtnAdministrateStudents() {
-		return btnAdministrateStudents;
-	}
-
-	public JButton getBtnAdministrateCourses() {
-		return btnAdministrateCourses;
-	}
-
-	public JButton getBtnResultReports() {
-		return btnResultReports;
-	}
-
-	public JPanel getContentPane() {
-		return contentPane;
-	}
-
-	public void setContentPane(JPanel contentPane) {
-		this.contentPane = contentPane;
-	}
-
-	public ViewController getController() {
-		return controller;
-	}
-
-	public void setController(ViewController controller) {
-		this.controller = controller;
-	}
-
-	
-	
 
 	/**
 	 * Launch the application.
@@ -80,9 +47,6 @@ public class StartFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public StartFrame() {
-		controller = new ViewController(this);
-		this.setController(controller);
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 618);
 		contentPane = new JPanel();
@@ -100,14 +64,29 @@ public class StartFrame extends JFrame {
 		contentPane.add(lblPleaseMakeOne);
 		
 		btnAdministrateStudents = new JButton("Administrate Students");
+		btnAdministrateStudents.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.administrateStudents(null);
+			}
+		});
 		btnAdministrateStudents.setBounds(66, 236, 209, 48);
 		contentPane.add(btnAdministrateStudents);
 		
 		btnAdministrateCourses = new JButton("Administrate Courses");
+		btnAdministrateCourses.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.administrateCourses(null);
+			}
+		});
 		btnAdministrateCourses.setBounds(66, 300, 209, 47);
 		contentPane.add(btnAdministrateCourses);
 		
 		btnResultReports = new JButton("Result Reports");
+		btnResultReports.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.resultReports(null);
+			}
+		});
 		btnResultReports.setBounds(66, 363, 209, 48);
 		contentPane.add(btnResultReports);
 	}

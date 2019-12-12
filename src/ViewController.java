@@ -1,6 +1,5 @@
 
 import javax.swing.JFrame;
-import java.util.HashMap;
 
 public class ViewController {
 	//Kopplar till gränssnitten
@@ -42,5 +41,20 @@ public class ViewController {
 		this.studentRegister = studentRegister;
 		this.examRegister = examRegister;
 	}
+	
+	public void administrateStudents(String[] args) {
+		StudentFrame.main(args);
+	}
+
+	public void administrateCourses(String[] args) {
+		CourseFrame.main(args);
+		
+	}
+
+	public void resultReports(String[] args) {
+		ResultFrame.main(args);
+		
+	}
+	
 
 }
