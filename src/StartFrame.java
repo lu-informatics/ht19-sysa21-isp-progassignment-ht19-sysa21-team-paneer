@@ -14,15 +14,7 @@ public class StartFrame extends JFrame {
 
 	private JPanel contentPane;
 	private ViewController controller;
-	private StartController startController;
 	private JLabel lblWelcomeToResult;
-	public StartController getStartController() {
-		return startController;
-	}
-
-	public void setStartController(StartController startController) {
-		this.startController = startController;
-	}
 
 	private JLabel lblPleaseMakeOne;
 	private JButton btnAdministrateStudents;
@@ -90,8 +82,6 @@ public class StartFrame extends JFrame {
 	public StartFrame() {
 		controller = new ViewController(this);
 		this.setController(controller);
-		startController = new 
-		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 618);
