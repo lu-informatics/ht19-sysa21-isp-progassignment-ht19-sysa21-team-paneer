@@ -1,4 +1,4 @@
-package controllers;
+
 import javax.swing.JFrame;
 import java.util.HashMap;
 
@@ -33,11 +33,11 @@ public class ViewController {
 		return viewList.get(viewName);
 	}
 
-	public void chooseView(String viewName) {
-		JFrame view = this.findView(viewName);
+	public void chooseView(JFrame view) {
 		view.setVisible(true);
 		activeView = view;
 	}
+	
 	
 
 }
