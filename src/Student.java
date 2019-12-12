@@ -48,6 +48,7 @@ public class Student {
 		r.setResult(grade);
 		return r;
 	
+	}
 	
 	public void addResult(Result r) {
 		results.put(r.getExam().getExamID(), r);
@@ -58,9 +59,11 @@ public class Student {
 		
 	}
 
+	public WrittenExam findWrittenExam(String examID) {
+		 return results.get(examID).getExam();
+	}
 
-
-
+	
 
 
 
