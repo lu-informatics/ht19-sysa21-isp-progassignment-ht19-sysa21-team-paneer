@@ -14,9 +14,14 @@ public class ViewController {
 	public void addView(JFrame view) {
 		viewList.put(view.getName(), view);
 	}
-
-	public void chooseView(String viewID) {
-
+	public JFrame findView(String viewName) {
+		return viewList.get(viewName);
 	}
+
+	public void chooseView(String viewName) {
+		JFrame view = this.findView(viewName);
+		view.setVisible(true);
+	}
+	
 
 }
