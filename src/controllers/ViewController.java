@@ -1,8 +1,23 @@
+package controllers;
 import javax.swing.JFrame;
 import java.util.HashMap;
 
 public class ViewController {
 	HashMap<String, JFrame> viewList = new HashMap<String, JFrame>();
+	JFrame activeView;
+	
+	public ViewController(JFrame view) {
+		this.addView(view);
+		activeView = view;
+	}
+	
+	public JFrame getActiveView() {
+		return activeView;
+	}
+
+	public void setActiveView(JFrame activeView) {
+		this.activeView = activeView;
+	}
 
 	public HashMap<String, JFrame> getViewList() {
 		return viewList;
@@ -21,6 +36,7 @@ public class ViewController {
 	public void chooseView(String viewName) {
 		JFrame view = this.findView(viewName);
 		view.setVisible(true);
+		activeView = view;
 	}
 	
 

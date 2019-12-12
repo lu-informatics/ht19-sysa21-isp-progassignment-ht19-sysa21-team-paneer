@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controllers.ViewController;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -13,7 +16,7 @@ import java.awt.event.ActionEvent;
 public class StartFrame extends JFrame {
 
 	private JPanel contentPane;
-	private ViewController controller = new ViewController();
+	private ViewController controller;
 	private JLabel lblWelcomeToResult;
 	private JLabel lblPleaseMakeOne;
 	private JButton btnAdministrateStudents;
@@ -79,8 +82,8 @@ public class StartFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public StartFrame() {
+		controller = new ViewController(this);
 		this.setController(controller);
-		controller.addView(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 618);
