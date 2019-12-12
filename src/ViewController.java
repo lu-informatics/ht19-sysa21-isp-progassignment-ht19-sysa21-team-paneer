@@ -1,4 +1,6 @@
 
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 
 public class ViewController {
@@ -42,19 +44,48 @@ public class ViewController {
 		this.examRegister = examRegister;
 	}
 	
+	//Metoder för StartFrame-objekt
 	public void administrateStudents(String[] args) {
-		StudentFrame.main(args);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					StudentFrame frame = new StudentFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	public void administrateCourses(String[] args) {
-		CourseFrame.main(args);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CourseFrame frame = new CourseFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
 	}
 
-	public void resultReports(String[] args) {
-		ResultFrame.main(args);
-		
+	public void resultReports() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ResultFrame frame = new ResultFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
+	
+	//
 	
 
 }
