@@ -85,7 +85,7 @@ public class ViewController {
 		});
 	}
 	
-	//
+	//Metoder för StudentFrame-objekt
 	
 
 }

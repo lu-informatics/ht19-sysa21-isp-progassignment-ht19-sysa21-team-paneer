@@ -12,9 +12,9 @@ import java.awt.event.ActionEvent;
 
 public class StartFrame extends JFrame {
 	//Problemområdeskomponenter
-	CourseRegister courseRegister;
-	StudentRegister studentRegister;
-	//ExamRegister examRegister;
+	CourseRegister courseRegister = new CourseRegister();
+	StudentRegister studentRegister = new StudentRegister();
+	ExamRegister examRegister = new ExamRegister();
 	
 	//Controllerklassen
 	private ViewController controller;
@@ -47,6 +47,8 @@ public class StartFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public StartFrame() {
+		controller = new ViewController(this, courseRegister, studentRegister, examRegister);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 618);
 		contentPane = new JPanel();
