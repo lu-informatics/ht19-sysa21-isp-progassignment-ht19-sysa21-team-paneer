@@ -66,7 +66,7 @@ public class StartFrame extends JFrame {
 		btnAdministrateStudents = new JButton("Administrate Students");
 		btnAdministrateStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.administrateStudents(null);
+				controller.administrateStudents();
 			}
 		});
 		btnAdministrateStudents.setBounds(66, 236, 209, 48);
@@ -75,7 +75,7 @@ public class StartFrame extends JFrame {
 		btnAdministrateCourses = new JButton("Administrate Courses");
 		btnAdministrateCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.administrateCourses(null);
+				controller.administrateCourses();
 			}
 		});
 		btnAdministrateCourses.setBounds(66, 300, 209, 47);
@@ -84,7 +84,7 @@ public class StartFrame extends JFrame {
 		btnResultReports = new JButton("Result Reports");
 		btnResultReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.resultReports(null);
+				controller.resultReports();
 			}
 		});
 		btnResultReports.setBounds(66, 363, 209, 48);

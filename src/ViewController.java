@@ -45,7 +45,7 @@ public class ViewController {
 	}
 	
 	//Metoder för StartFrame-objekt
-	public void administrateStudents(String[] args) {
+	public void administrateStudents() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -58,7 +58,7 @@ public class ViewController {
 		});
 	}
 
-	public void administrateCourses(String[] args) {
+	public void administrateCourses() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
