@@ -1,5 +1,5 @@
 import java.util.HashMap;
-public class examRegister {
+public class ExamRegister {
 	
 	HashMap<String, WrittenExam> register = new HashMap<>();
 	
