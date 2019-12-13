@@ -12,9 +12,9 @@ import java.awt.event.ActionEvent;
 
 public class StartFrame extends JFrame {
 	//Problemområdeskomponenter
-	CourseRegister courseRegister = new CourseRegister();
-	StudentRegister studentRegister = new StudentRegister();
-	ExamRegister examRegister = new ExamRegister();
+	private CourseRegister courseRegister = new CourseRegister();
+	private StudentRegister studentRegister = new StudentRegister();
+	private ExamRegister examRegister = new ExamRegister();
 	
 	//Controllerklassen
 	private ViewController controller;
