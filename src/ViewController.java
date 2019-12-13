@@ -86,6 +86,20 @@ public class ViewController {
 	}
 	
 	//Metoder för StudentFrame-objekt
+	public void registerNewStudent(String studentID, String name) {
+		Student tmpStudent = new Student();
+		tmpStudent.setName(name);
+		tmpStudent.setStudentId(studentID);
+		studentRegister.addStudent(tmpStudent);
+	}
+	
+	public Student editStudent(String studentID, String name) {
+		return studentRegister.editStudent(studentID, name);
+	}
+	
+	public Student deleteStudent(String studentID) {
+		return studentRegister.removeStudent(studentID);
+	}
 	
 
 }
