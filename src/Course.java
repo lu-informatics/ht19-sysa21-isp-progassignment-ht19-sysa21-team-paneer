@@ -53,7 +53,7 @@ public class Course {
 	}
 
 	public WrittenExam findExam(String examID) {
-		WrittenExam w = examList.get(examID);
+		WrittenExam w = examList.get(examID).getExam();
 		return w;
 	}
 
