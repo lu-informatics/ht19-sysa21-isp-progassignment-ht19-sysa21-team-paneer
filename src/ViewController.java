@@ -29,33 +29,6 @@ public class ViewController {
 		this.examRegister = examRegister;
 	}
 	
-	public ViewController(CourseFrame courseFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
-		this.courseFrame = courseFrame;
-		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
-		this.examRegister = examRegister;
-	}
-	
-	public ViewController(ResultFrame resultFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
-		this.resultFrame = resultFrame;
-		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
-		this.examRegister = examRegister;
-	}
-	
-	public ViewController(StartFrame startFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
-		this.startFrame = startFrame;
-		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
-		this.examRegister = examRegister;
-	}
-	
-	public ViewController(StudentFrame studentFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
-		this.studentFrame = studentFrame;
-		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
-		this.examRegister = examRegister;
-	}
 	
 	
 	
