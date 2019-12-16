@@ -1,8 +1,6 @@
-package Uppg2ext;
 
 import java.util.HashMap;
 
-import com.sun.net.httpserver.Authenticator.Result;
 
 public class Student {
 
@@ -33,7 +31,7 @@ public class Student {
 	public void registerExam(WrittenExam exam) {
 		Result r = new Result();
 		r.setExam(exam);
-		results.put(exam.getExamID(), r);
+		results.put(exam.getExamId(), r);
 	}
 	
 	public WrittenExam unregisterExam(String examID) {
@@ -51,7 +49,7 @@ public class Student {
 	}
 	
 	public void addResult(Result r) {
-		results.put(r.getExam().getExamID(), r);
+		results.put(r.getExam().getExamId(), r);
 	}
 
 	public Result removeResult(String examID) {

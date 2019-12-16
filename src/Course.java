@@ -44,10 +44,11 @@ public class Course {
 		Result r = new Result();
 		r.setExam(exam);
 		examList.put(exam.getExamId(), r);
+
 	}
 
 	public WrittenExam removeExam(String examID) {
-		WrittenExam w = examList.get(examID).getExam();
+		WrittenExam w = examList.get(examID);
 		examList.remove(examID);
 		return w;
 	}
