@@ -110,6 +110,11 @@ public class ViewController {
 		});
 		
 	}
+
+	public void editOrDeleteCourse() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
