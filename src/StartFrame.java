@@ -19,6 +19,15 @@ public class StartFrame extends JFrame {
 	//Controllerklassen
 	private ViewController controller;
 	
+	
+	public ViewController getController() {
+		return controller;
+	}
+
+	public void setController(ViewController controller) {
+		this.controller = controller;
+	}
+
 	//Gränssnittsobjekt
 	private JPanel contentPane;
 	private JLabel lblWelcomeToResult;

@@ -38,6 +38,7 @@ public class CourseFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public CourseFrame() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 717, 482);
 		contentPane = new JPanel();
@@ -63,37 +64,38 @@ public class CourseFrame extends JFrame {
 		lblCourseRegister.setBounds(75, 0, 104, 35);
 		panel.add(lblCourseRegister);
 		
+		JPanel panelEdit = new JPanel();
+		panelEdit.setBounds(10, 162, 251, 270);
+		contentPane.add(panelEdit);
+		
 		JButton btnEditOrDelete = new JButton("Edit or delete course");
 		btnEditOrDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.editOrDeleteCourse();
 			}
 		});
 		btnEditOrDelete.setBounds(10, 87, 147, 23);
 		panel.add(btnEditOrDelete);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 162, 251, 270);
-		contentPane.add(panel_1);
-		
 		JLabel lblCourseId = new JLabel("Course ID");
-		panel_1.add(lblCourseId);
+		panelEdit.add(lblCourseId);
 		
 		JComboBox comboBox = new JComboBox();
-		panel_1.add(comboBox);
+		panelEdit.add(comboBox);
 		
 		JLabel lblCourseName = new JLabel("Course name");
-		panel_1.add(lblCourseName);
+		panelEdit.add(lblCourseName);
 		
 		textField = new JTextField();
 		textField.setEditable(false);
-		panel_1.add(textField);
+		panelEdit.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblCredits = new JLabel("Credits");
-		panel_1.add(lblCredits);
+		panelEdit.add(lblCredits);
 		
 		textField_1 = new JTextField();
-		panel_1.add(textField_1);
+		panelEdit.add(textField_1);
 		textField_1.setColumns(10);
 		
 		JButton btnEdit = new JButton("Edit");
@@ -101,9 +103,9 @@ public class CourseFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		panel_1.add(btnEdit);
+		panelEdit.add(btnEdit);
 		
 		JButton btnDelete = new JButton("Delete");
-		panel_1.add(btnDelete);
+		panelEdit.add(btnDelete);
 	}
 }
