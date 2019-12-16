@@ -69,12 +69,11 @@ public class ViewController {
 		return studentRegister.removeStudent(studentID);
 	}
 
-	public void administrateStudents() {
+	public void administrateStudents(ViewController controller) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewController viewController = new ViewController();
-					StudentFrame frame = new StudentFrame(viewController);
+					StudentFrame frame = new StudentFrame(controller);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,11 +83,11 @@ public class ViewController {
 		
 	}
 
-	public void administrateCourses() {
+	public void administrateCourses(ViewController controller) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CourseFrame frame = new CourseFrame();
+					CourseFrame frame = new CourseFrame(controller);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

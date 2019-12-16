@@ -17,6 +17,7 @@ public class CourseFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
+	private ViewController viewController;
 
 	/**
 	 * Launch the application.
@@ -25,7 +26,7 @@ public class CourseFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CourseFrame frame = new CourseFrame();
+					CourseFrame frame = new CourseFrame(viewController);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,8 +38,8 @@ public class CourseFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CourseFrame() {
-		
+	public CourseFrame(ViewController viewController) {
+		this.viewController = viewController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 717, 482);
 		contentPane = new JPanel();
@@ -71,7 +72,7 @@ public class CourseFrame extends JFrame {
 		JButton btnEditOrDelete = new JButton("Edit or delete course");
 		btnEditOrDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.editOrDeleteCourse();
+				viewController.editOrDeleteCourse();
 			}
 		});
 		btnEditOrDelete.setBounds(10, 87, 147, 23);
