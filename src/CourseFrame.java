@@ -16,6 +16,7 @@ public class CourseFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -80,9 +81,29 @@ public class CourseFrame extends JFrame {
 		JComboBox comboBox = new JComboBox();
 		panel_1.add(comboBox);
 		
+		JLabel lblCourseName = new JLabel("Course name");
+		panel_1.add(lblCourseName);
+		
 		textField = new JTextField();
 		textField.setEditable(false);
 		panel_1.add(textField);
 		textField.setColumns(10);
+		
+		JLabel lblCredits = new JLabel("Credits");
+		panel_1.add(lblCredits);
+		
+		textField_1 = new JTextField();
+		panel_1.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JButton btnEdit = new JButton("Edit");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		panel_1.add(btnEdit);
+		
+		JButton btnDelete = new JButton("Delete");
+		panel_1.add(btnDelete);
 	}
 }
