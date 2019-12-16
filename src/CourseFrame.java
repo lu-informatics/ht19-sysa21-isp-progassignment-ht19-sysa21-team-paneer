@@ -26,6 +26,7 @@ public class CourseFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					ViewController viewController = new ViewController();
 					CourseFrame frame = new CourseFrame(viewController);
 					frame.setVisible(true);
 				} catch (Exception e) {
