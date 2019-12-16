@@ -1,4 +1,4 @@
-package is;
+
 
 import java.util.HashMap;
 
@@ -41,11 +41,11 @@ public class Course {
 	}
 
 	public void addExam(WrittenExam exam) {
-		examList.put(exam.getExamID, exam);
+		examList.put(exam.getExamId(), exam);
 	}
 
 	public WrittenExam removeExam(String examID) {
-		WrittenExam w = examList.get(examID).getExam();
+		WrittenExam w = examList.get(examID);
 		examList.remove(examID);
 		return w;
 	}
