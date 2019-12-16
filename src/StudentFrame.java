@@ -4,8 +4,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import javafx.scene.control.ComboBox;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.Panel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -19,7 +24,6 @@ public class StudentFrame extends JFrame {
 	private JTextField textField_NameInput;
 	private JPanel addPanel;
 	private JPanel editPanel;
-	private JTextField textField_IdInput;
 	private JTextField textField_2;
 	
 	ViewController viewController;
@@ -70,42 +74,42 @@ public class StudentFrame extends JFrame {
 		lblStudentRegistration.setBounds(15, 48, 190, 20);
 		addPanel.add(lblStudentRegistration);
 		
-		JLabel response = new JLabel("");
-		response.setBounds(223, 281, 69, 20);
-		addPanel.add(response);
-		
 		JLabel lblName = new JLabel("Name:");
-		lblName.setBounds(15, 157, 69, 20);
+		lblName.setBounds(15, 109, 69, 20);
 		addPanel.add(lblName);
 		
 		textField_NameInput = new JTextField();
-		textField_NameInput.setBounds(114, 154, 178, 26);
+		textField_NameInput.setBounds(114, 106, 178, 26);
 		addPanel.add(textField_NameInput);
 		textField_NameInput.setColumns(10);
 		
-		JLabel lblStudentId = new JLabel("Student ID: ");
-		lblStudentId.setBounds(15, 226, 87, 20);
+		JLabel lblStudentId = new JLabel("");
+		lblStudentId.setBounds(15, 340, 277, 20);
 		addPanel.add(lblStudentId);
 		
-		textField_IdInput = new JTextField();
-		textField_IdInput.setBounds(114, 223, 178, 26);
-		addPanel.add(textField_IdInput);
-		textField_IdInput.setColumns(10);
-		
+		JLabel lblNameRegistered = new JLabel("");
+		lblNameRegistered.setBounds(15, 304, 277, 20);
+		addPanel.add(lblNameRegistered);
+
+		//checks if set ID is already used, in that case it generates a new
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			String nameInput = textField_NameInput.getText();
-			String studentId = textField_IdInput.getText();
-			viewController.registerNewStudent(nameInput, studentId);
-			response.setText("Student registered");
+				String nameInput = textField_NameInput.getText();
+				String studentId;
+				do {
+					studentId = "S" + viewController.generateID(5);
+				} while (viewController.studentRegister.findStudent(studentId) != null);
+				viewController.registerNewStudent(nameInput, studentId);
+				lblNameRegistered.setText(nameInput);
+				lblStudentId.setText(studentId);
 			}
-		});
-		btnSave.setBounds(177, 343, 115, 29);
+		}
+
+		);
+		btnSave.setBounds(177, 161, 115, 29);
 		addPanel.add(btnSave);
-		
-		
-		
+
 		editPanel = new JPanel();
 		layeredPane.add(editPanel, "name_526574109746900");
 		editPanel.setLayout(null);
@@ -115,11 +119,13 @@ public class StudentFrame extends JFrame {
 		editPanel.add(lblEditStudent);
 		
 		JLabel lblChooseAStudent = new JLabel("Choose a student below");
-		lblChooseAStudent.setBounds(15, 120, 210, 20);
+		lblChooseAStudent.setBounds(15, 89, 210, 20);
 		editPanel.add(lblChooseAStudent);
 		
+		
+		
 		JLabel lblKobobox = new JLabel("KOMBOBOX!!");
-		lblKobobox.setBounds(15, 175, 136, 20);
+		lblKobobox.setBounds(15, 125, 136, 20);
 		editPanel.add(lblKobobox);
 		
 		textField_2 = new JTextField();

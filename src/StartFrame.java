@@ -47,7 +47,7 @@ public class StartFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public StartFrame() {
-		controller = new ViewController(this, courseRegister, studentRegister, examRegister);
+		controller = new ViewController(courseRegister, studentRegister, examRegister);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 618);

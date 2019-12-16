@@ -1,5 +1,8 @@
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class StudentRegister {
 
@@ -9,12 +12,12 @@ public class StudentRegister {
 		return studenter;
 	}
 
-	public void setStudenter(HashMap<String, Student> studenter) {
+	public void setStudenter (HashMap<String, Student> studenter) {
 		this.studenter = studenter;
 	}
 
-	public void addStudent(Student studentID) {
-		studenter.put(studentID.getStudentId(), studentID);
+	public void addStudent(Student student) {
+		studenter.put(student.getStudentId(), student);
 	}
 
 	public Student removeStudent(String studentID) {
@@ -25,7 +28,8 @@ public class StudentRegister {
 		return studenter.get(studentID);
 
 	}
-
+	
+	
 	public Student editStudent(String studentID, String name) {
 		Student s = studenter.get(studentID);
 		if (s != null) {
