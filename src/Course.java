@@ -48,7 +48,7 @@ public class Course {
 	}
 
 	public WrittenExam removeExam(String examID) {
-		WrittenExam w = examList.get(examID);
+		WrittenExam w = examList.get(examID).getExam();
 		examList.remove(examID);
 		return w;
 	}
