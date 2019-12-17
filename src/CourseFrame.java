@@ -21,12 +21,11 @@ import javax.swing.ButtonGroup;
 public class CourseFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldEditCredits;
+	private JTextField textFieldEditCourseName;
 	private ViewController viewController;
 	private JPanel panelEdit;
 	private JPanel panelAdd;
-	private JTextField textFieldAddCourseID;
 	private JTextField textFieldAddCredits;
 	private JTextField textFieldAddName;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -64,9 +63,15 @@ public class CourseFrame extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+		JComboBox comboBoxCourseID = new JComboBox();
+		comboBoxCourseID.setBounds(88, 5, 145, 22);
+		panelEdit.add(comboBoxCourseID);
+		
 		JButton btnNewCourse = new JButton("New course");
 		btnNewCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panelEdit.setVisible(false);
+				panelAdd.setVisible(true);
 			}
 		});
 		btnNewCourse.setBounds(10, 46, 89, 23);
@@ -83,6 +88,12 @@ public class CourseFrame extends JFrame {
 		
 		JButton btnEditOrDelete = new JButton("Edit or delete course");
 		btnEditOrDelete.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				panelEdit.setVisible(true);
+				panelAdd.setVisible(false);
+			}
+		});
+		btnEditOrDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				viewController.editOrDeleteCourse();
 			}
@@ -94,6 +105,11 @@ public class CourseFrame extends JFrame {
 		btnEdit.setBounds(182, 224, 51, 23);
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String courseCode = comboBoxCourseID.getSelectedItem().toString();
+				String credits = textFieldEditCredits.getText();
+				String name = textFieldEditCourseName.getText();
+				
+				Course c = viewController.editCourse(courseCode, credits, name);
 			}
 		});
 		panelEdit.setLayout(null);
@@ -115,18 +131,14 @@ public class CourseFrame extends JFrame {
 		label_8.setBounds(205, 16, 0, 0);
 		panelEdit.add(label_8);
 		
-		textField = new JTextField();
-		textField.setBounds(109, 44, 96, 20);
-		panelEdit.add(textField);
-		textField.setColumns(10);
+		textFieldEditCredits = new JTextField();
+		textFieldEditCredits.setBounds(109, 44, 96, 20);
+		panelEdit.add(textFieldEditCredits);
+		textFieldEditCredits.setColumns(10);
 		
 		JLabel label_3 = new JLabel("");
 		label_3.setBounds(119, 44, 0, 0);
 		panelEdit.add(label_3);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(88, 5, 145, 22);
-		panelEdit.add(comboBox);
 		
 		JLabel label = new JLabel("");
 		label.setBounds(159, 44, 0, 0);
@@ -141,6 +153,13 @@ public class CourseFrame extends JFrame {
 		panelEdit.add(label_9);
 		
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String courseCode = comboBoxCourseID.getSelectedItem().toString();
+				Course c = viewController.deleteCourse(courseCode);
+				
+			}
+		});
 		btnDelete.setBounds(18, 224, 65, 23);
 		panelEdit.add(btnDelete);
 		
@@ -160,10 +179,10 @@ public class CourseFrame extends JFrame {
 		label_7.setBounds(115, 71, 0, 0);
 		panelEdit.add(label_7);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(109, 89, 96, 20);
-		panelEdit.add(textField_1);
-		textField_1.setColumns(10);
+		textFieldEditCourseName = new JTextField();
+		textFieldEditCourseName.setBounds(109, 89, 96, 20);
+		panelEdit.add(textFieldEditCourseName);
+		textFieldEditCourseName.setColumns(10);
 		
 		JLabel label_5 = new JLabel("");
 		label_5.setBounds(221, 71, 0, 0);
@@ -184,15 +203,6 @@ public class CourseFrame extends JFrame {
 		contentPane.add(panelAdd);
 		panelAdd.setLayout(null);
 		
-		JLabel label_10 = new JLabel("Course ID:");
-		label_10.setBounds(10, 8, 52, 14);
-		panelAdd.add(label_10);
-		
-		textFieldAddCourseID = new JTextField();
-		textFieldAddCourseID.setBounds(84, 5, 96, 20);
-		textFieldAddCourseID.setColumns(10);
-		panelAdd.add(textFieldAddCourseID);
-		
 		JLabel label_11 = new JLabel("Credits:");
 		label_11.setBounds(10, 33, 39, 14);
 		panelAdd.add(label_11);
@@ -212,6 +222,13 @@ public class CourseFrame extends JFrame {
 		panelAdd.add(textFieldAddName);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldAddName.getText();
+				String credits = textFieldAddCredits.getText();
+				viewController.addCourse(name, credits);
+			}
+		});
 		btnAdd.setBounds(102, 223, 51, 23);
 		panelAdd.add(btnAdd);
 		
