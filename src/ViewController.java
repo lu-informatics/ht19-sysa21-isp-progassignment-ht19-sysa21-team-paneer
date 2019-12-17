@@ -10,13 +10,13 @@ public class ViewController {
 	Integer studentId = 999;
 	Integer courseId = 999;
 
-	//Kopplar till gränssnitten
+	//Kopplar till grï¿½nssnitten
 	CourseFrame courseFrame;
 	ResultFrame resultFrame;
 	StartFrame startFrame;
 	StudentFrame studentFrame;
 	
-	//Kopplar till probl.-områdeskomponenten
+	//Kopplar till probl.-omrï¿½deskomponenten
 	CourseRegister courseRegister;
 	StudentRegister studentRegister;
 	ExamRegister examRegister;
@@ -29,14 +29,17 @@ public class ViewController {
 		this.examRegister = new ExamRegister();
 	}
 
-	public ViewController(StartFrame startFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
+	public ViewController(CourseFrame courseFrame, ResultFrame resultFrame, StartFrame startFrame, StudentFrame studentFrame, CourseRegister courseRegister,  ExamRegister examRegister, StudentRegister studentRegister) {
+		this.courseFrame = courseFrame;
+		this.resultFrame = resultFrame;
 		this.startFrame = startFrame;
+		this.studentFrame = studentFrame;
 		this.courseRegister = courseRegister;
 		this.studentRegister = studentRegister;
 		this.examRegister = examRegister;
 	}
 	
-	//Metoder för StudentFrame-objekt
+	//Metoder fï¿½r StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
 		Student tmpStudent = new Student();
 		tmpStudent.setName(name);
@@ -51,7 +54,9 @@ public class ViewController {
 	public Student deleteStudent(String studentID) {
 		return studentRegister.removeStudent(studentID);
 	}
-
+	
+	
+	//ID-generatorer
 	public String generateStudentID() {
 		if (studentId < 100000) {
 			do {
@@ -60,7 +65,7 @@ public class ViewController {
 			return "S" + studentId.toString();
 
 		} else
-			return studentId.toString(); ///måste ändras till något vettigt tex popup
+			return studentId.toString(); ///mï¿½ste ï¿½ndras till nï¿½got vettigt tex popup
 	}
 
 	public String generateCourseID() {
@@ -72,48 +77,23 @@ public class ViewController {
 		return "C" + studentId.toString();
 	}
 		else 
-			return courseId.toString(); ///måste ändras till något vettigt tex popup
+			return courseId.toString(); ///mï¿½ste ï¿½ndras till nï¿½got vettigt tex popup
 	}
-
+	
+	
+	//Vykontroller
 	public void administrateStudents(ViewController controller) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StudentFrame frame = new StudentFrame(controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
 		
 	}
 
 	public void administrateCourses(ViewController controller) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CourseFrame frame = new CourseFrame(controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
 		
 	}
 
 	public void resultReports(ViewController controller) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StudentFrame frame = new StudentFrame(controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
 	}
 
 	public void editOrDeleteCourse() {
