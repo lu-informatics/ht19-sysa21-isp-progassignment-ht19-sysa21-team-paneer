@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class WrittenExam {
 
-	private HashMap<String, Student> register = new HashMap<>();
 	private HashMap<Integer, Result> register2 = new HashMap<>();
 	private String examId;
 	private Date date;
@@ -50,14 +49,6 @@ public class WrittenExam {
 
 	public void setMaxPoints(int maxPoints) {
 		this.maxPoints = maxPoints;
-	}
-
-	public void registerStudentForExam(Student student) {
-		register.put(student.getStudentId(), student);
-	}
-
-	public void unregisterStudentForExam(Student student) {
-		register.remove(student.getStudentId());
 	}
 
 	public void addResult(Result result) {
