@@ -22,36 +22,13 @@ public class ViewController {
 		this.studentRegister = new StudentRegister();
 		this.examRegister = new ExamRegister();
 	}
-	
-	public ViewController(CourseFrame courseFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
-		this.courseFrame = courseFrame;
-		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
-		this.examRegister = examRegister;
-	}
-	
-	public ViewController(ResultFrame resultFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
-		this.resultFrame = resultFrame;
-		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
-		this.examRegister = examRegister;
-	}
+
 	public ViewController(StartFrame startFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
 		this.startFrame = startFrame;
 		this.courseRegister = courseRegister;
 		this.studentRegister = studentRegister;
 		this.examRegister = examRegister;
 	}
-	public ViewController(StudentFrame studentFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
-		this.studentFrame = studentFrame;
-		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
-		this.examRegister = examRegister;
-		}
-	
-	
-	
-	
 	
 	//Metoder för StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
@@ -97,18 +74,17 @@ public class ViewController {
 		
 	}
 
-	public void resultReports() {
+	public void resultReports(ViewController controller) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ResultFrame frame = new ResultFrame();
+					StudentFrame frame = new StudentFrame(controller);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		
 	}
 
 	public void editOrDeleteCourse() {
