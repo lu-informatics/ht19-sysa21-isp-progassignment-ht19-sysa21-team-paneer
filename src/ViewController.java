@@ -83,17 +83,18 @@ public class ViewController {
 	
 	//Vykontroller
 	public void administrateStudents(ViewController controller) {
-		
-		
+		studentFrame.setVisible(true);
+		startFrame.setVisible(false);
 	}
 
 	public void administrateCourses(ViewController controller) {
-		
-		
+		courseFrame.setVisible(true);
+		startFrame.setVisible(false);
 	}
 
 	public void resultReports(ViewController controller) {
-		
+		resultFrame.setVisible(true);
+		startFrame.setVisible(false);
 	}
 
 	public void editOrDeleteCourse() {
