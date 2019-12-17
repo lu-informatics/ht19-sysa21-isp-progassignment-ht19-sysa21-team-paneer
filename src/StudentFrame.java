@@ -21,8 +21,6 @@ import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
 
 public class StudentFrame extends JFrame {
-	
-	
 
 	private JPanel contentPane;
 	private JTextField textField_NameInput;
@@ -30,10 +28,17 @@ public class StudentFrame extends JFrame {
 	private JPanel editPanel;
 	private JTextField textField_2;
 	private ComboBox<String> studentBox;
+	public JLabel getLblResponse() {
+		return lblResponse;
+	}
+
+	public void setLblResponse(JLabel lblResponse) {
+		this.lblResponse = lblResponse;
+	}
+
 	private JLabel lblResponse;
 
 	ViewController viewController;
-	private JTextField textFindStudent;
 
 	/**
 	 * Launch the application.
@@ -103,18 +108,17 @@ public class StudentFrame extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nameInput = textField_NameInput.getText();
-				if (!nameInput.equals("")) {
+				
 					String studentId = viewController.generateStudentID();
 					viewController.registerNewStudent(nameInput, studentId);
 					lblResponse.setText("Student created:");
 					lblNameRegistered.setText("Name: " + nameInput);
 					lblStudentId.setText("New StudentID: " + studentId);
 					textField_NameInput.setText(" ");
-				} else {
-					lblResponse.setText("error");
-				}
+				} 
+				
 			}
-		}
+		
 
 		);
 		btnSave.setBounds(177, 161, 115, 29);
@@ -131,11 +135,10 @@ public class StudentFrame extends JFrame {
 		JLabel lblChooseAStudent = new JLabel("Choose a student below");
 		lblChooseAStudent.setBounds(15, 89, 210, 20);
 		editPanel.add(lblChooseAStudent);
-		
-		JComboBox studentBox = new JComboBox();
-		studentBox.setSize(309, 26);
-		studentBox.setLocation(15, 125);
-		editPanel.add(studentBox);
+
+		JLabel lblKobobox = new JLabel("KOMBOBOX!!");
+		lblKobobox.setBounds(15, 125, 136, 20);
+		editPanel.add(lblKobobox);
 
 		textField_2 = new JTextField();
 		textField_2.setBounds(159, 351, 146, 26);
@@ -159,27 +162,8 @@ public class StudentFrame extends JFrame {
 		editPanel.add(btnSaveChanges);
 
 		JButton btnDeleteStudent = new JButton("Delete Student");
-		btnDeleteStudent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String studentId = viewController.studentRegister.findStudent(showID.getText()).getStudentId();
-				viewController.deleteStudent(studentId);
-			}
-		});
 		btnDeleteStudent.setBounds(159, 452, 146, 29);
 		editPanel.add(btnDeleteStudent);
-		
-		JLabel lblOrSearchBy = new JLabel("Or search by Student ID");
-		lblOrSearchBy.setBounds(15, 175, 186, 20);
-		editPanel.add(lblOrSearchBy);
-		
-		textFindStudent = new JTextField();
-		textFindStudent.setBounds(15, 211, 146, 26);
-		editPanel.add(textFindStudent);
-		textFindStudent.setColumns(10);
-		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(190, 211, 79, 26);
-		editPanel.add(btnSearch);
 		editPanel.setVisible(false);
 
 		JLabel lblStudentAdministration = new JLabel("Student Administration");
@@ -211,8 +195,8 @@ public class StudentFrame extends JFrame {
 
 	}
 
-	
-	
-	
+	private JComboBox createComboBox(StudentRegister studentRegister) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
+}
