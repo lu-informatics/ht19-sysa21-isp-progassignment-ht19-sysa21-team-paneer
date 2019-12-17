@@ -53,7 +53,7 @@ public class ResultFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ResultFrame() {
+	public ResultFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 522, 502);
 		contentPane = new JPanel();
