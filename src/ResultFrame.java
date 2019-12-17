@@ -30,6 +30,8 @@ public class ResultFrame extends JFrame {
 	private JTextField textField_1;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTable table;
+	
+	ViewController viewController;
 
 	/**
 	 * Launch the application.
@@ -38,7 +40,8 @@ public class ResultFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ResultFrame frame = new ResultFrame();
+					ViewController viewController = new ViewController();
+					ResultFrame frame = new ResultFrame(viewController);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +53,7 @@ public class ResultFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ResultFrame() {
+	public ResultFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 522, 502);
 		contentPane = new JPanel();
