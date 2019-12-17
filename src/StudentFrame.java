@@ -6,8 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import javafx.scene.control.ComboBox;
-
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,7 +25,6 @@ public class StudentFrame extends JFrame {
 	private JPanel addPanel;
 	private JPanel editPanel;
 	private JTextField textField_2;
-	private ComboBox<String> studentBox;
 	public JLabel getLblResponse() {
 		return lblResponse;
 	}
