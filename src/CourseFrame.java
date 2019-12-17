@@ -251,8 +251,8 @@ public class CourseFrame extends JFrame {
 		JButton btnRemoveFromCourse = new JButton("Remove from course");
 		panelExistingExam.add(btnRemoveFromCourse);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(522, 162, 241, 270);
-		contentPane.add(panel_2);
+		JPanel panelAddNew = new JPanel();
+		panelAddNew.setBounds(522, 162, 241, 270);
+		contentPane.add(panelAddNew);
 	}
 }
