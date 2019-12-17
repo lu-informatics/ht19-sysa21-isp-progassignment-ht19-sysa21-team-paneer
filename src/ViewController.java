@@ -29,8 +29,11 @@ public class ViewController {
 		this.examRegister = new ExamRegister();
 	}
 
-	public ViewController(StartFrame startFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
+	public ViewController(CourseFrame courseFrame, ResultFrame resultFrame, StartFrame startFrame, StudentFrame studentFrame, CourseRegister courseRegister,  ExamRegister examRegister, StudentRegister studentRegister) {
+		this.courseFrame = courseFrame;
+		this.resultFrame = resultFrame;
 		this.startFrame = startFrame;
+		this.studentFrame = studentFrame;
 		this.courseRegister = courseRegister;
 		this.studentRegister = studentRegister;
 		this.examRegister = examRegister;
@@ -80,44 +83,17 @@ public class ViewController {
 	
 	//Vykontroller
 	public void administrateStudents(ViewController controller) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StudentFrame frame = new StudentFrame(controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
 		
 	}
 
 	public void administrateCourses(ViewController controller) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CourseFrame frame = new CourseFrame(controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
 		
 	}
 
 	public void resultReports(ViewController controller) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StudentFrame frame = new StudentFrame(controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
 	}
 
 	public void editOrDeleteCourse() {
