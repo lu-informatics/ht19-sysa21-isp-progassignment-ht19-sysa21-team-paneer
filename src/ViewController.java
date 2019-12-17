@@ -23,11 +23,32 @@ public class ViewController {
 		this.examRegister = new ExamRegister();
 	}
 	
-	public ViewController(CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
+	public ViewController(CourseFrame courseFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
+		this.courseFrame = courseFrame;
 		this.courseRegister = courseRegister;
 		this.studentRegister = studentRegister;
 		this.examRegister = examRegister;
 	}
+	
+	public ViewController(ResultFrame resultFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
+		this.resultFrame = resultFrame;
+		this.courseRegister = courseRegister;
+		this.studentRegister = studentRegister;
+		this.examRegister = examRegister;
+	}
+	public ViewController(StartFrame startFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
+		this.startFrame = startFrame;
+		this.courseRegister = courseRegister;
+		this.studentRegister = studentRegister;
+		this.examRegister = examRegister;
+	}
+	public ViewController(StudentFrame studentFrame, CourseRegister courseRegister, StudentRegister studentRegister, ExamRegister examRegister) {
+		this.studentFrame = studentFrame;
+		this.courseRegister = courseRegister;
+		this.studentRegister = studentRegister;
+		this.examRegister = examRegister;
+		}
+	
 	
 	
 	
@@ -46,6 +67,53 @@ public class ViewController {
 	
 	public Student deleteStudent(String studentID) {
 		return studentRegister.removeStudent(studentID);
+	}
+
+	public void administrateStudents(ViewController controller) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					StudentFrame frame = new StudentFrame(controller);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	public void administrateCourses(ViewController controller) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CourseFrame frame = new CourseFrame(controller);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	public void resultReports() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ResultFrame frame = new ResultFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	public void editOrDeleteCourse() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
