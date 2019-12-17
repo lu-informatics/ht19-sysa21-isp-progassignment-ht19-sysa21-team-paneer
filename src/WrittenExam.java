@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class WrittenExam {
 
-	private HashMap<String, Student> register = new HashMap<>();
 	private HashMap<Integer, Result> register2 = new HashMap<>();
 	private String examId;
 	private Date date;
