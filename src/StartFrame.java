@@ -95,7 +95,7 @@ public class StartFrame extends JFrame {
 		btnResultReports = new JButton("Result Reports");
 		btnResultReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.resultReports();
+				controller.resultReports(controller);
 			}
 		});
 		btnResultReports.setBounds(66, 363, 209, 48);
