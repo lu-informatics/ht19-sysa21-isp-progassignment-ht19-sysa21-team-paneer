@@ -11,24 +11,24 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class StartFrame extends JFrame {
-	//ProblemomrÂdeskomponenter
+	//Problemomr√•deskomponenter
 	private CourseRegister courseRegister = new CourseRegister();
 	private StudentRegister studentRegister = new StudentRegister();
 	private ExamRegister examRegister = new ExamRegister();
 	
 	//Controllerklassen
-	private ViewController viewController;
+	private ViewController controller;
 	
 	
 	public ViewController getController() {
-		return viewController;
+		return controller;
 	}
 
 	public void setController(ViewController controller) {
-		this.viewController = controller;
+		this.controller = controller;
 	}
 
-	//Gr‰nssnittsobjekt
+	//Gr√§nssnittsobjekt
 	private JPanel contentPane;
 	private JLabel lblWelcomeToResult;
 	private JLabel lblPleaseMakeOne;
@@ -43,8 +43,7 @@ public class StartFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewController viewController = new ViewController();
-					StartFrame frame = new StartFrame(viewController);
+					StartFrame frame = new StartFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,8 +55,8 @@ public class StartFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StartFrame(ViewController viewController) {
-		this.viewController = viewController;
+	public StartFrame() {
+		controller = new ViewController(this, courseRegister, studentRegister, examRegister);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 618);
@@ -78,7 +77,7 @@ public class StartFrame extends JFrame {
 		btnAdministrateStudents = new JButton("Administrate Students");
 		btnAdministrateStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.administrateStudents(viewController);
+				controller.administrateStudents(controller);
 			}
 		});
 		btnAdministrateStudents.setBounds(66, 236, 209, 48);
@@ -87,7 +86,7 @@ public class StartFrame extends JFrame {
 		btnAdministrateCourses = new JButton("Administrate Courses");
 		btnAdministrateCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.administrateCourses(viewController);
+				controller.administrateCourses(controller);
 			}
 		});
 		btnAdministrateCourses.setBounds(66, 300, 209, 47);
@@ -96,7 +95,7 @@ public class StartFrame extends JFrame {
 		btnResultReports = new JButton("Result Reports");
 		btnResultReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.resultReports(viewController);
+				controller.resultReports(controller);
 			}
 		});
 		btnResultReports.setBounds(66, 363, 209, 48);
