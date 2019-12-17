@@ -1,11 +1,17 @@
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 public class ViewController {
+	
+	Integer studentId = 999;
+	Integer courseId = 999;
 	//Kopplar till gränssnitten
 	CourseFrame courseFrame;
 	ResultFrame resultFrame;
@@ -17,7 +23,7 @@ public class ViewController {
 	StudentRegister studentRegister;
 	ExamRegister examRegister;
 
-	
+
 	
 	
 	//Konstruktorer
@@ -42,13 +48,15 @@ public class ViewController {
 	
 	//Metoder för StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
+		if(!name.equals("")) {
 		Student tmpStudent = new Student();
 		tmpStudent.setName(name);
-		tmpStudent.setStudentId(studentId);
-		
-		studentRegister.addStudent(tmpStudent);
+		tmpStudent.setStudentId(studentId);		
+		studentRegister.addStudent(tmpStudent);		
 	}
-	
+		else
+			studentFrame.getLblResponse().setText("error");
+	}
 	
 	public Student editStudent(String studentID, String name) {
 		return studentRegister.editStudent(studentID, name);
@@ -58,17 +66,29 @@ public class ViewController {
 		return studentRegister.removeStudent(studentID);
 	}
 
-	public String generateID(int count) {
-
-		String ALPHA_NUMERIC_STRING = "0123456789";
-
-		StringBuffer iD = new StringBuffer();
-		while (count-- != 0) {
-			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-			iD.append(ALPHA_NUMERIC_STRING.charAt(character));
+	public String generateStudentID() {	
+		if(studentId < 100000){
+		do {studentId++;
 		}
-		return iD.toString();
-
+		while ((studentRegister.findStudent("S" + studentId.toString())) != null);
+		return "S" + studentId.toString();
+		
+		
+	}else
+		return studentId.toString();		
+				
 	}
+		
+		
+	public String generateCourseID() {		
+		do {courseId++;
+		} while (courseRegister.findCourse("C" + courseId.toString()) != null);
+		
+		return "C" + studentId.toString();
+	}
+	
+	
+	
 
 }
+

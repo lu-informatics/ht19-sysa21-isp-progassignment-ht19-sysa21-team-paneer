@@ -1,4 +1,5 @@
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -11,6 +12,8 @@ public class StudentRegister {
 	public HashMap<String, Student> getStudenter() {
 		return studenter;
 	}
+	public Collection<Student> getStudenterForCombo() {
+		return studenter.values();}
 
 	public void setStudenter (HashMap<String, Student> studenter) {
 		this.studenter = studenter;
