@@ -51,14 +51,6 @@ public class WrittenExam {
 		this.maxPoints = maxPoints;
 	}
 
-	public void registerStudentForExam(Student student) {
-		register.put(student.getStudentId(), student);
-	}
-
-	public void unregisterStudentForExam(Student student) {
-		register.remove(student.getStudentId());
-	}
-
 	public void addResult(Result result) {
 		register2.put(result.getResult(), result);
 	}
