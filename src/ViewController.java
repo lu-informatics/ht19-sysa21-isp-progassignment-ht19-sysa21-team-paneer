@@ -7,18 +7,18 @@ import javax.swing.JFrame;
 
 public class ViewController {
 	
-	Integer studentId = 999;
-	Integer courseId = 999;
+	Integer studentId = 9999;
+	Integer courseId = 9999;
 
 	//Kopplar till gr�nssnitten
 	CourseFrame courseFrame;
-	ResultFrame resultFrame;
-	StartFrame startFrame;
-	StudentFrame studentFrame;
+	ResultFrame resultFrame = new ResultFrame(this);
+	StartFrame startFrame = new StartFrame(this);
+	StudentFrame studentFrame = new StudentFrame(this);
 	
 	//Kopplar till probl.-omr�deskomponenten
 	CourseRegister courseRegister;
-	StudentRegister studentRegister;
+	StudentRegister studentRegister = new StudentRegister();
 	ExamRegister examRegister;
 	
 	//Konstruktorer
@@ -29,7 +29,7 @@ public class ViewController {
 		this.examRegister = new ExamRegister();
 	}
 
-	public ViewController(CourseFrame courseFrame, ResultFrame resultFrame, StartFrame startFrame, StudentFrame studentFrame, CourseRegister courseRegister,  ExamRegister examRegister, StudentRegister studentRegister) {
+	public ViewController(CourseRegister courseRegister,  ExamRegister examRegister, StudentRegister studentRegister) {
 		this.courseFrame = courseFrame;
 		this.resultFrame = resultFrame;
 		this.startFrame = startFrame;
@@ -69,6 +69,15 @@ public class ViewController {
 
 	public Student deleteStudent(String studentID) {
 		return studentRegister.removeStudent(studentID);
+	}
+	
+	public String findStudentName(String studentID){
+		return studentRegister.findStudent(studentID).getName();
+		
+	}
+	public String findStudentiD(String studentID){
+		return studentRegister.findStudent(studentID).getStudentId();
+		
 	}
 	
 	

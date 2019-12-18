@@ -22,10 +22,10 @@ import java.awt.Font;
 public class StudentFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField_NameInput;
+	private JTextField textField_FNameInput;
 	private JPanel addPanel;
 	private JPanel editPanel;
-	private JTextField textField_2;
+	private JTextField textField_EditName;
 	public JLabel getLblResponse() {
 		return lblResponse;
 	}
@@ -35,9 +35,10 @@ public class StudentFrame extends JFrame {
 	}
 
 	private JLabel lblResponse;
-	private JTextField textFindStudent;
+	private JTextField textFindStudentById;
 
 	ViewController viewController;
+	private JTextField textField_LNameInput;
 
 	/**
 	 * Launch the application.
@@ -68,7 +69,7 @@ public class StudentFrame extends JFrame {
 		contentPane.setLayout(null);
 
 		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setBounds(253, 16, 357, 497);
+		layeredPane.setBounds(253, 16, 357, 598);
 		contentPane.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
 		layeredPane.setVisible(false);
@@ -82,50 +83,64 @@ public class StudentFrame extends JFrame {
 		lblStudentRegistration.setBounds(15, 48, 190, 20);
 		addPanel.add(lblStudentRegistration);
 
-		JLabel lblName = new JLabel("Name:");
-		lblName.setBounds(15, 109, 69, 20);
-		addPanel.add(lblName);
+		JLabel lblFirstName = new JLabel("First name:");
+		lblFirstName.setBounds(15, 109, 86, 20);
+		addPanel.add(lblFirstName);
+		
+		JLabel lblLastName = new JLabel("Last name:");
+		lblLastName.setBounds(15, 165, 86, 20);
+		addPanel.add(lblLastName);
+		
+		textField_LNameInput = new JTextField();
+		textField_LNameInput.setBounds(116, 162, 178, 26);
+		addPanel.add(textField_LNameInput);
+		textField_LNameInput.setColumns(10);
 
-		textField_NameInput = new JTextField();
-		textField_NameInput.setBounds(114, 106, 178, 26);
-		addPanel.add(textField_NameInput);
-		textField_NameInput.setColumns(10);
+		textField_FNameInput = new JTextField();
+		textField_FNameInput.setBounds(116, 106, 178, 26);
+		addPanel.add(textField_FNameInput);
+		textField_FNameInput.setColumns(10);
 
 		JLabel lblResponse = new JLabel("");
-		lblResponse.setBounds(15, 253, 277, 20);
+		lblResponse.setBounds(15, 310, 277, 20);
 		addPanel.add(lblResponse);
 
 		JLabel lblStudentId = new JLabel("");
-		lblStudentId.setBounds(15, 340, 277, 20);
+		lblStudentId.setBounds(15, 397, 277, 20);
 		addPanel.add(lblStudentId);
 
 		JLabel lblNameRegistered = new JLabel("");
-		lblNameRegistered.setBounds(15, 304, 277, 20);
+		lblNameRegistered.setBounds(15, 361, 277, 20);
 		addPanel.add(lblNameRegistered);
 
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nameInput = textField_NameInput.getText();
-				
-					String studentId = viewController.generateStudentID();
-					viewController.registerNewStudent(nameInput, studentId);
-					lblResponse.setText("Student created:");
-					lblNameRegistered.setText("Name: " + nameInput);
-					lblStudentId.setText("New StudentID: " + studentId);
-					textField_NameInput.setText(" ");
-				} 
-				
+				String nameInput = textField_FNameInput.getText() + " " + textField_LNameInput.getText();
+				String studentId = viewController.generateStudentID();
+				viewController.registerNewStudent(nameInput, studentId);
+				lblResponse.setText("Student created:");
+				lblNameRegistered.setText("Name: " + nameInput);
+				lblStudentId.setText("StudentId: " + studentId);
+				textField_FNameInput.setText(" ");
 			}
+		}
 		
 
-		);
-		btnSave.setBounds(177, 161, 115, 29);
-		addPanel.add(btnSave);
 
+		);
+		btnSave.setBounds(177, 213, 115, 29);
+		addPanel.add(btnSave);
+		
+		
+		
+	
 		editPanel = new JPanel();
 		layeredPane.add(editPanel, "name_526574109746900");
 		editPanel.setLayout(null);
+		
+		
+		
 
 		JLabel lblEditStudent = new JLabel("Edit Student");
 		lblEditStudent.setBounds(15, 53, 115, 20);
@@ -133,20 +148,15 @@ public class StudentFrame extends JFrame {
 
 		JLabel lblChooseAStudent = new JLabel("Choose a student below");
 		lblChooseAStudent.setBounds(15, 89, 210, 20);
-		editPanel.add(lblChooseAStudent);		
+		editPanel.add(lblChooseAStudent);	
 		
-		JComboBox studentBox = new JComboBox();
-		studentBox.setSize(309, 26);
-		studentBox.setLocation(15, 125);
-		editPanel.add(studentBox);
-
-		textField_2 = new JTextField();
-		textField_2.setBounds(178, 367, 146, 26);
-		editPanel.add(textField_2);
-		textField_2.setColumns(10);
-
-		JLabel lblEnterNewName = new JLabel("New name");
-		lblEnterNewName.setBounds(86, 370, 77, 20);
+		JLabel lblStudentFound = new JLabel("Student found:");
+		lblStudentFound.setBounds(15, 283, 309, 20);
+		editPanel.add(lblStudentFound);
+		lblStudentFound.setVisible(false);
+		
+		JLabel lblEnterNewName = new JLabel("Enter new name");
+		lblEnterNewName.setBounds(15, 416, 156, 20);
 		editPanel.add(lblEnterNewName);
 
 		JLabel showName = new JLabel("");
@@ -154,55 +164,89 @@ public class StudentFrame extends JFrame {
 		editPanel.add(showName);
 
 		JLabel showID = new JLabel("");
-		showID.setBounds(15, 319, 69, 20);
+		showID.setBounds(15, 336, 69, 20);
 		editPanel.add(showID);
+		
+		JLabel lblNameFound = new JLabel("");
+		lblNameFound.setBounds(15, 319, 69, 20);
+		editPanel.add(lblNameFound);
 
-		JButton btnSaveChanges = new JButton("Save changes");
-		btnSaveChanges.setBounds(196, 452, 146, 29);
-		editPanel.add(btnSaveChanges);
+		
+		
+		JComboBox studentBox = new JComboBox();
+		studentBox.setSize(309, 26);
+		studentBox.setLocation(15, 125);
+		editPanel.add(studentBox);
 		
 		JLabel lblOrSearchBy = new JLabel("Or search by Student ID");
 		lblOrSearchBy.setBounds(15, 175, 186, 20);
 		editPanel.add(lblOrSearchBy);
-		
-		textFindStudent = new JTextField();
-		textFindStudent.setBounds(15, 211, 146, 26);
-		editPanel.add(textFindStudent);
-		textFindStudent.setColumns(10);
-		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String iD = textFindStudent.getText();
-				viewController.studentRegister.findStudent(iD);
-				
-			}
-		});
-		btnSearch.setBounds(190, 211, 79, 26);
-		editPanel.add(btnSearch);
 		
 		JLabel lblUseFormatS = new JLabel("Use format S10000-99999");
 		lblUseFormatS.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		lblUseFormatS.setBounds(15, 233, 146, 20);
 		editPanel.add(lblUseFormatS);
 		
-		JLabel lblStudentFound = new JLabel("Student found:");
-		lblStudentFound.setBounds(15, 283, 309, 20);
-		editPanel.add(lblStudentFound);
+		textFindStudentById = new JTextField();
+		textFindStudentById.setBounds(15, 211, 146, 26);
+		editPanel.add(textFindStudentById);
+		textFindStudentById.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(227, 294, 69, 20);
-		editPanel.add(lblNewLabel);
+		JLabel labelIdFound = new JLabel("");
+		labelIdFound.setBounds(15, 355, 69, 20);
+		editPanel.add(labelIdFound);
 		
-				JButton btnDeleteStudent = new JButton("Delete Student");
-				btnDeleteStudent.setBounds(35, 452, 146, 29);
-				editPanel.add(btnDeleteStudent);
-				btnDeleteStudent.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						String studentId = viewController.studentRegister.findStudent(showID.getText()).getStudentId();
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String input = textFindStudentById.getText();						
+				lblStudentFound.setVisible(true);
+				labelIdFound.setVisible(true);
+				lblNameFound.setVisible(true);
+				labelIdFound.setText(viewController.findStudentiD(input));
+				lblNameFound.setText(viewController.findStudentName(input));
+				
+				
+			}
+		});
+				
+
+		textField_EditName = new JTextField();
+		textField_EditName.setBounds(15, 456, 146, 26);
+		editPanel.add(textField_EditName);
+		textField_EditName.setColumns(10);		
+		
+
+		
+		JButton btnSaveChanges = new JButton("Save changes");
+		btnSaveChanges.setBounds(178, 455, 146, 29);
+		editPanel.add(btnSaveChanges);		
+		
+		
+		
+		
+		
+		btnSearch.setBounds(190, 211, 79, 26);
+		editPanel.add(btnSearch);
+		
+		
+		JButton btnDeleteStudent = new JButton("Delete Student");
+		btnDeleteStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+						String studentId = viewController.studentRegister.findStudent(textFindStudentById.getText()).getStudentId();
 						viewController.deleteStudent(studentId);
 					}
 				});
+			
+		btnDeleteStudent.setBounds(178, 553, 146, 29);
+		editPanel.add(btnDeleteStudent);
+		
+
+		
+			
+				
 
 		JLabel lblStudentAdministration = new JLabel("Student Administration");
 		lblStudentAdministration.setBounds(15, 69, 204, 20);
@@ -233,8 +277,5 @@ public class StudentFrame extends JFrame {
 
 	}
 
-	private JComboBox createComboBox(StudentRegister studentRegister) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }
