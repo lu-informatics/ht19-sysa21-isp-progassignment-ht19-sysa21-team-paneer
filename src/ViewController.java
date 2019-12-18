@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 
 public class ViewController {
 	
-	Integer studentId = 9999;
-	Integer courseId = 9999;
+	private Integer studentId = 9999;
+	private Integer courseId = 9999;
 
 	//Kopplar till grï¿½nssnitten
 	CourseFrame courseFrame;
@@ -18,7 +18,7 @@ public class ViewController {
 	
 	//Kopplar till probl.-omrï¿½deskomponenten
 	CourseRegister courseRegister;
-	StudentRegister studentRegister = new StudentRegister();
+	StudentRegister studentRegister;
 	ExamRegister examRegister;
 	
 	//Konstruktorer
@@ -55,7 +55,7 @@ public class ViewController {
 		return courseRegister.editCourse(courseID, name, credits);
 	}
 	
-	//Metoder fï¿½r StudentFrame-objekt
+	//Metoder för StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
 		Student tmpStudent = new Student();
 		tmpStudent.setName(name);
