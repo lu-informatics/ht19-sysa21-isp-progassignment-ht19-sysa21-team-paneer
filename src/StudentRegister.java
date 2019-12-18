@@ -12,10 +12,12 @@ public class StudentRegister {
 	public HashMap<String, Student> getStudenter() {
 		return studenter;
 	}
-	public Collection<Student> getStudenterForCombo() {
-		return studenter.values();}
 
-	public void setStudenter (HashMap<String, Student> studenter) {
+	public Collection<Student> getStudenterForCombo() {
+		return studenter.values();
+	}
+
+	public void setStudenter(HashMap<String, Student> studenter) {
 		this.studenter = studenter;
 	}
 
@@ -31,8 +33,7 @@ public class StudentRegister {
 		return studenter.get(studentID);
 
 	}
-	
-	
+
 	public Student editStudent(String studentID, String name) {
 		Student s = studenter.get(studentID);
 		if (s != null) {
@@ -40,7 +41,5 @@ public class StudentRegister {
 		}
 		return s;
 	}
-	
-
 
 }

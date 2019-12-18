@@ -13,8 +13,6 @@ public class Test_application {
 		StudentRegister studentRegister = new StudentRegister();
 		ExamRegister examRegister = new ExamRegister();
 		CourseRegister courseRegister = new CourseRegister();
-		
-		
 
 		s1.setName("Helene Schönbeck");
 		s1.setStudentId("S10000");
@@ -28,8 +26,6 @@ public class Test_application {
 			System.out.println(tmp.getName());
 			System.out.println(tmp.getStudentId());
 		}
-	
-		
 
 		c2.setCourseCode("E10001");
 		c1.setCredits(10);
@@ -39,9 +35,6 @@ public class Test_application {
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 		startFrame.setVisible(true);
-		
-		
-		
-		
+
 	}
 }
