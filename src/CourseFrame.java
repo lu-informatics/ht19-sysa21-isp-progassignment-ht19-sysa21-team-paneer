@@ -39,6 +39,7 @@ public class CourseFrame extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textFieldHours;
 	private JTextField textFieldMinutes;
+	private final ButtonGroup buttonGroupCourses = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -62,7 +63,7 @@ public class CourseFrame extends JFrame {
 	 */
 	public CourseFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 543, 482);
+		setBounds(100, 100, 844, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,7 +84,7 @@ public class CourseFrame extends JFrame {
 		panelCourseRegister.add(lblCourseRegister);
 		
 		panelEdit = new JPanel();
-		panelEdit.setBounds(10, 162, 251, 270);
+		panelEdit.setBounds(10, 187, 251, 245);
 		contentPane.add(panelEdit);
 		
 		
@@ -92,7 +93,7 @@ public class CourseFrame extends JFrame {
 		panelEdit.add(comboBoxCourseID);
 		
 		JButton btnEdit = new JButton("Edit");
-		btnEdit.setBounds(182, 224, 51, 23);
+		btnEdit.setBounds(190, 211, 51, 23);
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String courseCode = comboBoxCourseID.getSelectedItem().toString();
@@ -136,7 +137,7 @@ public class CourseFrame extends JFrame {
 				
 			}
 		});
-		btnDelete.setBounds(18, 224, 65, 23);
+		btnDelete.setBounds(10, 211, 65, 23);
 		panelEdit.add(btnDelete);
 		
 		JTextField textField_1 = new JTextField();
@@ -159,7 +160,7 @@ public class CourseFrame extends JFrame {
 		panelEdit.add(comboBox);
 
 		panelAdd = new JPanel();
-		panelAdd.setBounds(10, 162, 251, 270);
+		panelAdd.setBounds(10, 187, 251, 245);
 		contentPane.add(panelAdd);
 		panelAdd.setLayout(null);
 		
@@ -189,11 +190,11 @@ public class CourseFrame extends JFrame {
 				viewController.addCourse(name, credits);
 			}
 		});
-		btnAdd.setBounds(102, 223, 51, 23);
+		btnAdd.setBounds(104, 211, 51, 23);
 		panelAdd.add(btnAdd);
 		
 		JPanel panelWrittenExams = new JPanel();
-		panelWrittenExams.setBounds(271, 11, 241, 140);
+		panelWrittenExams.setBounds(271, 11, 241, 165);
 		contentPane.add(panelWrittenExams);
 		panelWrittenExams.setLayout(null);
 		
@@ -203,34 +204,46 @@ public class CourseFrame extends JFrame {
 		panelWrittenExams.add(lblNewLabel);
 		
 		JPanel panelAddNewExam = new JPanel();
-		panelAddNewExam.setBounds(271, 162, 241, 270);
+		panelAddNewExam.setBounds(271, 187, 241, 245);
 		contentPane.add(panelAddNewExam);
 		
 		JPanel panelChooseCourse = new JPanel();
-		panelChooseCourse.setBounds(10, 162, 251, 102);
+		panelChooseCourse.setBounds(10, 187, 251, 102);
 		contentPane.add(panelChooseCourse);
 		
 		JPanel panelExistingExam = new JPanel();
-		panelExistingExam.setBounds(271, 162, 241, 270);
+		panelExistingExam.setBounds(271, 187, 241, 245);
 		contentPane.add(panelExistingExam);
 		panelExistingExam.setLayout(null);
+
+		JPanel panelRegisterStudent = new JPanel();
+		panelRegisterStudent.setBounds(271, 187, 241, 245);
+		contentPane.add(panelRegisterStudent);
 		
-		JButton btnNewCourse = new JButton("New course");
-		btnNewCourse.addActionListener(new ActionListener() {
+		JPanel panelUnregisterStudent = new JPanel();
+		panelUnregisterStudent.setBounds(271, 187, 241, 245);
+		contentPane.add(panelUnregisterStudent);
+		
+		JRadioButton rdbtnNewCourse = new JRadioButton("New course");
+		buttonGroupCourses.add(rdbtnNewCourse);
+		rdbtnNewCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelEdit.setVisible(false);
 				panelAdd.setVisible(true);
 				
+				panelEdit.setVisible(false);
 				panelExistingExam.setVisible(false);
 				panelAddNewExam.setVisible(false);
 				panelChooseCourse.setVisible(false);
+				panelUnregisterStudent.setVisible(false);
+				panelRegisterStudent.setVisible(false);
 			}
 		});
-		btnNewCourse.setBounds(10, 46, 89, 23);
-		panelCourseRegister.add(btnNewCourse);
+		rdbtnNewCourse.setBounds(10, 46, 89, 23);
+		panelCourseRegister.add(rdbtnNewCourse);
 		
-		JButton btnEditOrDelete = new JButton("Edit or delete course");
-		btnEditOrDelete.addActionListener(new ActionListener() {
+		JRadioButton rdbtnEditOrDelete = new JRadioButton("Edit or delete course");
+		buttonGroupCourses.add(rdbtnEditOrDelete);
+		rdbtnEditOrDelete.addActionListener(new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
 				panelEdit.setVisible(true);
 				panelAdd.setVisible(false);
@@ -238,10 +251,12 @@ public class CourseFrame extends JFrame {
 				panelExistingExam.setVisible(false);
 				panelAddNewExam.setVisible(false);
 				panelChooseCourse.setVisible(false);
+				panelUnregisterStudent.setVisible(false);
+				panelRegisterStudent.setVisible(false);
 			}
 		});
-		btnEditOrDelete.setBounds(10, 87, 147, 23);
-		panelCourseRegister.add(btnEditOrDelete);
+		rdbtnEditOrDelete.setBounds(10, 87, 147, 23);
+		panelCourseRegister.add(rdbtnEditOrDelete);
 		
 		JRadioButton rdbtnAddNew = new JRadioButton("Add new to selected course");
 		rdbtnAddNew.setBounds(6, 33, 202, 23);
@@ -255,12 +270,14 @@ public class CourseFrame extends JFrame {
 				panelEdit.setVisible(false);
 				panelAdd.setVisible(false);
 				panelExistingExam.setVisible(false);
+				panelUnregisterStudent.setVisible(false);
+				panelRegisterStudent.setVisible(false);
 			}
 	           
 		});
 		
 		JRadioButton rdbtnAddExisting = new JRadioButton("Add/remove existing");
-		rdbtnAddExisting.setBounds(6, 75, 162, 23);
+		rdbtnAddExisting.setBounds(6, 59, 162, 23);
 		buttonGroup.add(rdbtnAddExisting);
 		panelWrittenExams.add(rdbtnAddExisting);
 		rdbtnAddExisting.addActionListener(new ActionListener( ) {
@@ -271,6 +288,44 @@ public class CourseFrame extends JFrame {
 				panelEdit.setVisible(false);
 				panelAdd.setVisible(false);
 				panelAddNewExam.setVisible(false);
+				panelUnregisterStudent.setVisible(false);
+				panelRegisterStudent.setVisible(false);
+			}
+	           
+		});
+		
+		JRadioButton rdbtnRegisterStudentFor = new JRadioButton("Register student for exam");
+		buttonGroup.add(rdbtnRegisterStudentFor);
+		rdbtnRegisterStudentFor.setBounds(6, 85, 229, 29);
+		panelWrittenExams.add(rdbtnRegisterStudentFor);
+		rdbtnRegisterStudentFor.addActionListener(new ActionListener( ) {
+			public void actionPerformed(ActionEvent e) {
+				panelRegisterStudent.setVisible(true);
+				panelChooseCourse.setVisible(true);
+				
+				panelEdit.setVisible(false);
+				panelAdd.setVisible(false);
+				panelExistingExam.setVisible(false);
+				panelAddNewExam.setVisible(false);
+				panelUnregisterStudent.setVisible(false);
+			}
+	           
+		});
+		
+		JRadioButton rdbtnUnregisterStudentFor = new JRadioButton("Unregister student for exam");
+		buttonGroup.add(rdbtnUnregisterStudentFor);
+		rdbtnUnregisterStudentFor.setBounds(6, 117, 202, 29);
+		panelWrittenExams.add(rdbtnUnregisterStudentFor);
+		rdbtnUnregisterStudentFor.addActionListener(new ActionListener( ) {
+			public void actionPerformed(ActionEvent e) {
+				panelUnregisterStudent.setVisible(true);
+				panelChooseCourse.setVisible(true);
+				
+				panelEdit.setVisible(false);
+				panelAdd.setVisible(false);
+				panelExistingExam.setVisible(false);
+				panelAddNewExam.setVisible(false);
+				panelRegisterStudent.setVisible(false);
 			}
 		});
 
@@ -353,5 +408,36 @@ public class CourseFrame extends JFrame {
 		
 		JComboBox comboBoxChooseCourse = new JComboBox();
 		panelChooseCourse.add(comboBoxChooseCourse);
+		
+		
+		JLabel lblExamId_1 = new JLabel("Exam ID");
+		panelRegisterStudent.add(lblExamId_1);
+		
+		JComboBox comboBoxRegisterExamID = new JComboBox();
+		panelRegisterStudent.add(comboBoxRegisterExamID);
+		
+		JLabel lblStudentId = new JLabel("Student ID");
+		panelRegisterStudent.add(lblStudentId);
+		
+		JComboBox comboBoxStudentID = new JComboBox();
+		panelRegisterStudent.add(comboBoxStudentID);
+		
+		JButton btnRegisterStudent = new JButton("Register student");
+		panelRegisterStudent.add(btnRegisterStudent);
+		
+		JLabel lblExamId_2 = new JLabel("Exam ID:");
+		panelUnregisterStudent.add(lblExamId_2);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		panelUnregisterStudent.add(comboBox_1);
+		
+		JLabel lblStudentId_1 = new JLabel("Student ID:");
+		panelUnregisterStudent.add(lblStudentId_1);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		panelUnregisterStudent.add(comboBox_2);
+		
+		JButton btnUnregisterStudent = new JButton("Unregister student");
+		panelUnregisterStudent.add(btnUnregisterStudent);
 	}
 }

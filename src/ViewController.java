@@ -71,6 +71,28 @@ public class ViewController {
 		Course c = courseRegister.findCourse(courseID);
 		return c.removeExam(examID);
 	}
+	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location) {
+		WrittenExam e = new WrittenExam();
+		e.setDate(model);
+		
+		int hour = Integer.parseInt(hours);
+		int minute = Integer.parseInt(minutes);
+		LocalTime time = LocalTime.of(hour, minute);
+		e.setTime(time);
+		
+		e.setLocation(location);
+		e.setExamId(this.generateExamID());
+	}
+	public void registerStudent(String studentID, String examID) {
+		Student s = studentRegister.findStudent(studentID);
+		WrittenExam e = examRegister.findExam(examID);
+		s.registerExam(e);
+	}
+	public WrittenExam unregisterStudent(String studentID, String examID) {
+		Student s = studentRegister.findStudent(studentID);
+		WrittenExam e = examRegister.findExam(examID);
+		return s.unregisterExam(examID);
+	}
 
 	// Metoder f�r StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
@@ -148,17 +170,6 @@ public class ViewController {
 		startFrame.setVisible(false);
 	}
 
-	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location) {
-		WrittenExam e = new WrittenExam();
-		e.setDate(model);
-		
-		int hour = Integer.parseInt(hours);
-		int minute = Integer.parseInt(minutes);
-		LocalTime time = LocalTime.of(hour, minute);
-		e.setTime(time);
-		
-		e.setLocation(location);
-		e.setExamId(this.generateExamID());
-	}
+	
 
 }
