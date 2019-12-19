@@ -1,12 +1,19 @@
 
 import java.awt.EventQueue;
+import java.time.LocalTime;
 
 import javax.swing.JFrame;
+
+import org.jdatepicker.DateModel;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class ViewController {
 
 	private Integer studentId = 9999;
 	private Integer courseId = 9999;
+	private Integer examID = 9999;
 
 	// Kopplar till gr�nssnitten
 	CourseFrame courseFrame = new CourseFrame(this);
@@ -109,9 +116,20 @@ public class ViewController {
 				courseId++;
 			} while (courseRegister.findCourse("C" + courseId.toString()) != null);
 
-			return "C" + studentId.toString();
+			return "C" + courseId.toString();
 		} else
 			return courseId.toString(); /// m�ste �ndras till n�got vettigt tex popup
+	}
+	public String generateExamID() {
+		
+		if (examID < 100000) {
+			do {
+				examID++;
+			} while (examRegister.findExam("E" + examID.toString()) != null);
+
+			return "C" + examID.toString();
+		} else
+			return examID.toString(); /// m�ste �ndras till n�got vettigt tex popup
 	}
 
 	// Vykontroller
@@ -130,9 +148,17 @@ public class ViewController {
 		startFrame.setVisible(false);
 	}
 
-	public void editOrDeleteCourse() {
-		// TODO Auto-generated method stub
-
+	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location) {
+		WrittenExam e = new WrittenExam();
+		e.setDate(model);
+		
+		int hour = Integer.parseInt(hours);
+		int minute = Integer.parseInt(minutes);
+		LocalTime time = LocalTime.of(hour, minute);
+		e.setTime(time);
+		
+		e.setLocation(location);
+		e.setExamId(this.generateExamID());
 	}
 
 }

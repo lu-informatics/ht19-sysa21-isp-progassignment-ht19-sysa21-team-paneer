@@ -339,6 +339,11 @@ public class CourseFrame extends JFrame {
 		panelAddNewExam.add(comboBoxLocation);
 		
 		JButton btnAddExamTo = new JButton("Add exam to course");
+		btnAddExamTo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		panelAddNewExam.add(btnAddExamTo);
 		
 		
