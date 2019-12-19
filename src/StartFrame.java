@@ -11,15 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class StartFrame extends JFrame {
-	//Problemområdeskomponenter
+	// Problemområdeskomponenter
 	private CourseRegister courseRegister = new CourseRegister();
 	private StudentRegister studentRegister = new StudentRegister();
 	private ExamRegister examRegister = new ExamRegister();
-	
-	//Controllerklassen
+
+	// Controllerklassen
 	private ViewController viewController;
-	
-	
+
 	public ViewController getController() {
 		return viewController;
 	}
@@ -28,7 +27,7 @@ public class StartFrame extends JFrame {
 		this.viewController = controller;
 	}
 
-	//Gränssnittsobjekt
+	// Gränssnittsobjekt
 	private JPanel contentPane;
 	private JLabel lblWelcomeToResult;
 	private JLabel lblPleaseMakeOne;
@@ -58,23 +57,23 @@ public class StartFrame extends JFrame {
 	 */
 	public StartFrame(ViewController viewController) {
 		this.viewController = viewController;
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 731, 618);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		lblWelcomeToResult = new JLabel("Welcome to Result Master");
 		lblWelcomeToResult.setFont(new Font("Arial", Font.PLAIN, 25));
 		lblWelcomeToResult.setBounds(66, 103, 330, 20);
 		contentPane.add(lblWelcomeToResult);
-		
+
 		lblPleaseMakeOne = new JLabel("Please make one of the following choices");
 		lblPleaseMakeOne.setBounds(66, 154, 340, 20);
 		contentPane.add(lblPleaseMakeOne);
-		
+
 		btnAdministrateStudents = new JButton("Administrate Students");
 		btnAdministrateStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -83,7 +82,7 @@ public class StartFrame extends JFrame {
 		});
 		btnAdministrateStudents.setBounds(66, 236, 209, 48);
 		contentPane.add(btnAdministrateStudents);
-		
+
 		btnAdministrateCourses = new JButton("Administrate Courses");
 		btnAdministrateCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,7 +91,7 @@ public class StartFrame extends JFrame {
 		});
 		btnAdministrateCourses.setBounds(66, 300, 209, 47);
 		contentPane.add(btnAdministrateCourses);
-		
+
 		btnResultReports = new JButton("Result Reports");
 		btnResultReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
