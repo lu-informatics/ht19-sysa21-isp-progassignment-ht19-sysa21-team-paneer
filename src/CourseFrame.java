@@ -80,6 +80,10 @@ public class CourseFrame extends JFrame {
 		panelEdit = new JPanel();
 		panelEdit.setBounds(10, 162, 251, 270);
 		contentPane.add(panelEdit);
+
+		JComboBox comboBoxCourseID = new JComboBox();
+		comboBoxCourseID.setBounds(109, 5, 30, 22);
+		panelEdit.add(comboBoxCourseID);
 		
 		JButton btnEditOrDelete = new JButton("Edit or delete course");
 		btnEditOrDelete.addActionListener(new ActionListener() {
@@ -98,10 +102,6 @@ public class CourseFrame extends JFrame {
 		});
 		panelEdit.setLayout(null);
 		
-		JLabel label_4 = new JLabel("");
-		label_4.setBounds(51, 16, 0, 0);
-		panelEdit.add(label_4);
-		
 		JLabel lblCredits = new JLabel("Credits:");
 		lblCredits.setBounds(10, 47, 41, 14);
 		panelEdit.add(lblCredits);
@@ -110,64 +110,24 @@ public class CourseFrame extends JFrame {
 		lblCourseId.setBounds(10, 9, 68, 14);
 		panelEdit.add(lblCourseId);
 		panelEdit.add(btnEdit);
+		JTextField textFieldEditCredits = new JTextField();
+		textFieldEditCredits.setBounds(109, 44, 96, 20);
+		panelEdit.add(textFieldEditCredits);
+		textFieldEditCredits.setColumns(10);
 		
-		JLabel label_8 = new JLabel("");
-		label_8.setBounds(205, 16, 0, 0);
-		panelEdit.add(label_8);
-		
-		textField = new JTextField();
-		textField.setBounds(109, 44, 96, 20);
-		panelEdit.add(textField);
-		textField.setColumns(10);
-		
-		JLabel label_3 = new JLabel("");
-		label_3.setBounds(119, 44, 0, 0);
-		panelEdit.add(label_3);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(88, 5, 145, 22);
-		panelEdit.add(comboBox);
-		
-		JLabel label = new JLabel("");
-		label.setBounds(159, 44, 0, 0);
-		panelEdit.add(label);
-		
+
 		JLabel lblCourseName = new JLabel("Course name:");
 		lblCourseName.setBounds(10, 92, 73, 14);
 		panelEdit.add(lblCourseName);
-		
-		JLabel label_9 = new JLabel("");
-		label_9.setBounds(233, 44, 0, 0);
-		panelEdit.add(label_9);
 		
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.setBounds(18, 224, 65, 23);
 		panelEdit.add(btnDelete);
 		
-		JLabel label_2 = new JLabel("");
-		label_2.setBounds(100, 71, 0, 0);
-		panelEdit.add(label_2);
-		
-		JLabel label_1 = new JLabel("");
-		label_1.setBounds(105, 71, 0, 0);
-		panelEdit.add(label_1);
-		
-		JLabel label_6 = new JLabel("");
-		label_6.setBounds(110, 71, 0, 0);
-		panelEdit.add(label_6);
-		
-		JLabel label_7 = new JLabel("");
-		label_7.setBounds(115, 71, 0, 0);
-		panelEdit.add(label_7);
-		
 		textField_1 = new JTextField();
 		textField_1.setBounds(109, 89, 96, 20);
 		panelEdit.add(textField_1);
 		textField_1.setColumns(10);
-		
-		JLabel label_5 = new JLabel("");
-		label_5.setBounds(221, 71, 0, 0);
-		panelEdit.add(label_5);
 		
 		JPanel panelWrittenExams = new JPanel();
 		panelWrittenExams.setBounds(0, 0, 251, 270);
@@ -179,6 +139,11 @@ public class CourseFrame extends JFrame {
 		JComboBox comboBox_1 = new JComboBox();
 		panelWrittenExams.add(comboBox_1);
 		
+		JTextField textFieldEditCourseName = new JTextField();
+		textFieldEditCourseName.setBounds(109, 89, 96, 20);
+		panelEdit.add(textFieldEditCourseName);
+		textFieldEditCourseName.setColumns(10);
+
 		panelAdd = new JPanel();
 		panelAdd.setBounds(10, 162, 251, 270);
 		contentPane.add(panelAdd);
@@ -225,13 +190,13 @@ public class CourseFrame extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_1.add(lblNewLabel);
 		
-		JRadioButton rdbtnAddNew = new JRadioButton("Add new");
-		rdbtnAddNew.setBounds(6, 33, 67, 23);
+		JRadioButton rdbtnAddNew = new JRadioButton("Add new to selected course");
+		rdbtnAddNew.setBounds(6, 33, 202, 23);
 		buttonGroup.add(rdbtnAddNew);
 		panel_1.add(rdbtnAddNew);
 		
-		JRadioButton rdbtnAddExisting = new JRadioButton("Add existing");
-		rdbtnAddExisting.setBounds(6, 75, 85, 23);
+		JRadioButton rdbtnAddExisting = new JRadioButton("Add/remove existing");
+		rdbtnAddExisting.setBounds(6, 75, 162, 23);
 		buttonGroup.add(rdbtnAddExisting);
 		panel_1.add(rdbtnAddExisting);
 		
@@ -242,13 +207,27 @@ public class CourseFrame extends JFrame {
 		JLabel lblExamId = new JLabel("Exam ID:");
 		panelExistingExam.add(lblExamId);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		panelExistingExam.add(comboBox_2);
+		JComboBox comboBoxExamID = new JComboBox();
+		panelExistingExam.add(comboBoxExamID);
 		
 		JButton btnAddToCourse = new JButton("Add to course");
+		btnAddToCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String courseCode = comboBoxCourseID.getSelectedItem().toString();
+				String examID = comboBoxExamID.getSelectedItem().toString();
+				viewController.addToCourse(courseCode, examID);
+			}
+		});
 		panelExistingExam.add(btnAddToCourse);
 		
 		JButton btnRemoveFromCourse = new JButton("Remove from course");
+		btnRemoveFromCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String courseCode = comboBoxCourseID.getSelectedItem().toString();
+				String examID = comboBoxExamID.getSelectedItem().toString();
+				WrittenExam w = viewController.removeFromCourse(courseCode, examID);
+			}
+		});
 		panelExistingExam.add(btnRemoveFromCourse);
 		
 		JPanel panel_2 = new JPanel();

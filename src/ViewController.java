@@ -39,6 +39,32 @@ public class ViewController {
 		this.examRegister = examRegister;
 	}
 	
+	//Metoder för CourseView objekt
+	public void addCourse(String name, String credits) {
+		Course c = new Course();
+		c.setName(name);
+		c.setCredits(Integer.parseInt(credits));
+		c.setCourseCode(this.generateCourseID());
+		courseRegister.addCourse(c);
+	}
+	public Course deleteCourse(String courseID) {
+		return courseRegister.removeCourse(courseID);
+	}
+	public Course editCourse(String courseID, String courseCredits, String name) {
+		int credits = Integer.parseInt(courseCredits);
+		return courseRegister.editCourse(courseID, name, credits);
+	}
+	
+	public void addToCourse(String courseID, String examID) {
+		Course c = courseRegister.findCourse(courseID);
+		WrittenExam e = examRegister.findExam(examID);
+		c.addExam(e);
+	}
+	public WrittenExam removeFromCourse(String courseID, String examID) {
+		Course c = courseRegister.findCourse(courseID);
+		return c.removeExam(examID);
+	}
+	
 	//Metoder f�r StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
 		Student tmpStudent = new Student();
