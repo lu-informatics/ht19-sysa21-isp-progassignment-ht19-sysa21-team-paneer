@@ -134,6 +134,7 @@ public class CourseFrame extends JFrame {
 		panelEdit.add(lblCourseId);
 		panelEdit.add(btnEdit);
 		JTextField textFieldEditCredits = new JTextField();
+		textFieldEditCredits.setToolTipText("Only integers, please");
 		textFieldEditCredits.setBounds(109, 44, 96, 20);
 		panelEdit.add(textFieldEditCredits);
 		textFieldEditCredits.setColumns(10);
@@ -276,8 +277,20 @@ public class CourseFrame extends JFrame {
 		p.put("text.year", "Year");
 		
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		
+		JLabel lblDate = new JLabel("Date:");
+		panelAddNewExam.add(lblDate);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		 
 		panelAddNewExam.add(datePicker);
+		
+		JLabel lblTime = new JLabel("Time");
+		panelAddNewExam.add(lblTime);
+		
+		JLabel lblLocation = new JLabel("Location");
+		panelAddNewExam.add(lblLocation);
+		
+		JComboBox comboBoxLocation = new JComboBox();
+		panelAddNewExam.add(comboBoxLocation);
 	}
 }
