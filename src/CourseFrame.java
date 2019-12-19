@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.jdatepicker.DateModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -63,7 +64,7 @@ public class CourseFrame extends JFrame {
 	 */
 	public CourseFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 844, 482);
+		setBounds(100, 100, 539, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -338,7 +339,7 @@ public class CourseFrame extends JFrame {
 		panelExistingExam.add(comboBoxExamID);
 		
 		JButton btnRemoveFromCourse = new JButton("Remove from course");
-		btnRemoveFromCourse.setBounds(10, 228, 147, 31);
+		btnRemoveFromCourse.setBounds(10, 203, 147, 31);
 		btnRemoveFromCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String courseCode = comboBoxCourseID.getSelectedItem().toString();
@@ -349,7 +350,7 @@ public class CourseFrame extends JFrame {
 		panelExistingExam.add(btnRemoveFromCourse);
 		
 		JButton btnAddToCourse = new JButton("Add to course");
-		btnAddToCourse.setBounds(10, 186, 104, 31);
+		btnAddToCourse.setBounds(10, 161, 104, 31);
 		btnAddToCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String courseCode = comboBoxCourseID.getSelectedItem().toString();
@@ -396,7 +397,12 @@ public class CourseFrame extends JFrame {
 		JButton btnAddExamTo = new JButton("Add exam to course");
 		btnAddExamTo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DateModel model = datePicker.getModel();
+				String hours = textFieldHours.getText();
+				String minutes = textFieldMinutes.getText();
+				String location = comboBoxLocation.getSelectedItem().toString();
 				
+				viewController.addNewExamToCourse(model, hours, minutes, location);
 			}
 		});
 		panelAddNewExam.add(btnAddExamTo);
@@ -423,21 +429,37 @@ public class CourseFrame extends JFrame {
 		panelRegisterStudent.add(comboBoxStudentID);
 		
 		JButton btnRegisterStudent = new JButton("Register student");
+		btnRegisterStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String examID = comboBoxRegisterExamID.getSelectedItem().toString();
+				String studentID = comboBoxStudentID.getSelectedItem().toString();
+				
+				viewController.registerStudent(studentID, examID);
+			}
+		});
 		panelRegisterStudent.add(btnRegisterStudent);
 		
 		JLabel lblExamId_2 = new JLabel("Exam ID:");
 		panelUnregisterStudent.add(lblExamId_2);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		panelUnregisterStudent.add(comboBox_1);
+		JComboBox comboBoxExamIDUnregister = new JComboBox();
+		panelUnregisterStudent.add(comboBoxExamIDUnregister);
 		
 		JLabel lblStudentId_1 = new JLabel("Student ID:");
 		panelUnregisterStudent.add(lblStudentId_1);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		panelUnregisterStudent.add(comboBox_2);
+		JComboBox comboBoxStudentIDUnregister = new JComboBox();
+		panelUnregisterStudent.add(comboBoxStudentIDUnregister);
 		
 		JButton btnUnregisterStudent = new JButton("Unregister student");
+		btnUnregisterStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String examID = comboBoxExamIDUnregister.getSelectedItem().toString();
+				String studentID = comboBoxStudentIDUnregister.getSelectedItem().toString();
+				
+				viewController.unregisterStudent(studentID, examID);
+			}
+		});
 		panelUnregisterStudent.add(btnUnregisterStudent);
 	}
 }
