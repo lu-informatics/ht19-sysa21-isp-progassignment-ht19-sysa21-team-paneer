@@ -37,6 +37,8 @@ public class CourseFrame extends JFrame {
 	private JTextField textFieldAddCredits;
 	private JTextField textFieldAddName;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JTextField textFieldHours;
+	private JTextField textFieldMinutes;
 
 	/**
 	 * Launch the application.
@@ -60,7 +62,7 @@ public class CourseFrame extends JFrame {
 	 */
 	public CourseFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 847, 482);
+		setBounds(100, 100, 543, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,15 +75,7 @@ public class CourseFrame extends JFrame {
 		
 		
 		
-		JButton btnNewCourse = new JButton("New course");
-		btnNewCourse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelEdit.setVisible(false);
-				panelAdd.setVisible(true);
-			}
-		});
-		btnNewCourse.setBounds(10, 46, 89, 23);
-		panelCourseRegister.add(btnNewCourse);
+		
 		
 		JLabel lblCourseRegister = new JLabel("Course register");
 		lblCourseRegister.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -92,20 +86,6 @@ public class CourseFrame extends JFrame {
 		panelEdit.setBounds(10, 162, 251, 270);
 		contentPane.add(panelEdit);
 		
-		JButton btnEditOrDelete = new JButton("Edit or delete course");
-		btnEditOrDelete.addActionListener(new ActionListener() {
-			public void actionPerformed (ActionEvent e) {
-				panelEdit.setVisible(true);
-				panelAdd.setVisible(false);
-			}
-		});
-		btnEditOrDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewController.editOrDeleteCourse();
-			}
-		});
-		btnEditOrDelete.setBounds(10, 87, 147, 23);
-		panelCourseRegister.add(btnEditOrDelete);
 		
 		JComboBox comboBoxCourseID = new JComboBox();
 		comboBoxCourseID.setBounds(88, 5, 145, 22);
@@ -222,21 +202,78 @@ public class CourseFrame extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panelWrittenExams.add(lblNewLabel);
 		
-		JRadioButton rdbtnAddNew = new JRadioButton("Add new to selected course");
-		rdbtnAddNew.setBounds(6, 33, 202, 23);
-		buttonGroup.add(rdbtnAddNew);
-		panelWrittenExams.add(rdbtnAddNew);
+		JPanel panelAddNewExam = new JPanel();
+		panelAddNewExam.setBounds(271, 162, 241, 270);
+		contentPane.add(panelAddNewExam);
 		
-		JRadioButton rdbtnAddExisting = new JRadioButton("Add/remove existing");
-		rdbtnAddExisting.setBounds(6, 75, 162, 23);
-		buttonGroup.add(rdbtnAddExisting);
-		panelWrittenExams.add(rdbtnAddExisting);
+		JPanel panelChooseCourse = new JPanel();
+		panelChooseCourse.setBounds(10, 162, 251, 102);
+		contentPane.add(panelChooseCourse);
 		
 		JPanel panelExistingExam = new JPanel();
 		panelExistingExam.setBounds(271, 162, 241, 270);
 		contentPane.add(panelExistingExam);
 		panelExistingExam.setLayout(null);
 		
+		JButton btnNewCourse = new JButton("New course");
+		btnNewCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelEdit.setVisible(false);
+				panelAdd.setVisible(true);
+				
+				panelExistingExam.setVisible(false);
+				panelAddNewExam.setVisible(false);
+				panelChooseCourse.setVisible(false);
+			}
+		});
+		btnNewCourse.setBounds(10, 46, 89, 23);
+		panelCourseRegister.add(btnNewCourse);
+		
+		JButton btnEditOrDelete = new JButton("Edit or delete course");
+		btnEditOrDelete.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				panelEdit.setVisible(true);
+				panelAdd.setVisible(false);
+				
+				panelExistingExam.setVisible(false);
+				panelAddNewExam.setVisible(false);
+				panelChooseCourse.setVisible(false);
+			}
+		});
+		btnEditOrDelete.setBounds(10, 87, 147, 23);
+		panelCourseRegister.add(btnEditOrDelete);
+		
+		JRadioButton rdbtnAddNew = new JRadioButton("Add new to selected course");
+		rdbtnAddNew.setBounds(6, 33, 202, 23);
+		buttonGroup.add(rdbtnAddNew);
+		panelWrittenExams.add(rdbtnAddNew);
+		rdbtnAddNew.addActionListener(new ActionListener( ) {
+			public void actionPerformed(ActionEvent e) {
+				panelAddNewExam.setVisible(true);
+				panelChooseCourse.setVisible(true);
+				
+				panelEdit.setVisible(false);
+				panelAdd.setVisible(false);
+				panelExistingExam.setVisible(false);
+			}
+	           
+		});
+		
+		JRadioButton rdbtnAddExisting = new JRadioButton("Add/remove existing");
+		rdbtnAddExisting.setBounds(6, 75, 162, 23);
+		buttonGroup.add(rdbtnAddExisting);
+		panelWrittenExams.add(rdbtnAddExisting);
+		rdbtnAddExisting.addActionListener(new ActionListener( ) {
+			public void actionPerformed(ActionEvent e) {
+				panelExistingExam.setVisible(true);
+				panelChooseCourse.setVisible(true);
+				
+				panelEdit.setVisible(false);
+				panelAdd.setVisible(false);
+				panelAddNewExam.setVisible(false);
+			}
+		});
+
 		JLabel lblExamId = new JLabel("Exam ID:");
 		lblExamId.setBounds(10, 19, 44, 14);
 		panelExistingExam.add(lblExamId);
@@ -266,10 +303,7 @@ public class CourseFrame extends JFrame {
 			}
 		});
 		panelExistingExam.add(btnAddToCourse);
-		
-		JPanel panelAddNewExam = new JPanel();
-		panelAddNewExam.setBounds(522, 162, 241, 270);
-		contentPane.add(panelAddNewExam);
+	
 		UtilDateModel model = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -287,10 +321,32 @@ public class CourseFrame extends JFrame {
 		JLabel lblTime = new JLabel("Time");
 		panelAddNewExam.add(lblTime);
 		
+		textFieldHours = new JTextField();
+		panelAddNewExam.add(textFieldHours);
+		textFieldHours.setColumns(10);
+		
+		JLabel label = new JLabel(":");
+		panelAddNewExam.add(label);
+		
+		textFieldMinutes = new JTextField();
+		panelAddNewExam.add(textFieldMinutes);
+		textFieldMinutes.setColumns(10);
+		
 		JLabel lblLocation = new JLabel("Location");
 		panelAddNewExam.add(lblLocation);
 		
 		JComboBox comboBoxLocation = new JComboBox();
 		panelAddNewExam.add(comboBoxLocation);
+		
+		JButton btnAddExamTo = new JButton("Add exam to course");
+		panelAddNewExam.add(btnAddExamTo);
+		
+		
+		
+		JLabel lblCourseIdChooseCourse = new JLabel("Course ID:");
+		panelChooseCourse.add(lblCourseIdChooseCourse);
+		
+		JComboBox comboBoxChooseCourse = new JComboBox();
+		panelChooseCourse.add(comboBoxChooseCourse);
 	}
 }
