@@ -1,14 +1,17 @@
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+
+import org.jdatepicker.DateModel;
 
 public class WrittenExam {
 
 	private HashMap<Integer, Result> register2 = new HashMap<>();
 	private String examId;
-	private Date date;
+	private DateModel date;
 	private String location;
-	private Date time;
+	private LocalTime time;
 	private int maxPoints = 100;
 
 	public String getExamId() {
@@ -19,11 +22,11 @@ public class WrittenExam {
 		this.examId = examId;
 	}
 
-	public Date getDate() {
+	public DateModel getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(DateModel date) {
 		this.date = date;
 	}
 
@@ -35,11 +38,11 @@ public class WrittenExam {
 		this.location = location;
 	}
 
-	public Date getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(LocalTime time) {
 		this.time = time;
 	}
 
