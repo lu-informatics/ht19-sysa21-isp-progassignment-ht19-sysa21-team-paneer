@@ -13,6 +13,7 @@ public class WrittenExam {
 	private String location;
 	private LocalTime time;
 	private int maxPoints = 100;
+	private Course course;
 
 	public String getExamId() {
 		return examId;
@@ -44,6 +45,22 @@ public class WrittenExam {
 
 	public void setTime(LocalTime time) {
 		this.time = time;
+	}
+
+	public HashMap<Integer, Result> getRegister2() {
+		return register2;
+	}
+
+	public void setRegister2(HashMap<Integer, Result> register2) {
+		this.register2 = register2;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	public int getMaxPoints() {
