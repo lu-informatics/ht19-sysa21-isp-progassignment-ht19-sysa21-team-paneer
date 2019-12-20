@@ -64,7 +64,7 @@ public class CourseFrame extends JFrame {
 	 */
 	public CourseFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 539, 482);
+		setBounds(100, 100, 829, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -85,13 +85,20 @@ public class CourseFrame extends JFrame {
 		panelCourseRegister.add(lblCourseRegister);
 		
 		panelEdit = new JPanel();
-		panelEdit.setBounds(10, 187, 251, 245);
+		panelEdit.setBounds(526, 44, 251, 245);
 		contentPane.add(panelEdit);
+		panelEdit.setVisible(false);
 		
 		
-		JComboBox comboBoxCourseID = new JComboBox();
+		JComboBox comboBoxCourseID = new JComboBox(viewController.getCourses());
 		comboBoxCourseID.setBounds(88, 5, 145, 22);
 		panelEdit.add(comboBoxCourseID);
+		
+		JTextField textFieldEditCredits = new JTextField();
+		textFieldEditCredits.setToolTipText("Only integers, please");
+		textFieldEditCredits.setBounds(109, 44, 96, 20);
+		panelEdit.add(textFieldEditCredits);
+		textFieldEditCredits.setColumns(10);
 		
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBounds(190, 211, 51, 23);
@@ -115,16 +122,7 @@ public class CourseFrame extends JFrame {
 		lblCourseId.setBounds(10, 9, 68, 14);
 		panelEdit.add(lblCourseId);
 		panelEdit.add(btnEdit);
-		JTextField textFieldEditCredits = new JTextField();
-		textFieldEditCredits.setToolTipText("Only integers, please");
-		textFieldEditCredits.setBounds(109, 44, 96, 20);
-		panelEdit.add(textFieldEditCredits);
-		textFieldEditCredits.setColumns(10);
 		
-		textFieldEditCredits = new JTextField();
-		textFieldEditCredits.setBounds(109, 44, 96, 20);
-		panelEdit.add(textFieldEditCredits);
-		textFieldEditCredits.setColumns(10);
 
 		JLabel lblCourseName = new JLabel("Course name:");
 		lblCourseName.setBounds(10, 92, 73, 14);
@@ -164,6 +162,7 @@ public class CourseFrame extends JFrame {
 		panelAdd.setBounds(10, 187, 251, 245);
 		contentPane.add(panelAdd);
 		panelAdd.setLayout(null);
+		panelAdd.setVisible(false);
 		
 		JLabel label_11 = new JLabel("Credits:");
 		label_11.setBounds(10, 33, 39, 14);
@@ -207,23 +206,28 @@ public class CourseFrame extends JFrame {
 		JPanel panelAddNewExam = new JPanel();
 		panelAddNewExam.setBounds(271, 187, 241, 245);
 		contentPane.add(panelAddNewExam);
+		panelAddNewExam.setVisible(false);
 		
 		JPanel panelChooseCourse = new JPanel();
 		panelChooseCourse.setBounds(10, 187, 251, 102);
 		contentPane.add(panelChooseCourse);
+		panelChooseCourse.setVisible(false);
 		
 		JPanel panelExistingExam = new JPanel();
 		panelExistingExam.setBounds(271, 187, 241, 245);
 		contentPane.add(panelExistingExam);
 		panelExistingExam.setLayout(null);
+		panelExistingExam.setVisible(false);
 
 		JPanel panelRegisterStudent = new JPanel();
 		panelRegisterStudent.setBounds(271, 187, 241, 245);
 		contentPane.add(panelRegisterStudent);
+		panelRegisterStudent.setVisible(false);
 		
 		JPanel panelUnregisterStudent = new JPanel();
 		panelUnregisterStudent.setBounds(271, 187, 241, 245);
 		contentPane.add(panelUnregisterStudent);
+		panelUnregisterStudent.setVisible(false);
 		
 		JRadioButton rdbtnNewCourse = new JRadioButton("New course");
 		buttonGroupCourses.add(rdbtnNewCourse);

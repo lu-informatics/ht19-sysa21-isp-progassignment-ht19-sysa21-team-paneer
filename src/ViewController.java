@@ -20,10 +20,10 @@ public class ViewController {
 	private String[] locations = new String[] {"Room A123", "Room A167", "Room B198", "Room B067"};
 
 	// Kopplar till gr�nssnitten
-	CourseFrame courseFrame = new CourseFrame(this);
-	ResultFrame resultFrame = new ResultFrame(this);
-	StartFrame startFrame = new StartFrame(this);
-	StudentFrame studentFrame = new StudentFrame(this);
+	CourseFrame courseFrame;
+	ResultFrame resultFrame;
+	StartFrame startFrame;
+	StudentFrame studentFrame;
 
 	// Kopplar till probl.-omr�deskomponenten
 	CourseRegister courseRegister;
@@ -36,16 +36,22 @@ public class ViewController {
 		this.courseRegister = new CourseRegister();
 		this.studentRegister = new StudentRegister();
 		this.examRegister = new ExamRegister();
+		
+		courseFrame = new CourseFrame(this);
+		resultFrame = new ResultFrame(this);
+		startFrame = new StartFrame(this);
+		studentFrame = new StudentFrame(this);
 	}
 
 	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
-		this.courseFrame = courseFrame;
-		this.resultFrame = resultFrame;
-		this.startFrame = startFrame;
-		this.studentFrame = studentFrame;
 		this.courseRegister = courseRegister;
-		this.studentRegister = studentRegister;
 		this.examRegister = examRegister;
+		this.studentRegister = studentRegister;
+		
+		courseFrame = new CourseFrame(this);
+		resultFrame = new ResultFrame(this);
+		startFrame = new StartFrame(this);
+		studentFrame = new StudentFrame(this);
 	}
 
 	// Metoder för CourseView objekt
@@ -104,8 +110,14 @@ public class ViewController {
 	}
 	
 	public String[] getCourses() {
+		int i = 0;
 		HashMap<String, Course> courseList = courseRegister.getCourseList();
-		String[] courses = (String[]) courseList.entrySet().toArray();
+		String [] courses = new String [courseList.size()];
+				
+		for (String key : courseList.keySet()) {
+		    courses[i] = key;
+		    i++;
+		}
 		return courses;
 	}
 
