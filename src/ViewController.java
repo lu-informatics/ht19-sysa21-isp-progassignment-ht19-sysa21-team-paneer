@@ -2,6 +2,8 @@
 import java.awt.EventQueue;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
@@ -96,6 +98,17 @@ public class ViewController {
 		return s.unregisterExam(examID);
 	}
 
+	public String[] getLocations() {
+
+		return locations;
+	}
+	
+	public String[] getCourses() {
+		HashMap<String, Course> courseList = courseRegister.getCourseList();
+		String[] courses = (String[]) courseList.entrySet().toArray();
+		return courses;
+	}
+
 	// Metoder f�r StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
 		Student tmpStudent = new Student();
@@ -103,10 +116,7 @@ public class ViewController {
 		tmpStudent.setStudentId(studentId);
 		studentRegister.addStudent(tmpStudent);
 	}
-	public String[] getLocations() {
-		
-		return locations;
-	}
+	
 
 	public Student editStudent(String studentID, String name) {
 		return studentRegister.editStudent(studentID, name);
