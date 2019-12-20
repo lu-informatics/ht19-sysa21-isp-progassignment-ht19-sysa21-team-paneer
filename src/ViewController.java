@@ -1,6 +1,7 @@
 
 import java.awt.EventQueue;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -14,6 +15,7 @@ public class ViewController {
 	private Integer studentId = 9999;
 	private Integer courseId = 9999;
 	private Integer examID = 9999;
+	private String[] locations = new String[] {"Room A123", "Room A167", "Room B198", "Room B067"};
 
 	// Kopplar till gr�nssnitten
 	CourseFrame courseFrame = new CourseFrame(this);
@@ -100,6 +102,10 @@ public class ViewController {
 		tmpStudent.setName(name);
 		tmpStudent.setStudentId(studentId);
 		studentRegister.addStudent(tmpStudent);
+	}
+	public String[] getLocations() {
+		
+		return locations;
 	}
 
 	public Student editStudent(String studentID, String name) {

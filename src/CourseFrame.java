@@ -391,7 +391,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblLocation = new JLabel("Location");
 		panelAddNewExam.add(lblLocation);
 		
-		JComboBox comboBoxLocation = new JComboBox();
+		JComboBox comboBoxLocation = new JComboBox(viewController.getLocations());
 		panelAddNewExam.add(comboBoxLocation);
 		
 		JButton btnAddExamTo = new JButton("Add exam to course");
