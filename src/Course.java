@@ -6,7 +6,7 @@ public class Course {
 	private String courseCode;
 	private String name;
 	private int credits;
-	private HashMap<String, Result> examList = new HashMap<String, Result>();
+	private HashMap<String, WrittenExam> examList = new HashMap<String, WrittenExam>();
 
 	public String getCourseCode() {
 		return courseCode;
@@ -32,29 +32,29 @@ public class Course {
 		this.credits = credits;
 	}
 
-	public HashMap<String, Result> getExamList() {
+	public HashMap<String, WrittenExam> getExamList() {
 		return examList;
 	}
 
-	public void setExamList(HashMap<String, Result> examList) {
+	public void setExamList(HashMap<String, WrittenExam> examList) {
 		this.examList = examList;
 	}
 
 	public void addExam(WrittenExam exam) {
-		Result r = new Result();
-		r.setExam(exam);
+		WrittenExam r = new WrittenExam();
+		exam.setCourse(this);
 		examList.put(exam.getExamId(), r);
 
 	}
 
 	public WrittenExam removeExam(String examID) {
-		WrittenExam w = examList.get(examID).getExam();
+		WrittenExam w = examList.get(examID);
 		examList.remove(examID);
 		return w;
 	}
 
 	public WrittenExam findExam(String examID) {
-		WrittenExam w = examList.get(examID).getExam();
+		WrittenExam w = examList.get(examID);
 		return w;
 	}
 

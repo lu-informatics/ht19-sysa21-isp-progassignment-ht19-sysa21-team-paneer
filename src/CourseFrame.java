@@ -40,6 +40,8 @@ public class CourseFrame extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textFieldHours;
 	private JTextField textFieldMinutes;
+	private JComboBox comboBoxExamID;
+	private JComboBox comboBoxCourseID;
 	private final ButtonGroup buttonGroupCourses = new ButtonGroup();
 
 	/**
@@ -85,12 +87,12 @@ public class CourseFrame extends JFrame {
 		panelCourseRegister.add(lblCourseRegister);
 		
 		panelEdit = new JPanel();
-		panelEdit.setBounds(526, 44, 251, 245);
+		panelEdit.setBounds(538, 68, 251, 245);
 		contentPane.add(panelEdit);
 		panelEdit.setVisible(false);
 		
 		
-		JComboBox comboBoxCourseID = new JComboBox(viewController.getCourses());
+		comboBoxCourseID = new JComboBox(viewController.getCourses());
 		comboBoxCourseID.setBounds(88, 5, 145, 22);
 		panelEdit.add(comboBoxCourseID);
 		
@@ -153,10 +155,6 @@ public class CourseFrame extends JFrame {
 		textFieldEditCourseName.setBounds(109, 89, 96, 20);
 		panelEdit.add(textFieldEditCourseName);
 		textFieldEditCourseName.setColumns(10);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(109, 5, 96, 22);
-		panelEdit.add(comboBox);
 
 		panelAdd = new JPanel();
 		panelAdd.setBounds(10, 187, 251, 245);
@@ -188,6 +186,7 @@ public class CourseFrame extends JFrame {
 				String name = textFieldAddName.getText();
 				String credits = textFieldAddCredits.getText();
 				viewController.addCourse(name, credits);
+				comboBoxCourseID = new JComboBox(viewController.getCourses());
 			}
 		});
 		btnAdd.setBounds(104, 211, 51, 23);
@@ -338,7 +337,7 @@ public class CourseFrame extends JFrame {
 		lblExamId.setBounds(10, 19, 44, 14);
 		panelExistingExam.add(lblExamId);
 		
-		JComboBox comboBoxExamID = new JComboBox();
+		comboBoxExamID = new JComboBox();
 		comboBoxExamID.setBounds(75, 11, 156, 31);
 		panelExistingExam.add(comboBoxExamID);
 		
@@ -416,7 +415,14 @@ public class CourseFrame extends JFrame {
 		JLabel lblCourseIdChooseCourse = new JLabel("Course ID:");
 		panelChooseCourse.add(lblCourseIdChooseCourse);
 		
-		JComboBox comboBoxChooseCourse = new JComboBox();
+		JComboBox comboBoxChooseCourse = new JComboBox(viewController.getCourses());
+		comboBoxChooseCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String courseID = comboBoxChooseCourse.getSelectedItem().toString();
+				String [] courses = viewController.filterExams(courseID);
+				comboBoxExamID = new JComboBox(courses);
+			}
+		});
 		panelChooseCourse.add(comboBoxChooseCourse);
 		
 		

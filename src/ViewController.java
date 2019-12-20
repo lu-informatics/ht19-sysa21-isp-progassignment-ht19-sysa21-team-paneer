@@ -120,6 +120,18 @@ public class ViewController {
 		}
 		return courses;
 	}
+	public String[] filterExams(String courseID) {
+		Course course = courseRegister.findCourse(courseID);
+		HashMap<String, WrittenExam> examList = course.getExamList();
+		String [] exams = new String [examList.size()];
+		int i = 0;
+		for (String key : examList.keySet()) {
+		    exams[i] = key;
+		    i++;
+		}
+		return exams;
+		
+	}
 
 	// Metoder f�r StudentFrame-objekt
 	public void registerNewStudent(String studentId, String name) {
