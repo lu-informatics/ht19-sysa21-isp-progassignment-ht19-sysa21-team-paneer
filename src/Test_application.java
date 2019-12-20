@@ -14,7 +14,7 @@ public class Test_application {
 		ExamRegister examRegister = new ExamRegister();
 		CourseRegister courseRegister = new CourseRegister();
 
-		s1.setName("Helene Schönbeck");
+		s1.setName("Helene Schï¿½nbeck");
 		s1.setStudentId("S10000");
 		studentRegister.addStudent(s1);
 		s2.setName("Joakim Henriksson");
@@ -26,14 +26,21 @@ public class Test_application {
 			System.out.println(tmp.getName());
 			System.out.println(tmp.getStudentId());
 		}
-
+		
+		
+		c1.setCourseCode("E10000");
 		c2.setCourseCode("E10001");
 		c1.setCredits(10);
 		c2.setCredits(20);
 		c1.setName("SYSA12");
 		c2.setName("SySa12");
-
-		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
+		courseRegister.addCourse(c1);
+		courseRegister.addCourse(c2);
+		examRegister.addExam(e1);
+		examRegister.addExam(e2);
+		ViewController viewController = new ViewController(courseRegister, examRegister, studentRegister);
+		
+		StartFrame startFrame = new StartFrame(viewController);
 		startFrame.setVisible(true);
 
 	}
