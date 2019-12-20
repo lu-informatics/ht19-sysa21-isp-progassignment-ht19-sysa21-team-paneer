@@ -3,7 +3,24 @@ import java.util.HashMap;
 
 public class CourseRegister {
 	private HashMap<String, Course> courseList = new HashMap<String, Course>();
-	private IdGenerator courseIDGenerator = new IdGenerator(100000,999999,"C"); 
+	private IdGenerator courseIDGenerator = new IdGenerator(100000,999999,"C");
+	
+	public HashMap<String, Course> getCourseList() {
+		return courseList;
+	}
+
+	public void setCourseList(HashMap<String, Course> courseList) {
+		this.courseList = courseList;
+	}
+
+	public IdGenerator getCourseIDGenerator() {
+		return courseIDGenerator;
+	}
+
+	public void setCourseIDGenerator(IdGenerator courseIDGenerator) {
+		this.courseIDGenerator = courseIDGenerator;
+	}
+	
 	
 	public void addCourse(Course course) {
 		courseList.put(course.getCourseCode(), course);
