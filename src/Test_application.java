@@ -28,8 +28,8 @@ public class Test_application {
 		}
 		
 		
-		c1.setCourseCode("E10000");
-		c2.setCourseCode("E10001");
+		c1.setCourseCode("C10000");
+		c2.setCourseCode("C10001");
 		c1.setCredits(10);
 		c2.setCredits(20);
 		c1.setName("SYSA12");
@@ -38,7 +38,20 @@ public class Test_application {
 		courseRegister.addCourse(c2);
 		examRegister.addExam(e1);
 		examRegister.addExam(e2);
+		e1.setExamId("E10001");
+		e2.setExamId("E10002");
+		c1.addExam(e1);
+		c2.addExam(e2);
+		
+		
+		
 		ViewController viewController = new ViewController(courseRegister, examRegister, studentRegister);
+		for (Map.Entry<String, WrittenExam> entry : examRegister.getRegister().entrySet()) {
+			WrittenExam tmp = entry.getValue();
+			System.out.println(tmp.getExamId());
+		}
+		
+			System.out.println(viewController.filterComboBoxModel("C10000").getSize());
 		
 		StartFrame startFrame = new StartFrame(viewController);
 		startFrame.setVisible(true);

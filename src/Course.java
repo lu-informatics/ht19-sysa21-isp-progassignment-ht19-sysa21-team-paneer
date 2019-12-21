@@ -41,15 +41,15 @@ public class Course {
 	}
 
 	public void addExam(WrittenExam exam) {
-		WrittenExam r = new WrittenExam();
 		exam.setCourse(this);
-		examList.put(exam.getExamId(), r);
+		examList.put(exam.getExamId(), exam);
 
 	}
 
 	public WrittenExam removeExam(String examID) {
 		WrittenExam w = examList.get(examID);
 		examList.remove(examID);
+		this.removeExam(examID);
 		return w;
 	}
 

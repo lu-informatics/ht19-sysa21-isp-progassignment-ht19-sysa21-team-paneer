@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 
 import org.jdatepicker.DateModel;
@@ -55,11 +57,11 @@ public class ViewController {
 	}
 
 	// Metoder för CourseView objekt
-	public void addCourse(String name, String credits) {
+	public void addCourse(String courseCode, String name, String credits) {
 		Course c = new Course();
 		c.setName(name);
 		c.setCredits(Integer.parseInt(credits));
-		c.setCourseCode(this.generateCourseID());
+		c.setCourseCode(courseCode);
 		courseRegister.addCourse(c);
 	}
 
@@ -76,13 +78,17 @@ public class ViewController {
 		Course c = courseRegister.findCourse(courseID);
 		WrittenExam e = examRegister.findExam(examID);
 		c.addExam(e);
+		e.setCourse(c);
 	}
 	public WrittenExam removeFromCourse(String courseID, String examID) {
 		Course c = courseRegister.findCourse(courseID);
+		examRegister.removeExam(examID);
 		return c.removeExam(examID);
+		
 	}
-	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location) {
+	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location, String courseID) {
 		WrittenExam e = new WrittenExam();
+		Course c = courseRegister.findCourse(courseID);
 		e.setDate(model);
 		
 		int hour = Integer.parseInt(hours);
@@ -92,6 +98,11 @@ public class ViewController {
 		
 		e.setLocation(location);
 		e.setExamId(this.generateExamID());
+		
+		examRegister.addExam(e);
+		c.addExam(e);
+		e.setCourse(c);
+		
 	}
 	public void registerStudent(String studentID, String examID) {
 		Student s = studentRegister.findStudent(studentID);
@@ -105,11 +116,10 @@ public class ViewController {
 	}
 
 	public String[] getLocations() {
-
 		return locations;
 	}
 	
-	public String[] getCourses() {
+	public DefaultComboBoxModel getCourses() {
 		int i = 0;
 		HashMap<String, Course> courseList = courseRegister.getCourseList();
 		String [] courses = new String [courseList.size()];
@@ -118,19 +128,32 @@ public class ViewController {
 		    courses[i] = key;
 		    i++;
 		}
-		return courses;
+		return new DefaultComboBoxModel(courses);
 	}
-	public String[] filterExams(String courseID) {
-		Course course = courseRegister.findCourse(courseID);
-		HashMap<String, WrittenExam> examList = course.getExamList();
-		String [] exams = new String [examList.size()];
+	public DefaultComboBoxModel getExams() {
 		int i = 0;
+		HashMap<String, WrittenExam> examList = examRegister.getRegister();
+		String [] exams = new String [examList.size()];
+		
 		for (String key : examList.keySet()) {
 		    exams[i] = key;
 		    i++;
 		}
-		return exams;
+		return new DefaultComboBoxModel(exams);
+	}
+	public DefaultComboBoxModel<String> filterComboBoxModel(String courseID) {
+		Course course = courseRegister.findCourse(courseID);
+		HashMap<String, WrittenExam> examList = course.getExamList();
 		
+		String [] exams = new String [examList.size()];
+		int i = 0;
+		for (String key : examList.keySet()) {
+			exams[i] = key;
+			i++;
+		}
+		return new DefaultComboBoxModel<String>(exams);
+
+
 	}
 
 	// Metoder f�r StudentFrame-objekt
