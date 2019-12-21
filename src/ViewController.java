@@ -9,7 +9,7 @@ public class ViewController {
 	private Integer courseId = 9999;
 
 	// Kopplar till gr�nssnitten
-	CourseFrame courseFrame = new CourseFrame(this);
+	CourseFrame courseFrame;
 	ResultFrame resultFrame = new ResultFrame(this);
 	StartFrame startFrame = new StartFrame(this);
 	StudentFrame studentFrame = new StudentFrame(this);
@@ -28,10 +28,6 @@ public class ViewController {
 	}
 
 	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
-		this.courseFrame = courseFrame;
-		this.resultFrame = resultFrame;
-		this.startFrame = startFrame;
-		this.studentFrame = studentFrame;
 		this.courseRegister = courseRegister;
 		this.studentRegister = studentRegister;
 		this.examRegister = examRegister;
@@ -61,10 +57,21 @@ public class ViewController {
 		tmpStudent.setName(name);
 		tmpStudent.setStudentId(studentId);
 		studentRegister.addStudent(tmpStudent);
+		
 	}
 
-	public Student editStudent(String studentID, String name) {
-		return studentRegister.editStudent(studentID, name);
+	public Student editStudent(String studentID, String firstName, String lastName) {
+		String fullName = studentRegister.findStudent(studentID).getName();
+		String [] split = fullName.split(" ");
+		if(!firstName.equals("")){
+			split[0] = firstName;
+		}
+		if(!lastName.equals("")) {
+			split[1] = lastName;
+		}
+		fullName = split[0] + " " + split[1];
+		
+		return studentRegister.editStudent(studentID, fullName);
 	}
 
 	public Student deleteStudent(String studentID) {

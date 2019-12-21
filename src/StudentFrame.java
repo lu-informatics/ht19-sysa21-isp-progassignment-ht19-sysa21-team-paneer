@@ -149,26 +149,6 @@ public class StudentFrame extends JFrame {
 		layeredPane.add(editPanel, "name_526574109746900");
 		editPanel.setLayout(null);
 
-		JButton btnDeleteStudent = new JButton("Delete Student");
-		btnDeleteStudent.setBounds(178, 553, 146, 29);
-		editPanel.add(btnDeleteStudent);
-		btnDeleteStudent.setVisible(false);
-
-		JButton btnSaveChanges = new JButton("Save changes");
-		btnSaveChanges.setBounds(178, 464, 146, 29);
-		editPanel.add(btnSaveChanges);
-		btnSaveChanges.setVisible(false);
-
-		textField_EditFName = new JTextField();
-		textField_EditFName.setBounds(178, 386, 146, 26);
-		editPanel.add(textField_EditFName);
-		textField_EditFName.setColumns(10);
-		textField_EditFName.setVisible(false);
-
-		JLabel lblStudentAdministration = new JLabel("Student Administration");
-		lblStudentAdministration.setBounds(15, 40, 176, 20);
-		contentPane.add(lblStudentAdministration);
-
 		JLabel lblEditStudent = new JLabel("Edit Student");
 		lblEditStudent.setBounds(15, 27, 115, 20);
 		editPanel.add(lblEditStudent);
@@ -176,6 +156,10 @@ public class StudentFrame extends JFrame {
 		JLabel lblChooseAStudent = new JLabel("Choose a student below");
 		lblChooseAStudent.setBounds(15, 63, 210, 20);
 		editPanel.add(lblChooseAStudent);
+
+		JLabel lblStudentAdministration = new JLabel("Student Administration");
+		lblStudentAdministration.setBounds(15, 40, 176, 20);
+		contentPane.add(lblStudentAdministration);
 
 		JLabel lblStudentFound = new JLabel("");
 		lblStudentFound.setBounds(15, 243, 309, 20);
@@ -200,6 +184,10 @@ public class StudentFrame extends JFrame {
 		lblNewLastname.setBounds(15, 414, 115, 20);
 		editPanel.add(lblNewLastname);
 		lblNewLastname.setVisible(false);
+
+		JLabel labelIdFound = new JLabel("");
+		labelIdFound.setBounds(15, 303, 254, 20);
+		editPanel.add(labelIdFound);
 
 		textField_EditLName = new JTextField();
 		textField_EditLName.setBounds(178, 411, 146, 26);
@@ -227,21 +215,33 @@ public class StudentFrame extends JFrame {
 		lblOrSearchBy.setBounds(15, 149, 186, 20);
 		editPanel.add(lblOrSearchBy);
 
-		JLabel lblUseFormatS = new JLabel("Use format S10000-99999");
-		lblUseFormatS.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		lblUseFormatS.setBounds(15, 207, 146, 20);
-		editPanel.add(lblUseFormatS);
+		textField_EditFName = new JTextField();
+		textField_EditFName.setBounds(178, 386, 146, 26);
+		editPanel.add(textField_EditFName);
+		textField_EditFName.setColumns(10);
+		textField_EditFName.setVisible(false);
 
 		textFindStudentById = new JTextField();
 		textFindStudentById.setBounds(15, 185, 146, 26);
 		editPanel.add(textFindStudentById);
 		textFindStudentById.setColumns(10);
 
-		JLabel labelIdFound = new JLabel("");
-		labelIdFound.setBounds(15, 303, 254, 20);
-		editPanel.add(labelIdFound);
+		JLabel lblUseFormatS = new JLabel("Use format S10000-99999");
+		lblUseFormatS.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		lblUseFormatS.setBounds(15, 207, 146, 20);
+		editPanel.add(lblUseFormatS);
 
-//shows name and Id of the student searched for
+		JButton btnDeleteStudent = new JButton("Delete Student");
+		btnDeleteStudent.setBounds(178, 553, 146, 29);
+		editPanel.add(btnDeleteStudent);
+		btnDeleteStudent.setVisible(false);
+
+		JButton btnSaveChanges = new JButton("Save changes");
+		btnSaveChanges.setBounds(178, 464, 146, 29);
+		editPanel.add(btnSaveChanges);
+		btnSaveChanges.setVisible(false);
+
+		// shows name and Id of the student searched for and enables further options
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -277,7 +277,7 @@ public class StudentFrame extends JFrame {
 		// Change name of Student
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.editStudent(textFindStudentById.getText(), textField_EditFName.getText());
+				viewController.editStudent(textFindStudentById.getText(), textField_EditFName.getText(), textField_EditLName.getText());
 				lblStudentFound.setText("Student updated");
 				labelIdFound.setText(viewController.findStudentiD(textFindStudentById.getText()));
 				lblNameFound.setText(viewController.findStudentName(textFindStudentById.getText()));
