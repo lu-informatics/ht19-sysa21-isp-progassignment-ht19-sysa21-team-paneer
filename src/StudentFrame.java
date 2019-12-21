@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import java.awt.EventQueue;
 
@@ -10,10 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-import java.awt.Panel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-import java.util.Map;
+
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
@@ -31,8 +29,9 @@ public class StudentFrame extends JFrame {
 		return lblResponse;
 	}
 
-	public void setLblResponse(JLabel lblResponse) {
-		this.lblResponse = lblResponse;
+	public void setLblResponse(String response) {
+		lblResponse.setText(response);
+		;
 	}
 
 	private JLabel lblResponse;
@@ -125,15 +124,21 @@ public class StudentFrame extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String nameInput = textField_FNameInput.getText() + " " + textField_LNameInput.getText();
-					String studentId = viewController.generateStudentID();
-					viewController.registerNewStudent(studentId, nameInput);
-					lblResponse.setText("Student created:");
-					lblNameRegistered.setText("Name: " + viewController.findStudentName(studentId));
-					lblStudentId.setText("Student ID: " + viewController.findStudentiD(studentId));
-					textField_FNameInput.setText(" ");
-					textField_LNameInput.setText(" ");
-				} catch (NullPointerException nex) {
+					if (!textField_FNameInput.getText().equals("") && !textField_LNameInput.getText().equals("")) {
+						String studentId = viewController.generateStudentID();
+						viewController.registerNewStudent(studentId, textField_FNameInput.getText(),
+								textField_LNameInput.getText());
+						lblResponse.setText("Student created:");
+						lblNameRegistered.setText("Name: " + viewController.findStudentName(studentId));
+						lblStudentId.setText("Student ID: " + viewController.findStudentiD(studentId));
+						textField_FNameInput.setText(" ");
+						textField_LNameInput.setText(" ");
+					} else {
+						lblResponse.setText("Please enter both a first- and a lastname");
+					}
+				}
+
+				catch (NullPointerException nex) {
 					lblResponse.setText("Something went wrong. Please contact admin.");
 
 				}
@@ -243,6 +248,10 @@ public class StudentFrame extends JFrame {
 
 		// shows name and Id of the student searched for and enables further options
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setBounds(190, 185, 79, 26);
+		editPanel.add(btnSearch);
+
+		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -261,7 +270,7 @@ public class StudentFrame extends JFrame {
 					lblNewLastname.setVisible(true);
 					lblNewLastname.setVisible(true);
 					textField_EditLName.setVisible(true);
-					lblRemoveStudent.setVisible(false);
+					lblRemoveStudent.setVisible(true);
 
 				} catch (NullPointerException nex) {
 					lblStudentFound.setVisible(true);
@@ -271,13 +280,12 @@ public class StudentFrame extends JFrame {
 			}
 		});
 
-		btnSearch.setBounds(190, 185, 79, 26);
-		editPanel.add(btnSearch);
-
+		
 		// Change name of Student
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.editStudent(textFindStudentById.getText(), textField_EditFName.getText(), textField_EditLName.getText());
+				viewController.editStudent(textFindStudentById.getText(), textField_EditFName.getText(),
+						textField_EditLName.getText());
 				lblStudentFound.setText("Student updated");
 				labelIdFound.setText(viewController.findStudentiD(textFindStudentById.getText()));
 				lblNameFound.setText(viewController.findStudentName(textFindStudentById.getText()));
@@ -291,6 +299,7 @@ public class StudentFrame extends JFrame {
 					viewController.deleteStudent(
 							viewController.studentRegister.findStudent(textFindStudentById.getText()).getStudentId());
 					lblStudentFound.setText("Student deleted");
+					textFindStudentById.setText("");
 					labelIdFound.setVisible(false);
 					lblNameFound.setVisible(false);
 				} catch (NullPointerException nex) {
@@ -325,6 +334,14 @@ public class StudentFrame extends JFrame {
 		btnFindStudent.setBounds(15, 218, 204, 29);
 		contentPane.add(btnFindStudent);
 
-	}
+		JButton btnBackToStart = new JButton("Back to main menu");
+		btnBackToStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.backToMainMenu(viewController);
+			}
+		});
+		btnBackToStart.setBounds(15, 400, 204, 29);
+		contentPane.add(btnBackToStart);
 
+	}
 }

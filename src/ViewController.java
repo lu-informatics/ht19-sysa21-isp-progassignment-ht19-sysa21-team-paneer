@@ -7,6 +7,7 @@ public class ViewController {
 
 	private Integer studentId = 9999;
 	private Integer courseId = 9999;
+	private Integer examId = 9999;
 
 	// Kopplar till grï¿½nssnitten
 	CourseFrame courseFrame;
@@ -52,25 +53,25 @@ public class ViewController {
 	}
 
 	// Metoder för StudentFrame-objekt
-	public void registerNewStudent(String studentId, String name) {
+	public void registerNewStudent(String studentId, String firstName, String lastName) {
+
 		Student tmpStudent = new Student();
-		tmpStudent.setName(name);
 		tmpStudent.setStudentId(studentId);
+		tmpStudent.setName(firstName + " " + lastName);
 		studentRegister.addStudent(tmpStudent);
-		
 	}
 
 	public Student editStudent(String studentID, String firstName, String lastName) {
 		String fullName = studentRegister.findStudent(studentID).getName();
-		String [] split = fullName.split(" ");
-		if(!firstName.equals("")){
+		String[] split = fullName.split(" ");
+		if (!firstName.equals("")) {
 			split[0] = firstName;
 		}
-		if(!lastName.equals("")) {
+		if (!lastName.equals("")) {
 			split[1] = lastName;
 		}
 		fullName = split[0] + " " + split[1];
-		
+
 		return studentRegister.editStudent(studentID, fullName);
 	}
 
@@ -110,6 +111,18 @@ public class ViewController {
 		} else
 			return courseId.toString(); /// mï¿½ste ï¿½ndras till nï¿½got vettigt tex popup
 	}
+	
+	public String generateExamID() {
+		if (examId < 100000) {
+			do {
+				examId++;
+			} while (examRegister.findExam("E" + examId.toString()) != null);
+
+			return "E" + examId.toString();
+		} else
+			return examId.toString(); /// mï¿½ste ï¿½ndras till nï¿½got vettigt tex popup
+	}
+
 
 	// Vykontroller
 	public void administrateStudents(ViewController controller) {
@@ -125,6 +138,13 @@ public class ViewController {
 	public void resultReports(ViewController controller) {
 		resultFrame.setVisible(true);
 		startFrame.setVisible(false);
+	}
+
+	public void backToMainMenu(ViewController controller) {
+		startFrame.setVisible(true);
+		resultFrame.setVisible(false);
+		courseFrame.setVisible(true);
+		studentFrame.setVisible(false);
 	}
 
 	public void editOrDeleteCourse() {
