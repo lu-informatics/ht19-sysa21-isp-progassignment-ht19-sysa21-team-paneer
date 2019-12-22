@@ -348,7 +348,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblExamId = new JLabel("Exam ID:");
 		panelExistingExam.add(lblExamId);
 		
-		JComboBox<String> comboBoxExamID = new JComboBox(viewController.getExams());
+		JComboBox<String> comboBoxExamID = new JComboBox<String>(viewController.getExams());
 		panelExistingExam.add(comboBoxExamID);
 		
 		JButton btnRemoveFromCourse = new JButton("Remove from course");
