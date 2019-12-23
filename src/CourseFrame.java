@@ -44,8 +44,11 @@ public class CourseFrame extends JFrame {
 	
 	private JComboBox<String> comboBoxCourseID;
 	private JComboBox<String> comboBoxChooseCourse;
+	private JComboBox<String> comboBoxExamID;
 	private JComboBox<String> comboBoxRegisterExamID;
 	private JComboBox<String> comboBoxExamIDUnregister;
+	private JComboBox<String> comboBoxStudentID;
+	private JComboBox<String> comboBoxStudentIDUnregister;
 	private final ButtonGroup buttonGroupCourses = new ButtonGroup();
 	private DefaultComboBoxModel<String> examModel;
 
@@ -55,6 +58,63 @@ public class CourseFrame extends JFrame {
 
 	public void setExamModel(DefaultComboBoxModel<String> examModel) {
 		this.examModel = examModel;
+	}
+	
+
+	public JComboBox<String> getComboBoxCourseID() {
+		return comboBoxCourseID;
+	}
+
+	public void setComboBoxCourseID(JComboBox<String> comboBoxCourseID) {
+		this.comboBoxCourseID = comboBoxCourseID;
+	}
+
+	public JComboBox<String> getComboBoxChooseCourse() {
+		return comboBoxChooseCourse;
+	}
+
+	public void setComboBoxChooseCourse(JComboBox<String> comboBoxChooseCourse) {
+		this.comboBoxChooseCourse = comboBoxChooseCourse;
+	}
+
+	public JComboBox<String> getComboBoxExamID() {
+		return comboBoxExamID;
+	}
+
+	public void setComboBoxExamID(JComboBox<String> comboBoxExamID) {
+		this.comboBoxExamID = comboBoxExamID;
+	}
+
+	public JComboBox<String> getComboBoxRegisterExamID() {
+		return comboBoxRegisterExamID;
+	}
+
+	public void setComboBoxRegisterExamID(JComboBox<String> comboBoxRegisterExamID) {
+		this.comboBoxRegisterExamID = comboBoxRegisterExamID;
+	}
+
+	public JComboBox<String> getComboBoxExamIDUnregister() {
+		return comboBoxExamIDUnregister;
+	}
+
+	public void setComboBoxExamIDUnregister(JComboBox<String> comboBoxExamIDUnregister) {
+		this.comboBoxExamIDUnregister = comboBoxExamIDUnregister;
+	}
+
+	public JComboBox<String> getComboBoxStudentID() {
+		return comboBoxStudentID;
+	}
+
+	public void setComboBoxStudentID(JComboBox<String> comboBoxStudentID) {
+		this.comboBoxStudentID = comboBoxStudentID;
+	}
+
+	public JComboBox<String> getComboBoxStudentIDUnregister() {
+		return comboBoxStudentIDUnregister;
+	}
+
+	public void setComboBoxStudentIDUnregister(JComboBox<String> comboBoxStudentIDUnregister) {
+		this.comboBoxStudentIDUnregister = comboBoxStudentIDUnregister;
 	}
 
 	/**
@@ -344,7 +404,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblExamId = new JLabel("Exam ID:");
 		panelExistingExam.add(lblExamId);
 		
-		JComboBox<String> comboBoxExamID = new JComboBox<String>(viewController.getExams());
+		comboBoxExamID = new JComboBox<String>(viewController.getExams());
 		panelExistingExam.add(comboBoxExamID);
 		
 		JButton btnRemoveFromCourse = new JButton("Remove from course");
@@ -440,7 +500,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblStudentId = new JLabel("Student ID");
 		panelRegisterStudent.add(lblStudentId);
 		
-		JComboBox<String> comboBoxStudentID = new JComboBox<String>();
+		comboBoxStudentID = new JComboBox<String>();
 		panelRegisterStudent.add(comboBoxStudentID);
 		
 		JButton btnRegisterStudent = new JButton("Register student");
@@ -463,7 +523,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblStudentId_1 = new JLabel("Student ID:");
 		panelUnregisterStudent.add(lblStudentId_1);
 		
-		JComboBox<String> comboBoxStudentIDUnregister = new JComboBox<String>();
+		comboBoxStudentIDUnregister = new JComboBox<String>();
 		panelUnregisterStudent.add(comboBoxStudentIDUnregister);
 		
 		JButton btnUnregisterStudent = new JButton("Unregister student");
@@ -477,4 +537,5 @@ public class CourseFrame extends JFrame {
 		});
 		panelUnregisterStudent.add(btnUnregisterStudent);
 	}
+
 }
