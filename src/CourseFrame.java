@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -406,7 +407,7 @@ public class CourseFrame extends JFrame {
 		JButton btnRemoveFromCourse = new JButton("Remove from course");
 		btnRemoveFromCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String courseCode = comboBoxCourseID.getSelectedItem().toString();
+				String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
 				String examID = comboBoxExamID.getSelectedItem().toString();
 				viewController.removeFromCourse(courseCode, examID);
 
@@ -417,7 +418,7 @@ public class CourseFrame extends JFrame {
 		JButton btnAddToCourse = new JButton("Add to course");
 		btnAddToCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String courseCode = comboBoxCourseID.getSelectedItem().toString();
+				String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
 				String examID = comboBoxExamID.getSelectedItem().toString();
 				viewController.addToCourse(courseCode, examID);
 			}
@@ -464,14 +465,14 @@ public class CourseFrame extends JFrame {
 		JButton btnAddExamTo = new JButton("Add exam to course");
 		btnAddExamTo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DateModel model = datePicker.getModel();
+				Date date = (Date) datePicker.getModel().getValue();
 				String hours = textFieldHours.getText();
 				String minutes = textFieldMinutes.getText();
 				String location = comboBoxLocation.getSelectedItem().toString();
 				String examID = viewController.generateExamID();
 				String courseID = (String) comboBoxChooseCourse.getSelectedItem();
 				
-				viewController.addNewExamToCourse(model, hours, minutes, location, examID, courseID);
+				viewController.addNewExamToCourse(date, hours, minutes, location, examID, courseID);
 
 			}
 		});
@@ -479,9 +480,6 @@ public class CourseFrame extends JFrame {
 		
 		JLabel lblCourseIdChooseCourse = new JLabel("Course ID:");
 		panelChooseCourse.add(lblCourseIdChooseCourse);
-		
-		
-		
 		
 		JLabel lblExamId_1 = new JLabel("Exam ID");
 		panelRegisterStudent.add(lblExamId_1);
