@@ -231,7 +231,7 @@ public class ViewController {
 				examID++;
 			} while (examRegister.findExam("E" + examID.toString()) != null);
 
-			return "C" + examID.toString();
+			return "E" + examID.toString();
 		} else
 			return examID.toString(); /// m�ste �ndras till n�got vettigt tex popup
 	}
