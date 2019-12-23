@@ -78,7 +78,6 @@ public class ViewController {
 		Course c = courseRegister.findCourse(courseID);
 		WrittenExam e = examRegister.findExam(examID);
 		c.addExam(e);
-		e.setCourse(c);
 	}
 	public WrittenExam removeFromCourse(String courseID, String examID) {
 		Course c = courseRegister.findCourse(courseID);
@@ -86,7 +85,7 @@ public class ViewController {
 		return c.removeExam(examID);
 		
 	}
-	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location, String courseID) {
+	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location, String examID, String courseID) {
 		WrittenExam e = new WrittenExam();
 		Course c = courseRegister.findCourse(courseID);
 		e.setDate(model);
@@ -97,11 +96,10 @@ public class ViewController {
 		e.setTime(time);
 		
 		e.setLocation(location);
-		e.setExamId(this.generateExamID());
+		e.setExamId(examID);
 		
 		examRegister.addExam(e);
 		c.addExam(e);
-		e.setCourse(c);
 		
 	}
 	public void registerStudent(String studentID, String examID) {
