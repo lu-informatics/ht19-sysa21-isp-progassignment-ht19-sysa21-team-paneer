@@ -253,6 +253,13 @@ public class ViewController {
 		startFrame.setVisible(false);
 	}
 
+	public void returnToMain() {
+		startFrame.setVisible(true);
+		courseFrame.setVisible(false);
+		resultFrame.setVisible(false);
+		studentFrame.setVisible(false);
+	}
+
 	
 
 }

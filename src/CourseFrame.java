@@ -141,7 +141,7 @@ public class CourseFrame extends JFrame {
 	public CourseFrame(ViewController viewController) {
 		this.viewController = viewController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 829, 482);
+		setBounds(100, 100, 538, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -162,7 +162,7 @@ public class CourseFrame extends JFrame {
 		panelCourseRegister.add(lblCourseRegister);
 		
 		panelEdit = new JPanel();
-		panelEdit.setBounds(538, 68, 251, 245);
+		panelEdit.setBounds(10, 187, 251, 211);
 		contentPane.add(panelEdit);
 		panelEdit.setVisible(false);
 		
@@ -221,7 +221,7 @@ public class CourseFrame extends JFrame {
 		textFieldEditCourseName.setColumns(10);
 
 		panelAdd = new JPanel();
-		panelAdd.setBounds(10, 187, 251, 245);
+		panelAdd.setBounds(10, 187, 251, 211);
 		contentPane.add(panelAdd);
 		panelAdd.setLayout(null);
 		panelAdd.setVisible(false);
@@ -268,7 +268,7 @@ public class CourseFrame extends JFrame {
 		panelWrittenExams.add(lblNewLabel);
 		
 		JPanel panelAddNewExam = new JPanel();
-		panelAddNewExam.setBounds(271, 187, 241, 245);
+		panelAddNewExam.setBounds(271, 187, 241, 211);
 		contentPane.add(panelAddNewExam);
 		panelAddNewExam.setVisible(false);
 		
@@ -278,17 +278,17 @@ public class CourseFrame extends JFrame {
 		panelChooseCourse.setVisible(false);
 		
 		JPanel panelExistingExam = new JPanel();
-		panelExistingExam.setBounds(271, 187, 241, 245);
+		panelExistingExam.setBounds(271, 187, 241, 211);
 		contentPane.add(panelExistingExam);
 		panelExistingExam.setVisible(false);
 
 		JPanel panelRegisterStudent = new JPanel();
-		panelRegisterStudent.setBounds(271, 187, 241, 245);
+		panelRegisterStudent.setBounds(271, 187, 241, 211);
 		contentPane.add(panelRegisterStudent);
 		panelRegisterStudent.setVisible(false);
 		
 		JPanel panelUnregisterStudent = new JPanel();
-		panelUnregisterStudent.setBounds(271, 187, 241, 245);
+		panelUnregisterStudent.setBounds(271, 187, 241, 211);
 		contentPane.add(panelUnregisterStudent);
 		panelUnregisterStudent.setVisible(false);
 		
@@ -526,6 +526,14 @@ public class CourseFrame extends JFrame {
 			}
 		});
 		panelUnregisterStudent.add(btnUnregisterStudent);
+		
+		JButton btnGoBack = new JButton("Return to main menu");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.returnToMain();
+			}
+		});
+		btnGoBack.setBounds(361, 403, 151, 29);
+		contentPane.add(btnGoBack);
 	}
-
 }
