@@ -2,6 +2,7 @@
 import java.awt.EventQueue;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,10 +94,10 @@ public class ViewController {
 		
 		
 	}
-	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location, String examID, String courseID) {
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseID) {
 		WrittenExam e = new WrittenExam();
 		Course c = courseRegister.findCourse(courseID);
-		e.setDate(model);
+		e.setDate(date);
 		
 		int hour = Integer.parseInt(hours);
 		int minute = Integer.parseInt(minutes);
@@ -129,7 +130,7 @@ public class ViewController {
 		return locations;
 	}
 	
-	public DefaultComboBoxModel getCourses() {
+	public DefaultComboBoxModel<String> getCourses() {
 		int i = 0;
 		HashMap<String, Course> courseList = courseRegister.getCourseList();
 		String [] courses = new String [courseList.size()];
@@ -138,9 +139,9 @@ public class ViewController {
 		    courses[i] = key;
 		    i++;
 		}
-		return new DefaultComboBoxModel(courses);
+		return new DefaultComboBoxModel<String>(courses);
 	}
-	public DefaultComboBoxModel getExams() {
+	public DefaultComboBoxModel<String> getExams() {
 		int i = 0;
 		HashMap<String, WrittenExam> examList = examRegister.getRegister();
 		String [] exams = new String [examList.size()];
@@ -149,7 +150,7 @@ public class ViewController {
 		    exams[i] = key;
 		    i++;
 		}
-		return new DefaultComboBoxModel(exams);
+		return new DefaultComboBoxModel<String>(exams);
 	}
 	public DefaultComboBoxModel<String> filterExams(String courseID) {
 		Course course = courseRegister.findCourse(courseID);
