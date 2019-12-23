@@ -51,7 +51,7 @@ public class Test_application {
 			System.out.println(tmp.getExamId());
 		}
 		
-			System.out.println(viewController.filterComboBoxModel("C10000").getSize());
+			System.out.println(viewController.filterExams("C10000").getSize());
 		
 		StartFrame startFrame = new StartFrame(viewController);
 		startFrame.setVisible(true);
