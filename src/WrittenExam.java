@@ -9,7 +9,7 @@ public class WrittenExam {
 
 	private HashMap<Integer, Result> register2 = new HashMap<>();
 	private String examId;
-	private DateModel date;
+	private Date date;
 	private String location;
 	private LocalTime time;
 	private int maxPoints = 100;
@@ -23,11 +23,11 @@ public class WrittenExam {
 		this.examId = examId;
 	}
 
-	public DateModel getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(DateModel date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
