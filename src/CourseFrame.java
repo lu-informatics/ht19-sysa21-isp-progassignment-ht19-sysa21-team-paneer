@@ -209,9 +209,6 @@ public class CourseFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String courseCode = comboBoxCourseID.getSelectedItem().toString();
 				viewController.deleteCourse(courseCode);
-				comboBoxCourseID.removeItem(courseCode);
-				comboBoxChooseCourse.removeItem(courseCode);
-				
 			}
 		});
 		btnDelete.setBounds(10, 211, 65, 23);
@@ -253,8 +250,7 @@ public class CourseFrame extends JFrame {
 				String credits = textFieldAddCredits.getText();
 				String courseCode = viewController.generateCourseID();
 				viewController.addCourse(courseCode, name, credits);
-				comboBoxCourseID.addItem(courseCode);
-				comboBoxChooseCourse.addItem(courseCode);
+				
 			}
 		});
 		btnAdd.setBounds(104, 211, 51, 23);
@@ -413,9 +409,7 @@ public class CourseFrame extends JFrame {
 				String courseCode = comboBoxCourseID.getSelectedItem().toString();
 				String examID = comboBoxExamID.getSelectedItem().toString();
 				viewController.removeFromCourse(courseCode, examID);
-				comboBoxExamID.removeItem(examID);
-				comboBoxRegisterExamID.removeItem(examID);
-				comboBoxExamIDUnregister.removeItem(examID);
+
 			}
 		});
 		panelExistingExam.add(btnRemoveFromCourse);
@@ -478,9 +472,7 @@ public class CourseFrame extends JFrame {
 				String courseID = (String) comboBoxChooseCourse.getSelectedItem();
 				
 				viewController.addNewExamToCourse(model, hours, minutes, location, examID, courseID);
-				comboBoxExamID.addItem(examID);
-				comboBoxRegisterExamID.addItem(examID);
-				comboBoxExamIDUnregister.addItem(examID);
+
 			}
 		});
 		panelAddNewExam.add(btnAddExamTo);
@@ -500,7 +492,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblStudentId = new JLabel("Student ID");
 		panelRegisterStudent.add(lblStudentId);
 		
-		comboBoxStudentID = new JComboBox<String>();
+		comboBoxStudentID = new JComboBox<String>(viewController.getStudents());
 		panelRegisterStudent.add(comboBoxStudentID);
 		
 		JButton btnRegisterStudent = new JButton("Register student");
@@ -523,7 +515,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblStudentId_1 = new JLabel("Student ID:");
 		panelUnregisterStudent.add(lblStudentId_1);
 		
-		comboBoxStudentIDUnregister = new JComboBox<String>();
+		comboBoxStudentIDUnregister = new JComboBox<String>(viewController.getStudents());
 		panelUnregisterStudent.add(comboBoxStudentIDUnregister);
 		
 		JButton btnUnregisterStudent = new JButton("Unregister student");

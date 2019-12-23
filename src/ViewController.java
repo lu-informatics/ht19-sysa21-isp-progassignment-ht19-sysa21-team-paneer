@@ -63,9 +63,13 @@ public class ViewController {
 		c.setCredits(Integer.parseInt(credits));
 		c.setCourseCode(courseCode);
 		courseRegister.addCourse(c);
+		courseFrame.getComboBoxCourseID().addItem(courseCode);
+		courseFrame.getComboBoxChooseCourse().addItem(courseCode);
 	}
 
 	public Course deleteCourse(String courseID) {
+		courseFrame.getComboBoxCourseID().removeItem(courseID);
+		courseFrame.getComboBoxChooseCourse().removeItem(courseID);
 		return courseRegister.removeCourse(courseID);
 	}
 
@@ -82,7 +86,11 @@ public class ViewController {
 	public WrittenExam removeFromCourse(String courseID, String examID) {
 		Course c = courseRegister.findCourse(courseID);
 		examRegister.removeExam(examID);
+		courseFrame.getComboBoxExamID().removeItem(examID);
+		courseFrame.getComboBoxRegisterExamID().removeItem(examID);
+		courseFrame.getComboBoxExamIDUnregister().removeItem(examID);
 		return c.removeExam(examID);
+		
 		
 	}
 	public void addNewExamToCourse(DateModel model, String hours, String minutes, String location, String examID, String courseID) {
@@ -97,6 +105,10 @@ public class ViewController {
 		
 		e.setLocation(location);
 		e.setExamId(examID);
+		
+		courseFrame.getComboBoxExamID().addItem(examID);
+		courseFrame.getComboBoxRegisterExamID().addItem(examID);
+		courseFrame.getComboBoxExamIDUnregister().addItem(examID);
 		
 		examRegister.addExam(e);
 		c.addExam(e);
@@ -139,7 +151,7 @@ public class ViewController {
 		}
 		return new DefaultComboBoxModel(exams);
 	}
-	public DefaultComboBoxModel<String> filterComboBoxModel(String courseID) {
+	public DefaultComboBoxModel<String> filterExams(String courseID) {
 		Course course = courseRegister.findCourse(courseID);
 		HashMap<String, WrittenExam> examList = course.getExamList();
 		
@@ -150,8 +162,17 @@ public class ViewController {
 			i++;
 		}
 		return new DefaultComboBoxModel<String>(exams);
-
-
+	}
+	public DefaultComboBoxModel<String> getStudents() {
+		int i = 0;
+		HashMap<String, Student> studentList = studentRegister.getStudenter();
+		String [] students = new String [studentList.size()];
+		
+		for (String key : studentList.keySet()) {
+		    students[i] = key;
+		    i++;
+		}
+		return new DefaultComboBoxModel<String>(students);
 	}
 
 	// Metoder f�r StudentFrame-objekt
