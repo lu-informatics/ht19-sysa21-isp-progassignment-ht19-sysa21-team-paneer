@@ -34,12 +34,12 @@ public class Test_application {
 		c2.setCredits(20);
 		c1.setName("SYSA12");
 		c2.setName("SySa12");
+		e1.setExamId("E10000");
+		e2.setExamId("E10001");
 		courseRegister.addCourse(c1);
 		courseRegister.addCourse(c2);
 		examRegister.addExam(e1);
 		examRegister.addExam(e2);
-		e1.setExamId("E10000");
-		e2.setExamId("E10001");
 		c1.addExam(e1);
 		c2.addExam(e2);
 		
