@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.jdatepicker.DateModel;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -94,6 +95,38 @@ public class ViewController {
 		
 		
 	}
+	
+	public void showExceptionWindowForEmptyFields() {
+		JOptionPane.showMessageDialog(null, 
+                "Some of the fields were empty. Please fill in all the required fields.", 
+                "Empty fields", 
+                JOptionPane.WARNING_MESSAGE);
+	}
+	public void showExceptionWindowForUnlinkedExam() {
+		JOptionPane.showMessageDialog(null, 
+                "The exam is not part of the selected course. Please choose another exam.", 
+                "Exam not part of course", 
+                JOptionPane.WARNING_MESSAGE);
+	}
+	public void showExceptionWindowForUnlinkedStudent() {
+		JOptionPane.showMessageDialog(null, 
+                "The student is not registered for the selected exam. Please choose another student.", 
+                "Student not registered for exam", 
+                JOptionPane.WARNING_MESSAGE);
+	}
+	public void showExceptionWindowForCreditParseException() {
+		JOptionPane.showMessageDialog(null, 
+                "Please only enter integers in the field \"Credits\".", 
+                "Non-integer values entered", 
+                JOptionPane.WARNING_MESSAGE);
+	}
+	public void showExceptionWindowForTimeParseException() {
+		JOptionPane.showMessageDialog(null, 
+                "Please only enter integer values in the \"Time\" fields in the format hh:mm.", 
+                "Non-integer values entered", 
+                JOptionPane.WARNING_MESSAGE);
+	}
+	
 	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseID) {
 		WrittenExam e = new WrittenExam();
 		Course c = courseRegister.findCourse(courseID);
