@@ -42,6 +42,7 @@ public class CourseFrame extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textFieldHours;
 	private JTextField textFieldMinutes;
+	private JLabel lblResponse;
 	
 	private JComboBox<String> comboBoxCourseID;
 	private JComboBox<String> comboBoxChooseCourse;
@@ -186,6 +187,7 @@ public class CourseFrame extends JFrame {
 				String name = textFieldEditCourseName.getText();
 				
 				viewController.editCourse(courseCode, credits, name);
+				lblResponse.setText("Course edited.");
 			}
 		});
 		panelEdit.setLayout(null);
@@ -210,6 +212,7 @@ public class CourseFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String courseCode = comboBoxCourseID.getSelectedItem().toString();
 				viewController.deleteCourse(courseCode);
+				lblResponse.setText("Course deleted.");
 			}
 		});
 		btnDelete.setBounds(10, 211, 65, 23);
@@ -251,7 +254,7 @@ public class CourseFrame extends JFrame {
 				String credits = textFieldAddCredits.getText();
 				String courseCode = viewController.generateCourseID();
 				viewController.addCourse(courseCode, name, credits);
-				
+				lblResponse.setText("Course added.");
 			}
 		});
 		btnAdd.setBounds(104, 211, 51, 23);
@@ -410,6 +413,7 @@ public class CourseFrame extends JFrame {
 				String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
 				String examID = comboBoxExamID.getSelectedItem().toString();
 				viewController.removeFromCourse(courseCode, examID);
+				lblResponse.setText("Exam removed from course.");
 
 			}
 		});
@@ -421,6 +425,7 @@ public class CourseFrame extends JFrame {
 				String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
 				String examID = comboBoxExamID.getSelectedItem().toString();
 				viewController.addToCourse(courseCode, examID);
+				lblResponse.setText("Exam added to course.");
 			}
 		});
 		panelExistingExam.add(btnAddToCourse);
@@ -473,7 +478,7 @@ public class CourseFrame extends JFrame {
 				String courseID = (String) comboBoxChooseCourse.getSelectedItem();
 				
 				viewController.addNewExamToCourse(date, hours, minutes, location, examID, courseID);
-
+				lblResponse.setText("Exam added to course.");
 			}
 		});
 		panelAddNewExam.add(btnAddExamTo);
@@ -500,6 +505,7 @@ public class CourseFrame extends JFrame {
 				String studentID = comboBoxStudentID.getSelectedItem().toString();
 				
 				viewController.registerStudent(studentID, examID);
+				lblResponse.setText("Student registered.");
 			}
 		});
 		panelRegisterStudent.add(btnRegisterStudent);
@@ -523,6 +529,7 @@ public class CourseFrame extends JFrame {
 				String studentID = comboBoxStudentIDUnregister.getSelectedItem().toString();
 				
 				viewController.unregisterStudent(studentID, examID);
+				lblResponse.setText("Student unregistered.");
 			}
 		});
 		panelUnregisterStudent.add(btnUnregisterStudent);
@@ -535,5 +542,9 @@ public class CourseFrame extends JFrame {
 		});
 		btnGoBack.setBounds(361, 403, 151, 29);
 		contentPane.add(btnGoBack);
+		
+		lblResponse = new JLabel("");
+		lblResponse.setBounds(10, 403, 251, 29);
+		contentPane.add(lblResponse);
 	}
 }
