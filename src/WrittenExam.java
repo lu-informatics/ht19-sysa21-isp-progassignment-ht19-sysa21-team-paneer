@@ -7,6 +7,7 @@ import org.jdatepicker.DateModel;
 
 public class WrittenExam {
 
+	private HashMap<String, Result> register = new HashMap<>();
 	private HashMap<Integer, Result> register2 = new HashMap<>();
 	private String examId;
 	private Date date;
@@ -15,6 +16,13 @@ public class WrittenExam {
 	private int maxPoints = 100;
 	private Course course;
 
+	public HashMap<String, Result> getRegister() {
+		return register;
+	}
+
+	public void setRegister(HashMap<String, Result> register) {
+		this.register = register;
+	}
 	public String getExamId() {
 		return examId;
 	}
@@ -72,10 +80,12 @@ public class WrittenExam {
 	}
 
 	public void addResult(Result result) {
+		register.put(result.getStudent().getStudentId(),result);
 		register2.put(result.getResult(), result);
 	}
 
 	public Result removeResult(Result result) {
+		register.put(result.getStudent().getStudentId(),result);
 		return register2.remove(result.getResult());
 	}
 	//Hjälpfunktion 
@@ -134,6 +144,8 @@ public class WrittenExam {
 	public int calculateNumberOf() {
 		return register2.values().size();
 	}
+
+	
 }
 //TODO Ta bort och byt till riktiga klassen
 //class Student {
