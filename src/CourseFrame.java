@@ -533,12 +533,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblExamId_1 = new JLabel("Exam ID");
 		panelRegisterStudent.add(lblExamId_1);
 		
-		comboBoxExamIDRegister = new JComboBox<String>();
-		comboBoxExamIDRegister.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewController.filterStudents((String)comboBoxExamID.getSelectedItem());
-			}
-		});
+		comboBoxExamIDRegister = new JComboBox<String>(viewController.getExams());
 		panelRegisterStudent.add(comboBoxExamIDRegister);
 		
 		JLabel lblStudentId = new JLabel("Student ID");
