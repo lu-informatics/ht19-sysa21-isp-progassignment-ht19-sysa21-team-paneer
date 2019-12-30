@@ -31,7 +31,9 @@ public class Student {
 	public void registerExam(WrittenExam exam) {
 		Result r = new Result();
 		r.setExam(exam);
+		r.setStudent(this);
 		results.put(exam.getExamId(), r);
+		exam.addResult(r);
 	}
 	
 	public WrittenExam unregisterExam(String examID) {
