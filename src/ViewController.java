@@ -1,5 +1,4 @@
 
-import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -201,9 +200,10 @@ public class ViewController {
 			exams[i] = key;
 			i++;
 		}
-		courseFrame.getComboBoxExamIDUnregister().setModel(new DefaultComboBoxModel<String>(exams));
-		courseFrame.getComboBoxExamIDRegister().setModel(new DefaultComboBoxModel<String>(exams));
-		courseFrame.getComboBoxExamID().setModel(new DefaultComboBoxModel<String>(exams));
+		DefaultComboBoxModel<String> filteredExamModel = new DefaultComboBoxModel<String>(exams);
+		courseFrame.getComboBoxExamIDUnregister().setModel(filteredExamModel);
+		courseFrame.getComboBoxExamIDRegister().setModel(filteredExamModel);
+		courseFrame.getComboBoxExamID().setModel(filteredExamModel);
 	}
 	public DefaultComboBoxModel<String> getStudents() {
 		int i = 0;
@@ -217,17 +217,17 @@ public class ViewController {
 		return new DefaultComboBoxModel<String>(students);
 	}
 	public void filterStudents(String examID) {
-		WrittenExam e = examRegister.findExam(examID);
 		int i = 0;
-		HashMap<String, Student> keySet = (HashMap<String, Student>) e.getRegister().keySet();
-		HashMap<String, Student> studentList = keySet;
+		WrittenExam e = examRegister.findExam(examID);
+		HashMap<String, Result> studentList = e.getRegister();
 		String [] students = new String [studentList.size()];
-		
 		for (String key : studentList.keySet()) {
 		    students[i] = key;
 		    i++;
 		}
-		return new DefaultComboBoxModel<String>(students);
+		
+		DefaultComboBoxModel<String> filteredStudentModel = new DefaultComboBoxModel<String>(students);
+		courseFrame.getComboBoxStudentIDUnregister().setModel(filteredStudentModel);
 	}
 
 	// Metoder f�r StudentFrame-objekt
