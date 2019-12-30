@@ -27,6 +27,28 @@ public class Test_application {
 			System.out.println(tmp.getStudentId());
 		}
 		
+		Result s1e1 = new Result();
+		Result s1e2 = new Result();
+		Result s2e1 = new Result();
+		Result s2e2 = new Result();
+		s1e1.setStudent(s1);
+		s1e1.setExam(e1);
+		s1e2.setStudent(s1);
+		s1e2.setExam(e2);
+		s2e1.setStudent(s2);
+		s2e1.setExam(e1);
+		s2e2.setStudent(s2);
+		s2e2.setExam(e2);
+		
+		e1.addResult(s1e1);
+		e1.addResult(s2e1);
+		e2.addResult(s1e2);
+		e2.addResult(s2e2);
+		
+		s1.registerExam(e1);
+		s1.registerExam(e2);
+		s2.registerExam(e2);
+		s2.registerExam(e2);
 		
 		c1.setCourseCode("C10000");
 		c2.setCourseCode("C10001");
