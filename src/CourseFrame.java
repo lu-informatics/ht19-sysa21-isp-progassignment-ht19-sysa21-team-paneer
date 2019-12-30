@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.DateTimeException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -311,22 +312,15 @@ public class CourseFrame extends JFrame {
 		contentPane.add(panelUnregisterStudent);
 		panelUnregisterStudent.setVisible(false);
 		
-		JRadioButton rdbtnNewCourse = new JRadioButton("New course");
-		buttonGroupCourses.add(rdbtnNewCourse);
-		rdbtnNewCourse.addActionListener(new ActionListener() {
+		JButton btnNewCourse = new JButton("New course");
+		buttonGroupCourses.add(btnNewCourse);
+		btnNewCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelAdd.setVisible(true);
 				
-				panelEdit.setVisible(false);
-				panelExistingExam.setVisible(false);
-				panelAddNewExam.setVisible(false);
-				panelChooseCourse.setVisible(false);
-				panelUnregisterStudent.setVisible(false);
-				panelRegisterStudent.setVisible(false);
 			}
 		});
-		rdbtnNewCourse.setBounds(10, 46, 89, 23);
-		panelCourseRegister.add(rdbtnNewCourse);
+		btnNewCourse.setBounds(10, 46, 89, 23);
+		panelCourseRegister.add(btnNewCourse);
 		
 		JRadioButton rdbtnEditOrDelete = new JRadioButton("Edit or delete course");
 		buttonGroupCourses.add(rdbtnEditOrDelete);
@@ -345,7 +339,7 @@ public class CourseFrame extends JFrame {
 		rdbtnEditOrDelete.setBounds(10, 87, 147, 23);
 		panelCourseRegister.add(rdbtnEditOrDelete);
 		
-		JRadioButton rdbtnAddNew = new JRadioButton("Add new to selected course");
+		JRadioButton rdbtnAddNew = new JRadioButton("Add new exam to selected course");
 		rdbtnAddNew.setBounds(6, 33, 202, 23);
 		buttonGroup.add(rdbtnAddNew);
 		panelWrittenExams.add(rdbtnAddNew);
@@ -363,11 +357,11 @@ public class CourseFrame extends JFrame {
 	           
 		});
 		
-		JRadioButton rdbtnAddExisting = new JRadioButton("Add/remove existing");
-		rdbtnAddExisting.setBounds(6, 59, 162, 23);
-		buttonGroup.add(rdbtnAddExisting);
-		panelWrittenExams.add(rdbtnAddExisting);
-		rdbtnAddExisting.addActionListener(new ActionListener( ) {
+		JRadioButton rdbtnRemoveExisting = new JRadioButton("Remove existing");
+		rdbtnRemoveExisting.setBounds(6, 59, 162, 23);
+		buttonGroup.add(rdbtnRemoveExisting);
+		panelWrittenExams.add(rdbtnRemoveExisting);
+		rdbtnRemoveExisting.addActionListener(new ActionListener( ) {
 			public void actionPerformed(ActionEvent e) {
 				panelExistingExam.setVisible(true);
 				panelChooseCourse.setVisible(true);
@@ -522,6 +516,9 @@ public class CourseFrame extends JFrame {
 				}
 				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
+				}
+				catch (DateTimeException exception) {
+					viewController.showExceptionWindowForTimeParseException();
 				}
 			}
 		});
