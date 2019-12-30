@@ -38,7 +38,8 @@ public class Student {
 	
 	public WrittenExam unregisterExam(String examID) {
 		WrittenExam w = results.get(examID).getExam();
-		results.remove(examID);
+		Result r = results.remove(examID);
+		w.removeResult(r);
 		return w;
 		
 	}

@@ -2,7 +2,7 @@
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
-
+import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -60,33 +60,54 @@ public class ViewController {
 		}
 		c.setCourseCode(courseCode);
 		courseRegister.addCourse(c);
-		courseFrame.getComboBoxCourseID().addItem(courseCode);
-		courseFrame.getComboBoxChooseCourse().addItem(courseCode);
+		
+		courseFrame.getComboBoxCourseID().addItem(c.getName() + ", " + courseCode);
+		courseFrame.getComboBoxChooseCourse().addItem(c.getName() + ", " + courseCode);
 	}
 
-	public Course deleteCourse(String courseID) {
-		courseFrame.getComboBoxCourseID().removeItem(courseID);
-		courseFrame.getComboBoxChooseCourse().removeItem(courseID);
-		return courseRegister.removeCourse(courseID);
+	public void deleteCourse(String courseString) {
+		courseFrame.getComboBoxCourseID().removeItem(courseString);
+		courseFrame.getComboBoxChooseCourse().removeItem(courseString);
+		int startIndex = courseString.indexOf(",") + 2;
+		int endIndex = courseString.length();
+		String courseCode = courseString.substring(startIndex, endIndex);
+		courseRegister.removeCourse(courseCode);
+		
+		courseFrame.getComboBoxCourseID().removeItem(courseString);
+		courseFrame.getComboBoxChooseCourse().removeItem(courseString);
 	}
 
-	public Course editCourse(String courseID, String courseCredits, String name) throws IntegerParseException{
+	public void editCourse(String courseString, String courseCredits, String name) throws IntegerParseException{
 		try {
 		int credits = Integer.parseInt(courseCredits);
-		return courseRegister.editCourse(courseID, name, credits);
+		int startIndex = courseString.indexOf(",") + 2;
+		int endIndex = courseString.length();
+		String courseCode = courseString.substring(startIndex, endIndex);
+		courseRegister.editCourse(courseCode, name, credits);
+		
+		courseFrame.getComboBoxCourseID().setModel(this.getCourses());
+		courseFrame.getComboBoxChooseCourse().setModel(this.getCourses());
 		}
 		catch (NumberFormatException exception) {
 			throw new IntegerParseException();
 		}
 	}
 	
-	public void addToCourse(String courseID, String examID) {
-		Course c = courseRegister.findCourse(courseID);
+	public void addToCourse(String courseString, String examID) {
+		int startIndex = courseString.indexOf(",") + 2;
+		int endIndex = courseString.length();
+		String courseCode = courseString.substring(startIndex, endIndex);
+		Course c = courseRegister.findCourse(courseCode);
+		
 		WrittenExam e = examRegister.findExam(examID);
 		c.addExam(e);
+		e.setCourse(c);
 	}
-	public WrittenExam removeFromCourse(String courseID, String examID) {
-		Course c = courseRegister.findCourse(courseID);
+	public WrittenExam removeFromCourse(String courseString, String examID) {
+		int startIndex = courseString.indexOf(",") + 2;
+		int endIndex = courseString.length();
+		String courseCode = courseString.substring(startIndex, endIndex);
+		Course c = courseRegister.findCourse(courseCode);
 		WrittenExam e = c.removeExam(examID);
 		examRegister.removeExam(e.getExamId());
 		courseFrame.getComboBoxExamID().removeItem(examID);
@@ -126,9 +147,13 @@ public class ViewController {
                 JOptionPane.WARNING_MESSAGE);
 	}
 	
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseID) throws IntegerParseException{
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseString) throws IntegerParseException{
+		int startIndex = courseString.indexOf(",") + 2;
+		int endIndex = courseString.length();
+		String courseCode = courseString.substring(startIndex, endIndex);
+		Course c = courseRegister.findCourse(courseCode);
+		
 		WrittenExam e = new WrittenExam();
-		Course c = courseRegister.findCourse(courseID);
 		e.setDate(date);
 		try {
 		int hour = Integer.parseInt(hours);
@@ -151,12 +176,19 @@ public class ViewController {
 		}
 		
 	}
-	public void registerStudent(String studentID, String examID) {
+	public void registerStudent(String studentString, String examID) {
+		int startIndex = studentString.indexOf(",") + 2;
+		int endIndex = studentString.length();
+		String studentID = studentString.substring(startIndex, endIndex);
+		
 		Student s = studentRegister.findStudent(studentID);
 		WrittenExam e = examRegister.findExam(examID);
 		s.registerExam(e);
 	}
-	public WrittenExam unregisterStudent(String studentID, String examID) {
+	public WrittenExam unregisterStudent(String studentString, String examID) {
+		int startIndex = studentString.indexOf(",") + 2;
+		int endIndex = studentString.length();
+		String studentID = studentString.substring(startIndex, endIndex);
 		Student s = studentRegister.findStudent(studentID);
 		WrittenExam e = s.unregisterExam(examID);
 		Result result = e.getRegister().get(studentID);
@@ -173,8 +205,8 @@ public class ViewController {
 		HashMap<String, Course> courseList = courseRegister.getCourseList();
 		String [] courses = new String [courseList.size()];
 				
-		for (String key : courseList.keySet()) {
-		    courses[i] = key;
+		for (Map.Entry<String,Course> entry : courseList.entrySet()) {
+		    courses[i] = entry.getValue().getName() + ", " + entry.getKey();
 		    i++;
 		}
 		return new DefaultComboBoxModel<String>(courses);
@@ -190,8 +222,12 @@ public class ViewController {
 		}
 		return new DefaultComboBoxModel<String>(exams);
 	}
-	public void filterExams(String courseID) {
-		Course course = courseRegister.findCourse(courseID);
+	public void filterExams(String courseString) {
+		int startIndex = courseString.indexOf(",") + 2;
+		int endIndex = courseString.length();
+		String courseCode = courseString.substring(startIndex, endIndex);
+		
+		Course course = courseRegister.findCourse(courseCode);
 		HashMap<String, WrittenExam> examList = course.getExamList();
 		
 		String [] exams = new String [examList.size()];
@@ -208,10 +244,10 @@ public class ViewController {
 	public DefaultComboBoxModel<String> getStudents() {
 		int i = 0;
 		HashMap<String, Student> studentList = studentRegister.getStudenter();
-		String [] students = new String [studentList.size()];
+		String[] students = new String [studentList.size()];
 		
-		for (String key : studentList.keySet()) {
-		    students[i] = key;
+		for (Map.Entry<String, Student> entry : studentList.entrySet()) {
+		    students[i] = entry.getValue().getName() + ", " + entry.getKey();
 		    i++;
 		}
 		return new DefaultComboBoxModel<String>(students);
@@ -219,10 +255,11 @@ public class ViewController {
 	public void filterStudents(String examID) {
 		int i = 0;
 		WrittenExam e = examRegister.findExam(examID);
-		HashMap<String, Result> studentList = e.getRegister();
-		String [] students = new String [studentList.size()];
-		for (String key : studentList.keySet()) {
-		    students[i] = key;
+		HashMap<String, Result> resultList = e.getRegister();
+		String [] students = new String [resultList.size()];
+		
+		for (Map.Entry<String, Result> entry : resultList.entrySet()) {
+		    students[i] = entry.getValue().getStudent().getName() + ", " + entry.getKey();
 		    i++;
 		}
 		
