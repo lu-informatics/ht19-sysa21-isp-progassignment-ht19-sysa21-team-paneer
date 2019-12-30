@@ -1,20 +1,11 @@
 
-import java.awt.EventQueue;
+import java.text.ParseException;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import org.jdatepicker.DateModel;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 public class ViewController {
 
@@ -59,10 +50,15 @@ public class ViewController {
 	}
 
 	// Metoder för CourseView objekt
-	public void addCourse(String courseCode, String name, String credits) {
+	public void addCourse(String courseCode, String name, String credits) throws IntegerParseException{
 		Course c = new Course();
 		c.setName(name);
+		try {
 		c.setCredits(Integer.parseInt(credits));
+		}
+		catch (NumberFormatException exception) {
+			throw new IntegerParseException();
+		}
 		c.setCourseCode(courseCode);
 		courseRegister.addCourse(c);
 		courseFrame.getComboBoxCourseID().addItem(courseCode);
@@ -75,9 +71,14 @@ public class ViewController {
 		return courseRegister.removeCourse(courseID);
 	}
 
-	public Course editCourse(String courseID, String courseCredits, String name) {
+	public Course editCourse(String courseID, String courseCredits, String name) throws IntegerParseException{
+		try {
 		int credits = Integer.parseInt(courseCredits);
 		return courseRegister.editCourse(courseID, name, credits);
+		}
+		catch (NumberFormatException exception) {
+			throw new IntegerParseException();
+		}
 	}
 	
 	public void addToCourse(String courseID, String examID) {
@@ -87,13 +88,12 @@ public class ViewController {
 	}
 	public WrittenExam removeFromCourse(String courseID, String examID) {
 		Course c = courseRegister.findCourse(courseID);
-		examRegister.removeExam(examID);
+		WrittenExam e = c.removeExam(examID);
+		examRegister.removeExam(e.getExamId());
 		courseFrame.getComboBoxExamID().removeItem(examID);
-		courseFrame.getComboBoxRegisterExamID().removeItem(examID);
+		courseFrame.getComboBoxExamIDRegister().removeItem(examID);
 		courseFrame.getComboBoxExamIDUnregister().removeItem(examID);
 		return c.removeExam(examID);
-		
-		
 	}
 	
 	public void showExceptionWindowForEmptyFields() {
@@ -127,11 +127,11 @@ public class ViewController {
                 JOptionPane.WARNING_MESSAGE);
 	}
 	
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseID) {
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseID) throws IntegerParseException{
 		WrittenExam e = new WrittenExam();
 		Course c = courseRegister.findCourse(courseID);
 		e.setDate(date);
-		
+		try {
 		int hour = Integer.parseInt(hours);
 		int minute = Integer.parseInt(minutes);
 		LocalTime time = LocalTime.of(hour, minute);
@@ -141,11 +141,15 @@ public class ViewController {
 		e.setExamId(examID);
 		
 		courseFrame.getComboBoxExamID().addItem(examID);
-		courseFrame.getComboBoxRegisterExamID().addItem(examID);
+		courseFrame.getComboBoxExamIDRegister().addItem(examID);
 		courseFrame.getComboBoxExamIDUnregister().addItem(examID);
 		
 		examRegister.addExam(e);
 		c.addExam(e);
+		}
+		catch (NumberFormatException exception) {
+			throw new IntegerParseException();
+		}
 		
 	}
 	public void registerStudent(String studentID, String examID) {
@@ -155,12 +159,14 @@ public class ViewController {
 	}
 	public WrittenExam unregisterStudent(String studentID, String examID) {
 		Student s = studentRegister.findStudent(studentID);
-		WrittenExam e = examRegister.findExam(examID);
-		return s.unregisterExam(examID);
+		WrittenExam e = s.unregisterExam(examID);
+		Result result = e.getRegister().get(studentID);
+		e.removeResult(result);
+		return e;
 	}
 
-	public String[] getLocations() {
-		return locations;
+	public DefaultComboBoxModel<String> getLocations() {
+		return new DefaultComboBoxModel<String>(locations);
 	}
 	
 	public DefaultComboBoxModel<String> getCourses() {
@@ -185,7 +191,7 @@ public class ViewController {
 		}
 		return new DefaultComboBoxModel<String>(exams);
 	}
-	public DefaultComboBoxModel<String> filterExams(String courseID) {
+	public void filterExams(String courseID) {
 		Course course = courseRegister.findCourse(courseID);
 		HashMap<String, WrittenExam> examList = course.getExamList();
 		
@@ -195,11 +201,26 @@ public class ViewController {
 			exams[i] = key;
 			i++;
 		}
-		return new DefaultComboBoxModel<String>(exams);
+		courseFrame.getComboBoxExamIDUnregister().setModel(new DefaultComboBoxModel<String>(exams));
+		courseFrame.getComboBoxExamIDRegister().setModel(new DefaultComboBoxModel<String>(exams));
+		courseFrame.getComboBoxExamID().setModel(new DefaultComboBoxModel<String>(exams));
 	}
 	public DefaultComboBoxModel<String> getStudents() {
 		int i = 0;
 		HashMap<String, Student> studentList = studentRegister.getStudenter();
+		String [] students = new String [studentList.size()];
+		
+		for (String key : studentList.keySet()) {
+		    students[i] = key;
+		    i++;
+		}
+		return new DefaultComboBoxModel<String>(students);
+	}
+	public void filterStudents(String examID) {
+		WrittenExam e = examRegister.findExam(examID);
+		int i = 0;
+		HashMap<String, Student> keySet = (HashMap<String, Student>) e.getRegister().keySet();
+		HashMap<String, Student> studentList = keySet;
 		String [] students = new String [studentList.size()];
 		
 		for (String key : studentList.keySet()) {
