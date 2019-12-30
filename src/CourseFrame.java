@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -491,6 +490,11 @@ public class CourseFrame extends JFrame {
 		panelAddNewExam.add(comboBoxLocation);
 		
 		comboBoxChooseCourse = new JComboBox<String>(viewController.getCourses());
+		comboBoxChooseCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.filterExams((String) comboBoxChooseCourse.getSelectedItem());
+			}
+		});
 		panelChooseCourse.add(comboBoxChooseCourse);
 		
 		JButton btnAddExamTo = new JButton("Add exam to course");
@@ -530,6 +534,11 @@ public class CourseFrame extends JFrame {
 		panelRegisterStudent.add(lblExamId_1);
 		
 		comboBoxExamIDRegister = new JComboBox<String>();
+		comboBoxExamIDRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.filterStudents((String)comboBoxExamID.getSelectedItem());
+			}
+		});
 		panelRegisterStudent.add(comboBoxExamIDRegister);
 		
 		JLabel lblStudentId = new JLabel("Student ID");
@@ -559,6 +568,11 @@ public class CourseFrame extends JFrame {
 		panelUnregisterStudent.add(lblExamId_2);
 		
 		comboBoxExamIDUnregister = new JComboBox<String>();
+		comboBoxExamIDUnregister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.filterStudents((String)comboBoxExamIDUnregister.getSelectedItem());
+			}
+		});
 		panelUnregisterStudent.add(comboBoxExamIDUnregister);
 		
 		JLabel lblStudentId_1 = new JLabel("Student ID:");
