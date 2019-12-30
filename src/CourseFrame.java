@@ -1,40 +1,36 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Properties;
 
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import org.jdatepicker.DateModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField.AbstractFormatter;
-import javax.swing.JTextField;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.FlowLayout;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-
 public class CourseFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textFieldEditCredits;
 	private JTextField textFieldEditCourseName;
-	private ViewController viewController;
 	private JPanel panelEdit;
 	private JPanel panelAdd;
 	private JTextField textFieldAddCredits;
@@ -47,7 +43,7 @@ public class CourseFrame extends JFrame {
 	private JComboBox<String> comboBoxCourseID;
 	private JComboBox<String> comboBoxChooseCourse;
 	private JComboBox<String> comboBoxExamID;
-	private JComboBox<String> comboBoxRegisterExamID;
+	private JComboBox<String> comboBoxExamIDRegister;
 	private JComboBox<String> comboBoxExamIDUnregister;
 	private JComboBox<String> comboBoxStudentID;
 	private JComboBox<String> comboBoxStudentIDUnregister;
@@ -87,12 +83,12 @@ public class CourseFrame extends JFrame {
 		this.comboBoxExamID = comboBoxExamID;
 	}
 
-	public JComboBox<String> getComboBoxRegisterExamID() {
-		return comboBoxRegisterExamID;
+	public JComboBox<String> getComboBoxExamIDRegister() {
+		return comboBoxExamIDRegister;
 	}
 
-	public void setComboBoxRegisterExamID(JComboBox<String> comboBoxRegisterExamID) {
-		this.comboBoxRegisterExamID = comboBoxRegisterExamID;
+	public void setComboBoxExamIDRegister(JComboBox<String> ComboBoxExamIDRegister) {
+		this.comboBoxExamIDRegister = ComboBoxExamIDRegister;
 	}
 
 	public JComboBox<String> getComboBoxExamIDUnregister() {
@@ -140,9 +136,8 @@ public class CourseFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public CourseFrame(ViewController viewController) {
-		this.viewController = viewController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 538, 482);
+		setBounds(100, 100, 543, 481);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -169,26 +164,31 @@ public class CourseFrame extends JFrame {
 		panelEdit.add(comboBoxCourseID);
 		
 		JTextField textFieldEditCredits = new JTextField();
-		textFieldEditCredits.setToolTipText("Only integers, please");
+		textFieldEditCredits.setToolTipText("Only integer numbers");
 		textFieldEditCredits.setBounds(109, 44, 96, 20);
 		panelEdit.add(textFieldEditCredits);
 		textFieldEditCredits.setColumns(10);
 		
 		JButton btnEdit = new JButton("Edit");
-		btnEdit.setBounds(190, 211, 51, 23);
+		btnEdit.setBounds(190, 171, 51, 29);
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String courseCode = comboBoxCourseID.getSelectedItem().toString();
 					String credits = textFieldEditCredits.getText();
 					String name = textFieldEditCourseName.getText();
-
-					viewController.editCourse(courseCode, credits, name);
-					lblResponse.setText("Course edited.");
+					try {
+						viewController.editCourse(courseCode, credits, name);
+						lblResponse.setText("Course edited.");
+					} catch (IntegerParseException e1) {
+						viewController.showExceptionWindowForCreditParseException();
+					}
+					
 				}
-				catch (NullPointerException exception) {
+				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
+				
 			}
 		});
 		panelEdit.setLayout(null);
@@ -216,12 +216,12 @@ public class CourseFrame extends JFrame {
 					viewController.deleteCourse(courseCode);
 					lblResponse.setText("Course deleted.");
 				}
-				catch (NullPointerException exception) {
+				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
 			}
 		});
-		btnDelete.setBounds(10, 211, 65, 23);
+		btnDelete.setBounds(10, 171, 73, 29);
 		panelEdit.add(btnDelete);
 		
 		textFieldEditCourseName = new JTextField();
@@ -254,21 +254,27 @@ public class CourseFrame extends JFrame {
 		panelAdd.add(textFieldAddName);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.setBackground(new Color(240, 240, 240));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String name = textFieldAddName.getText();
 					String credits = textFieldAddCredits.getText();
 					String courseCode = viewController.generateCourseID();
-					viewController.addCourse(courseCode, name, credits);
-					lblResponse.setText("Course added.");
+					try {
+						viewController.addCourse(courseCode, name, credits);
+						lblResponse.setText("Course added.");
+					} catch (IntegerParseException e1) {
+						viewController.showExceptionWindowForCreditParseException();
+					}
+					
 				}
-				catch (NullPointerException exception) {
+				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
 			}
 		});
-		btnAdd.setBounds(104, 211, 51, 23);
+		btnAdd.setBounds(104, 171, 51, 29);
 		panelAdd.add(btnAdd);
 		
 		JPanel panelWrittenExams = new JPanel();
@@ -427,9 +433,13 @@ public class CourseFrame extends JFrame {
 					viewController.removeFromCourse(courseCode, examID);
 					lblResponse.setText("Exam removed from course.");
 				}
-				catch (NullPointerException exception) {
+				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
+				catch (NullPointerException exception) {
+					viewController.showExceptionWindowForUnlinkedExam();
+				}
+				
 
 			}
 		});
@@ -477,7 +487,7 @@ public class CourseFrame extends JFrame {
 		JLabel lblLocation = new JLabel("Location");
 		panelAddNewExam.add(lblLocation);
 		
-		JComboBox<String> comboBoxLocation = new JComboBox(viewController.getLocations());
+		JComboBox<String> comboBoxLocation = new JComboBox<String>(viewController.getLocations());
 		panelAddNewExam.add(comboBoxLocation);
 		
 		comboBoxChooseCourse = new JComboBox<String>(viewController.getCourses());
@@ -486,17 +496,27 @@ public class CourseFrame extends JFrame {
 		JButton btnAddExamTo = new JButton("Add exam to course");
 		btnAddExamTo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Date date = null;
+				String hours = null;
+				String minutes = null;
+				String location = null;
+				String examID = null;
+				String courseID = null;
 				try {
-					Date date = (Date) datePicker.getModel().getValue();
-					String hours = textFieldHours.getText();
-					String minutes = textFieldMinutes.getText();
-					String location = comboBoxLocation.getSelectedItem().toString();
-					String examID = viewController.generateExamID();
-					String courseID = (String) comboBoxChooseCourse.getSelectedItem();
-					viewController.addNewExamToCourse(date, hours, minutes, location, examID, courseID);
-					lblResponse.setText("Exam added to course.");
+					date = (Date) datePicker.getModel().getValue();
+					hours = textFieldHours.getText().toString();
+					minutes = textFieldMinutes.getText().toString();
+					location = comboBoxLocation.getSelectedItem().toString();
+					examID = viewController.generateExamID().toString();
+					courseID = (String) comboBoxChooseCourse.getSelectedItem();
+					try {
+						viewController.addNewExamToCourse(date, hours, minutes, location, examID, courseID);
+						lblResponse.setText("Exam added to course.");
+					} catch (IntegerParseException e1) {
+						viewController.showExceptionWindowForTimeParseException();
+					}
 				}
-				catch (NullPointerException exception) {
+				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
 			}
@@ -509,8 +529,8 @@ public class CourseFrame extends JFrame {
 		JLabel lblExamId_1 = new JLabel("Exam ID");
 		panelRegisterStudent.add(lblExamId_1);
 		
-		comboBoxRegisterExamID = new JComboBox<String>();
-		panelRegisterStudent.add(comboBoxRegisterExamID);
+		comboBoxExamIDRegister = new JComboBox<String>();
+		panelRegisterStudent.add(comboBoxExamIDRegister);
 		
 		JLabel lblStudentId = new JLabel("Student ID");
 		panelRegisterStudent.add(lblStudentId);
@@ -522,13 +542,13 @@ public class CourseFrame extends JFrame {
 		btnRegisterStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				String examID = comboBoxRegisterExamID.getSelectedItem().toString();
+				String examID = comboBoxExamIDRegister.getSelectedItem().toString();
 				String studentID = comboBoxStudentID.getSelectedItem().toString();
 				
 				viewController.registerStudent(studentID, examID);
 				lblResponse.setText("Student registered.");
 				}
-				catch (NullPointerException exception) {
+				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
 			}
@@ -557,8 +577,11 @@ public class CourseFrame extends JFrame {
 				viewController.unregisterStudent(studentID, examID);
 				lblResponse.setText("Student unregistered.");
 				}
-				catch (NullPointerException exception) {
+				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
+				}
+				catch (NullPointerException exception) {
+					viewController.showExceptionWindowForUnlinkedStudent();
 				}
 			}
 		});
