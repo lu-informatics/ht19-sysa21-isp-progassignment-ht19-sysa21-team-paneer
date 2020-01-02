@@ -8,10 +8,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-
+import java.util.regex.PatternSyntaxException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
@@ -24,7 +23,7 @@ public class StudentFrame extends JFrame {
 	private JPanel addPanel;
 	private JPanel editPanel;
 	private JTextField textField_EditFName;
-	private JComboBox<String []> studentBox;
+	private JComboBox<String[]> studentBox;
 
 	public JLabel getLblResponse() {
 		return lblResponse;
@@ -125,19 +124,23 @@ public class StudentFrame extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (!textField_FNameInput.getText().equals("") && !textField_LNameInput.getText().equals("")) {
-						String studentId = viewController.generateStudentID();
-						viewController.registerNewStudent(studentId, textField_FNameInput.getText(),
-								textField_LNameInput.getText());
-						lblResponse.setText("Student created:");
-						lblNameRegistered.setText("Name: " + viewController.findStudentName(studentId));
-						lblStudentId.setText("Student ID: " + viewController.findStudentiD(studentId));
-						textField_FNameInput.setText(" ");
-						textField_LNameInput.setText(" ");
-					} else {
-						lblResponse.setText("Please enter both a first- and a lastname");
+					String studentId = viewController.generateStudentID();
+					if (viewController.studentIDValidation(studentId) == true) {
+						
+
+						if (!textField_FNameInput.getText().equals("") && !textField_LNameInput.getText().equals("")) {
+							viewController.registerNewStudent(studentId, textField_FNameInput.getText(),
+									textField_LNameInput.getText());
+							lblResponse.setText("Student created:");
+							lblNameRegistered.setText("Name: " + viewController.findStudentName(studentId));
+							lblStudentId.setText("Student ID: " + viewController.findStudentiD(studentId));
+							textField_FNameInput.setText("");
+							textField_LNameInput.setText("");
+						} else {
+							lblResponse.setText("Please enter both a first- and a lastname");
+						}
 					}
-				}
+					}				
 
 				catch (NullPointerException nex) {
 					lblResponse.setText("Something went wrong. Please contact admin.");
@@ -211,22 +214,19 @@ public class StudentFrame extends JFrame {
 		editPanel.add(textField_EditLName);
 		textField_EditLName.setColumns(10);
 		textField_EditLName.setVisible(false);
-		
-		
 
 		studentBox = new JComboBox();
-		
+
 		studentBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				studentBox = (JComboBox<String[]>)e.getSource();
-		        String studentName = (String)studentBox.getSelectedItem();
-		        lblStudentFound.setText(studentName);
+				studentBox = (JComboBox<String[]>) e.getSource();
+				String studentName = (String) studentBox.getSelectedItem();
+				lblStudentFound.setText(studentName);
 			}
 		});
 		studentBox.setSize(309, 26);
 		studentBox.setLocation(15, 99);
 		editPanel.add(studentBox);
-	
 
 		JLabel lblOrSearchBy = new JLabel("Or search by Student ID");
 		lblOrSearchBy.setBounds(15, 149, 186, 20);
@@ -263,38 +263,43 @@ public class StudentFrame extends JFrame {
 		btnSearch.setBounds(190, 185, 79, 26);
 		editPanel.add(btnSearch);
 
-		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String input = textFindStudentById.getText();
-					lblStudentFound.setVisible(true);
-					labelIdFound.setVisible(true);
-					lblNameFound.setVisible(true);
-					lblStudentFound.setText("Student found:");
-					labelIdFound.setText(viewController.findStudentiD(input));
-					lblNameFound.setText(viewController.findStudentName(input));
-					btnDeleteStudent.setVisible(true);
-					btnSaveChanges.setVisible(true);
-					textField_EditFName.setVisible(true);
-					lblEditNamesLeave.setVisible(true);
-					lblEnterNewFName.setVisible(true);
-					lblNewLastname.setVisible(true);
-					lblNewLastname.setVisible(true);
-					textField_EditLName.setVisible(true);
-					lblRemoveStudent.setVisible(true);
+					if (viewController.studentIDValidation(input) == true) {
+						lblStudentFound.setVisible(true);
+						labelIdFound.setVisible(true);
+						lblNameFound.setVisible(true);
+						lblStudentFound.setText("Student found:");
+						labelIdFound.setText(viewController.findStudentiD(input));
+						lblNameFound.setText(viewController.findStudentName(input));
+						btnDeleteStudent.setVisible(true);
+						btnSaveChanges.setVisible(true);
+						textField_EditFName.setVisible(true);
+						lblEditNamesLeave.setVisible(true);
+						lblEnterNewFName.setVisible(true);
+						lblNewLastname.setVisible(true);
+						lblNewLastname.setVisible(true);
+						textField_EditLName.setVisible(true);
+						lblRemoveStudent.setVisible(true);
+					} else {
+						lblStudentFound.setVisible(true);
+						lblStudentFound.setText("Invalid ID format");
+					}
+				}
 
-				} catch (NullPointerException nex) {
+				catch (NullPointerException nex) {
 					lblStudentFound.setVisible(true);
 					lblStudentFound.setText("No Student found");
 					labelIdFound.setVisible(false);
 					lblNameFound.setVisible(false);
 
 				}
+
 			}
 		});
 
-		
 		// Change name of Student
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

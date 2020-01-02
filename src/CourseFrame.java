@@ -65,7 +65,7 @@ public class CourseFrame extends JFrame {
 		
 		JComboBox comboBoxCourseID = new JComboBox();
 		comboBoxCourseID.setBounds(88, 5, 145, 22);
-		panelEdit.add(comboBoxCourseID);
+		
 		
 		JButton btnNewCourse = new JButton("New course");
 		btnNewCourse.addActionListener(new ActionListener() {

@@ -10,10 +10,7 @@ public class StudentRegister {
 		return studenter;
 	}
 
-	public Collection<Student> getStudenterForCombo() {
-		return studenter.values();
-	}
-
+	
 	public void setStudenter(HashMap<String, Student> studenter) {
 		this.studenter = studenter;
 	}
