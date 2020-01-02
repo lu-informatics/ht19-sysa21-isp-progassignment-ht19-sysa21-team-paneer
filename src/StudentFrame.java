@@ -172,7 +172,7 @@ public class StudentFrame extends JFrame {
 		editPanel.add(lblStudentFound);
 		lblStudentFound.setVisible(false);
 
-		JLabel lblEnterNewFName = new JLabel("New first name");
+		JLabel lblEnterNewFName = new JLabel("First name*");
 		lblEnterNewFName.setBounds(15, 389, 156, 20);
 		editPanel.add(lblEnterNewFName);
 		lblEnterNewFName.setVisible(false);
@@ -181,12 +181,12 @@ public class StudentFrame extends JFrame {
 		lblNameFound.setBounds(15, 279, 309, 20);
 		editPanel.add(lblNameFound);
 
-		JLabel lblEditNamesLeave = new JLabel("Edit name(s). Leave blank for no change");
+		JLabel lblEditNamesLeave = new JLabel("Enter new name");
 		lblEditNamesLeave.setBounds(15, 355, 309, 20);
 		editPanel.add(lblEditNamesLeave);
 		lblEditNamesLeave.setVisible(false);
 
-		JLabel lblNewLastname = new JLabel("New lastname");
+		JLabel lblNewLastname = new JLabel("Last name*");
 		lblNewLastname.setBounds(15, 414, 115, 20);
 		editPanel.add(lblNewLastname);
 		lblNewLastname.setVisible(false);
@@ -214,11 +214,11 @@ public class StudentFrame extends JFrame {
 		
 		
 
-		studentBox = new JComboBox<>();viewController.studentsForCombobox();
+		studentBox = new JComboBox();
 		
 		studentBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JComboBox studentBox = (JComboBox)e.getSource();
+				studentBox = (JComboBox<String[]>)e.getSource();
 		        String studentName = (String)studentBox.getSelectedItem();
 		        lblStudentFound.setText(studentName);
 			}
@@ -287,6 +287,8 @@ public class StudentFrame extends JFrame {
 				} catch (NullPointerException nex) {
 					lblStudentFound.setVisible(true);
 					lblStudentFound.setText("No Student found");
+					labelIdFound.setVisible(false);
+					lblNameFound.setVisible(false);
 
 				}
 			}
@@ -296,13 +298,19 @@ public class StudentFrame extends JFrame {
 		// Change name of Student
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.editStudent(textFindStudentById.getText(), textField_EditFName.getText(),
-						textField_EditLName.getText());
-				lblStudentFound.setText("Student updated");
-				labelIdFound.setText(viewController.findStudentiD(textFindStudentById.getText()));
-				lblNameFound.setText(viewController.findStudentName(textFindStudentById.getText()));
+				if (!textField_EditLName.getText().equals("") && (!textField_EditFName.getText().equals(""))) {
+					viewController.editStudent(textFindStudentById.getText(), textField_EditFName.getText(),
+							textField_EditLName.getText());
+					lblStudentFound.setText("Student updated");
+					labelIdFound.setText(viewController.findStudentiD(textFindStudentById.getText()));
+					lblNameFound.setText(viewController.findStudentName(textFindStudentById.getText()));
+				} else {
+					lblStudentFound.setText("Please enter both first- and a lastname");
+				}
 			}
-		});
+		}
+
+		);
 
 		// Delete student
 		btnDeleteStudent.addActionListener(new ActionListener() {

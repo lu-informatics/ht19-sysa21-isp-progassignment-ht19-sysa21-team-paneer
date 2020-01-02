@@ -66,12 +66,8 @@ public class ViewController {
 	public Student editStudent(String studentID, String firstName, String lastName) {
 		String fullName = studentRegister.findStudent(studentID).getName();
 		String[] split = fullName.split(" ");
-		if (!firstName.equals("")) {
-			split[0] = firstName;
-		}
-		if (!lastName.equals("")) {
-			split[1] = lastName;
-		}
+		split[0] = firstName;
+		split[1] = lastName;
 		fullName = split[0] + " " + split[1];
 
 		return studentRegister.editStudent(studentID, fullName);
@@ -124,12 +120,6 @@ public class ViewController {
 		} else
 			return examId.toString(); /// m�ste �ndras till n�got vettigt tex popup
 	}
-	
-	//ComboBoxMetoder
-	public String[] studentsForCombobox() {
-	String [] studentArray = studentRegister.getStudenter().keySet().toArray(new String[studentRegister.getStudenter().size()]);
-	return studentArray;
-			}
 	
 
 

@@ -34,7 +34,7 @@ public class Test_application {
 		c1.setName("SYSA12");
 		c2.setName("SySa12");
 		
-
+		String [] studentArray = studentRegister.getStudenter().keySet().toArray(new String[studentRegister.getStudenter().size()]);
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 		startFrame.setVisible(true);
