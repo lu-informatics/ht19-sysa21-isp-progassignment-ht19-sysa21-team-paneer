@@ -11,19 +11,18 @@ public class ViewController {
 	private Integer courseId = 9999;
 	private Integer examId = 9999;
 
-	// Kopplar till grï¿½nssnitten
-	CourseFrame courseFrame;
+	// Connects to the views
+	CourseFrame courseFrame = new CourseFrame(this);
 	ResultFrame resultFrame = new ResultFrame(this);
 	StartFrame startFrame = new StartFrame(this);
 	StudentFrame studentFrame = new StudentFrame(this);
 
-	// Kopplar till probl.-omrï¿½deskomponenten
+	// Connects to the data storage
 	CourseRegister courseRegister;
 	StudentRegister studentRegister;
 	ExamRegister examRegister;
 
-	// Konstruktorer
-
+	// Constructors
 	public ViewController() {
 		this.courseRegister = new CourseRegister();
 		this.studentRegister = new StudentRegister();
@@ -36,7 +35,7 @@ public class ViewController {
 		this.examRegister = examRegister;
 	}
 
-	// Metoder fÃ¶r CourseView objekt
+	// Methods for CourseView
 	public void addCourse(String name, String credits) {
 		Course c = new Course();
 		c.setName(name);
@@ -54,7 +53,7 @@ public class ViewController {
 		return courseRegister.editCourse(courseID, name, credits);
 	}
 
-	// Metoder för StudentFrame-objekt
+	// Methods for StudentFrame
 	public void registerNewStudent(String studentId, String firstName, String lastName) {
 
 		Student tmpStudent = new Student();
@@ -87,7 +86,7 @@ public class ViewController {
 
 	}
 
-	// ID-generatorer
+	// ID-generators 
 	public String generateStudentID() {
 		if (studentId < 100000) {
 			do {
@@ -96,7 +95,7 @@ public class ViewController {
 			return "S" + studentId.toString();
 
 		} else
-			return studentId.toString(); /// mï¿½ste ï¿½ndras till nï¿½got vettigt tex popup
+			return null;
 	}
 
 	public String generateCourseID() {
@@ -107,7 +106,7 @@ public class ViewController {
 
 			return "C" + studentId.toString();
 		} else
-			return courseId.toString(); /// mï¿½ste ï¿½ndras till nï¿½got vettigt tex popup
+			return null;
 	}
 	
 	public String generateExamID() {
@@ -118,12 +117,28 @@ public class ViewController {
 
 			return "E" + examId.toString();
 		} else
-			return examId.toString(); /// mï¿½ste ï¿½ndras till nï¿½got vettigt tex popup
+			return null;
+	}
+	
+	
+	//ID Validation - matches the entered ID by using regular expressions set to the ID standard
+	
+	public boolean studentIDValidation(String id) {
+		return id.matches("S[0-9]{5}");
+		
+	}
+	
+	public boolean courseIDValidation(String id) {
+		return id.matches("C[0-9]{5}");
+	}
+	
+	public boolean examIDValidation(String id) {
+		return id.matches("E[0-9]{5}");
 	}
 	
 
 
-	// Vykontroller
+	// View controllers
 	public void administrateStudents(ViewController controller) {
 		studentFrame.setVisible(true);
 		startFrame.setVisible(false);
@@ -142,7 +157,7 @@ public class ViewController {
 	public void backToMainMenu(ViewController controller) {
 		startFrame.setVisible(true);
 		resultFrame.setVisible(false);
-		courseFrame.setVisible(true);
+		courseFrame.setVisible(false);
 		studentFrame.setVisible(false);
 	}
 

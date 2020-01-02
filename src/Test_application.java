@@ -1,6 +1,7 @@
 import java.util.Map;
 
 public class Test_application {
+	
 
 
 	public static void main(String[] args) {
@@ -35,6 +36,10 @@ public class Test_application {
 		c2.setName("SySa12");
 		
 		String [] studentArray = studentRegister.getStudenter().keySet().toArray(new String[studentRegister.getStudenter().size()]);
+		
+	
+		
+		
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 		startFrame.setVisible(true);
