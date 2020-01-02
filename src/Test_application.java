@@ -2,6 +2,7 @@ import java.util.Map;
 
 public class Test_application {
 
+
 	public static void main(String[] args) {
 
 		Student s1 = new Student();
@@ -32,9 +33,13 @@ public class Test_application {
 		c2.setCredits(20);
 		c1.setName("SYSA12");
 		c2.setName("SySa12");
+		
+
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 		startFrame.setVisible(true);
-
+		
+		
+		
 	}
 }

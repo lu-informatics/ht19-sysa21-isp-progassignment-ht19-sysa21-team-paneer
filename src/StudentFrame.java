@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+
 
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -24,6 +24,7 @@ public class StudentFrame extends JFrame {
 	private JPanel addPanel;
 	private JPanel editPanel;
 	private JTextField textField_EditFName;
+	private JComboBox<String []> studentBox;
 
 	public JLabel getLblResponse() {
 		return lblResponse;
@@ -210,11 +211,22 @@ public class StudentFrame extends JFrame {
 		editPanel.add(textField_EditLName);
 		textField_EditLName.setColumns(10);
 		textField_EditLName.setVisible(false);
+		
+		
 
-		JComboBox studentBox = new JComboBox();
+		studentBox = new JComboBox<>();viewController.studentsForCombobox();
+		
+		studentBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JComboBox studentBox = (JComboBox)e.getSource();
+		        String studentName = (String)studentBox.getSelectedItem();
+		        lblStudentFound.setText(studentName);
+			}
+		});
 		studentBox.setSize(309, 26);
 		studentBox.setLocation(15, 99);
 		editPanel.add(studentBox);
+	
 
 		JLabel lblOrSearchBy = new JLabel("Or search by Student ID");
 		lblOrSearchBy.setBounds(15, 149, 186, 20);

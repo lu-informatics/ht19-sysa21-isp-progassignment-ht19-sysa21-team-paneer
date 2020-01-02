@@ -1,5 +1,7 @@
 
 import java.awt.EventQueue;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JFrame;
 
@@ -122,6 +124,13 @@ public class ViewController {
 		} else
 			return examId.toString(); /// m�ste �ndras till n�got vettigt tex popup
 	}
+	
+	//ComboBoxMetoder
+	public String[] studentsForCombobox() {
+	String [] studentArray = studentRegister.getStudenter().keySet().toArray(new String[studentRegister.getStudenter().size()]);
+	return studentArray;
+			}
+	
 
 
 	// Vykontroller
