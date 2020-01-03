@@ -20,8 +20,13 @@ public class Course {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String name) throws NullPointerException {
+		if (!name.equals("")) {
+			this.name = name;
+		}
+		else {
+			throw new NullPointerException();
+		}
 	}
 
 	public int getCredits() {
