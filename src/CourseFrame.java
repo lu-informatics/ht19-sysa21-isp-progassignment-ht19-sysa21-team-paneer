@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.time.DateTimeException;
 import java.util.Date;
 import java.util.Properties;
@@ -67,7 +68,7 @@ public class CourseFrame extends JFrame {
 	private JPanel panelRegisterStudent;
 	private JPanel panelWelcome;
 	private JPanel panelCourseInfo;
-
+	
 	public DefaultComboBoxModel<String> getExamModel() {
 		return examModel;
 	}
@@ -295,6 +296,7 @@ public class CourseFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public CourseFrame(ViewController viewController) {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 822, 640);
 		contentPane = new JPanel();
@@ -491,7 +493,7 @@ public class CourseFrame extends JFrame {
 		
 
 		panelWelcome = new JPanel();
-		panelWelcome.setBounds(10, 11, 205, 91);
+		panelWelcome.setBounds(10, 11, 205, 155);
 		contentPane.add(panelWelcome);
 
 		JLabel lblWelcome = new JLabel("Welcome");
@@ -513,6 +515,22 @@ public class CourseFrame extends JFrame {
 			}
 		});
 		panelWelcome.add(btnOpenExamRegister);
+		
+		JButton btnViewAllCourses = new JButton("View all courses");
+		btnViewAllCourses.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.viewCourseData();
+			}
+		});
+		panelWelcome.add(btnViewAllCourses);
+		
+		JButton btnViewAllExams = new JButton("View all exams");
+		btnViewAllExams.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.viewExamData();
+			}
+		});
+		panelWelcome.add(btnViewAllExams);
 
 		panelWrittenExams = new JPanel();
 		panelWrittenExams.setVisible(false);
@@ -632,7 +650,7 @@ public class CourseFrame extends JFrame {
 
 		JLabel lblDate = new JLabel("Date:");
 		panelAddNewExam.add(lblDate);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, viewController.getDateFormatter());
 
 		panelAddNewExam.add(datePicker);
 
@@ -675,9 +693,12 @@ public class CourseFrame extends JFrame {
 				catch (DateTimeException exception) {
 					viewController.showExceptionWindowForTimeParseException();
 				}
-				catch (IntegerParseException e1) {
+				catch (IntegerParseException exception) {
 					viewController.showExceptionWindowForTimeParseException();
+				} catch (ParseException exception) {
+					viewController.showExceptionWindowForNoAvailableIdentifier();
 				}
+				
 			}
 		});
 		panelAddNewExam.add(btnAddExamTo);
@@ -767,8 +788,4 @@ public class CourseFrame extends JFrame {
 		panelCourseForNewExam.add(comboBoxCourseForNewExam);
 		
 	}
-
-	
-
-
 }
