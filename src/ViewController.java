@@ -3,13 +3,14 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class ViewController {
 
 	private Integer studentId = 9999;
-	private Integer courseId = 9999;
+	private Integer courseId = 10000;
 	private Integer examID = 9999;
 	private String[] locations = new String[] {"Room A123", "Room A167", "Room B198", "Room B067"};
 
@@ -49,73 +50,74 @@ public class ViewController {
 	}
 
 	// Metoder för CourseView objekt
-	public void addCourse(String courseCode, String name, String credits) throws IntegerParseException{
-		Course c = new Course();
-		c.setName(name);
-		try {
-		c.setCredits(Integer.parseInt(credits));
-		}
-		catch (NumberFormatException exception) {
-			throw new IntegerParseException();
-		}
-		c.setCourseCode(courseCode);
-		courseRegister.addCourse(c);
-		
-		courseFrame.getComboBoxCourseID().addItem(c.getName() + ", " + courseCode);
-		courseFrame.getComboBoxChooseCourse().addItem(c.getName() + ", " + courseCode);
+	public void viewBack() {
+		courseFrame.getPanelCourseRegister().setVisible(false);
+		courseFrame.getPanelWrittenExams().setVisible(false);
+		courseFrame.getPanelWelcome().setVisible(true);
 	}
-
-	public void deleteCourse(String courseString) {
-		courseFrame.getComboBoxCourseID().removeItem(courseString);
-		courseFrame.getComboBoxChooseCourse().removeItem(courseString);
-		int startIndex = courseString.indexOf(",") + 2;
-		int endIndex = courseString.length();
-		String courseCode = courseString.substring(startIndex, endIndex);
-		courseRegister.removeCourse(courseCode);
-		
-		courseFrame.getComboBoxCourseID().removeItem(courseString);
-		courseFrame.getComboBoxChooseCourse().removeItem(courseString);
+	public void openCourseRegister() {
+		courseFrame.getPanelCourseRegister().setVisible(true);
+		courseFrame.getPanelWrittenExams().setVisible(false);
+		courseFrame.getPanelWelcome().setVisible(false);
 	}
-
-	public void editCourse(String courseString, String courseCredits, String name) throws IntegerParseException{
-		try {
-		int credits = Integer.parseInt(courseCredits);
-		int startIndex = courseString.indexOf(",") + 2;
-		int endIndex = courseString.length();
-		String courseCode = courseString.substring(startIndex, endIndex);
-		courseRegister.editCourse(courseCode, name, credits);
-		
-		courseFrame.getComboBoxCourseID().setModel(this.getCourses());
-		courseFrame.getComboBoxChooseCourse().setModel(this.getCourses());
-		}
-		catch (NumberFormatException exception) {
-			throw new IntegerParseException();
-		}
+	public void openExamRegister() {
+		courseFrame.getPanelCourseRegister().setVisible(false);
+		courseFrame.getPanelWrittenExams().setVisible(true);
+		courseFrame.getPanelWelcome().setVisible(false);
 	}
-	
-	public void addToCourse(String courseString, String examID) {
-		int startIndex = courseString.indexOf(",") + 2;
-		int endIndex = courseString.length();
-		String courseCode = courseString.substring(startIndex, endIndex);
-		Course c = courseRegister.findCourse(courseCode);
-		
-		WrittenExam e = examRegister.findExam(examID);
-		c.addExam(e);
-		e.setCourse(c);
+	public void viewNewCourse() {
+		courseFrame.getPanelAdd().setVisible(true);
+		courseFrame.getPanelEdit().setVisible(false);
+		courseFrame.getPanelDelete().setVisible(false);
+		courseFrame.getPanelCourseInfo().setVisible(true);
+		courseFrame.getPanelChooseCourse().setVisible(false);
 	}
-	public WrittenExam removeFromCourse(String courseString, String examID) {
-		int startIndex = courseString.indexOf(",") + 2;
-		int endIndex = courseString.length();
-		String courseCode = courseString.substring(startIndex, endIndex);
-		Course c = courseRegister.findCourse(courseCode);
-		WrittenExam e = c.removeExam(examID);
-		examRegister.removeExam(e.getExamId());
-		courseFrame.getComboBoxExamID().removeItem(examID);
-		courseFrame.getComboBoxExamIDRegister().removeItem(examID);
-		courseFrame.getComboBoxExamIDUnregister().removeItem(examID);
-		return c.removeExam(examID);
+	public void viewEditCourse() {
+		courseFrame.getPanelAdd().setVisible(false);
+		courseFrame.getPanelEdit().setVisible(true);
+		courseFrame.getPanelDelete().setVisible(false);
+		courseFrame.getPanelCourseInfo().setVisible(true);
+		courseFrame.getPanelChooseCourse().setVisible(true);
 	}
-	
+	public void viewDeleteCourse() {
+		courseFrame.getPanelAdd().setVisible(false);
+		courseFrame.getPanelEdit().setVisible(false);
+		courseFrame.getPanelDelete().setVisible(true);
+		courseFrame.getPanelCourseInfo().setVisible(false);
+		courseFrame.getPanelChooseCourse().setVisible(true);
+	}
+	public void viewNewExam() {
+		courseFrame.getPanelAddNewExam().setVisible(true);
+		courseFrame.getPanelExistingExam().setVisible(false);
+		courseFrame.getPanelUnregisterStudent().setVisible(false);
+		courseFrame.getPanelRegisterStudent().setVisible(false);
+		courseFrame.getPanelCourseForNewExam().setVisible(true);
+		courseFrame.getPanelCourseForExam().setVisible(false);
+	}
+	public void viewRemoveExam() {
+		courseFrame.getPanelAddNewExam().setVisible(false);
+		courseFrame.getPanelExistingExam().setVisible(true);
+		courseFrame.getPanelUnregisterStudent().setVisible(false);
+		courseFrame.getPanelRegisterStudent().setVisible(false);
+		courseFrame.getPanelCourseForNewExam().setVisible(false);
+		courseFrame.getPanelCourseForExam().setVisible(true);
+	}
+	public void viewRegisterStudent() {
+		courseFrame.getPanelAddNewExam().setVisible(false);
+		courseFrame.getPanelExistingExam().setVisible(false);
+		courseFrame.getPanelUnregisterStudent().setVisible(false);
+		courseFrame.getPanelRegisterStudent().setVisible(true);
+		courseFrame.getPanelCourseForNewExam().setVisible(false);
+		courseFrame.getPanelCourseForExam().setVisible(true);
+	}
+	public void viewUnregisterStudent() {
+		courseFrame.getPanelAddNewExam().setVisible(false);
+		courseFrame.getPanelExistingExam().setVisible(false);
+		courseFrame.getPanelUnregisterStudent().setVisible(true);
+		courseFrame.getPanelRegisterStudent().setVisible(false);
+		courseFrame.getPanelCourseForNewExam().setVisible(false);
+		courseFrame.getPanelCourseForExam().setVisible(true);
+	}
 	public void showExceptionWindowForEmptyFields() {
 		JOptionPane.showMessageDialog(null, 
                 "Some of the fields were empty. Please fill in all the required fields.", 
@@ -146,49 +148,110 @@ public class ViewController {
                 "Non-integer values entered", 
                 JOptionPane.WARNING_MESSAGE);
 	}
+	public void showExceptionWindowForNoAvailableIdentifier() {
+		JOptionPane.showMessageDialog(null, 
+                "There is no memory left for adding new courses. Please delete a course to continue.", 
+                "Memory has run out", 
+                JOptionPane.WARNING_MESSAGE);
+	}
+	public String stripString(String comboBoxString) {
+		int startIndex = comboBoxString.indexOf(",") + 2;
+		int endIndex = comboBoxString.length();
+		return comboBoxString.substring(startIndex, endIndex);
+	}
+	
+	public void addCourse(String name, String credits) throws NullPointerException{
+		Course c = new Course();
+		try {
+			c.setName(name);
+		}
+		catch (NullPointerException exception) {
+			throw new NullPointerException();
+		}
+		String courseCode = this.generateCourseID();
+		c.setCourseCode(courseCode);
+		c.setCredits(Integer.parseInt(credits));
+		
+		courseRegister.addCourse(c);
+		
+		courseFrame.getComboBoxChooseCourse().addItem(c.getName() + ", " + courseCode);
+		courseFrame.getComboBoxCourseForExam().addItem(c.getName() + ", " + courseCode);
+		courseFrame.getComboBoxCourseForNewExam().addItem(c.getName() + ", " + courseCode);
+	}
+
+	public void deleteCourse(String courseString) {
+		String courseCode = this.stripString(courseString);
+		courseRegister.removeCourse(courseCode);
+		courseId = Integer.parseInt(courseCode.substring(1));
+		
+		courseFrame.getComboBoxChooseCourse().removeItem(courseString);
+		courseFrame.getComboBoxCourseForExam().removeItem(courseString);
+		courseFrame.getComboBoxCourseForNewExam().removeItem(courseString);
+	}
+
+	public void editCourse(String courseString, String courseCredits, String name) throws IntegerParseException{
+		try {
+		int credits = Integer.parseInt(courseCredits);
+		String courseCode = this.stripString(courseString);
+		courseRegister.editCourse(courseCode, name, credits);
+		
+		courseFrame.getComboBoxChooseCourse().setModel(this.getCourses());
+		courseFrame.getComboBoxCourseForExam().setModel(this.getCourses());
+		courseFrame.getComboBoxCourseForNewExam().setModel(this.getCourses());
+		}
+		catch (NumberFormatException exception) {
+			throw new IntegerParseException();
+		}
+	}
+	
+	public void addToCourse(String courseString, String examID) {
+		String courseCode = this.stripString(courseString);
+		Course c = courseRegister.findCourse(courseCode);
+		
+		WrittenExam e = examRegister.findExam(examID);
+		c.addExam(e);
+		e.setCourse(c);
+	}
+	public WrittenExam removeFromCourse(String courseString, String examID) {
+		String courseCode = this.stripString(courseString);
+		Course c = courseRegister.findCourse(courseCode);
+		WrittenExam e = c.removeExam(examID);
+		examRegister.removeExam(examID);
+		
+		return e;
+	}
+	
+	
 	
 	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseString) throws IntegerParseException{
-		int startIndex = courseString.indexOf(",") + 2;
-		int endIndex = courseString.length();
-		String courseCode = courseString.substring(startIndex, endIndex);
+		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 		
 		WrittenExam e = new WrittenExam();
 		e.setDate(date);
+		e.setLocation(location);
+		e.setExamId(examID);
 		try {
 		int hour = Integer.parseInt(hours);
 		int minute = Integer.parseInt(minutes);
 		LocalTime time = LocalTime.of(hour, minute);
 		e.setTime(time);
-		
-		e.setLocation(location);
-		e.setExamId(examID);
-		
-		courseFrame.getComboBoxExamID().addItem(examID);
-		courseFrame.getComboBoxExamIDRegister().addItem(examID);
-		courseFrame.getComboBoxExamIDUnregister().addItem(examID);
-		
-		examRegister.addExam(e);
-		c.addExam(e);
 		}
 		catch (NumberFormatException exception) {
 			throw new IntegerParseException();
 		}
-		
+		examRegister.addExam(e);
+		c.addExam(e);
 	}
 	public void registerStudent(String studentString, String examID) {
-		int startIndex = studentString.indexOf(",") + 2;
-		int endIndex = studentString.length();
-		String studentID = studentString.substring(startIndex, endIndex);
+		String studentID = this.stripString(studentString);
 		
 		Student s = studentRegister.findStudent(studentID);
 		WrittenExam e = examRegister.findExam(examID);
 		s.registerExam(e);
 	}
 	public WrittenExam unregisterStudent(String studentString, String examID) {
-		int startIndex = studentString.indexOf(",") + 2;
-		int endIndex = studentString.length();
-		String studentID = studentString.substring(startIndex, endIndex);
+		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
 		WrittenExam e = s.unregisterExam(examID);
 		Result result = e.getRegister().get(studentID);
@@ -223,10 +286,7 @@ public class ViewController {
 		return new DefaultComboBoxModel<String>(exams);
 	}
 	public void filterExams(String courseString) {
-		int startIndex = courseString.indexOf(",") + 2;
-		int endIndex = courseString.length();
-		String courseCode = courseString.substring(startIndex, endIndex);
-		
+		String courseCode = this.stripString(courseString);
 		Course course = courseRegister.findCourse(courseCode);
 		HashMap<String, WrittenExam> examList = course.getExamList();
 		
@@ -296,24 +356,28 @@ public class ViewController {
 
 	// ID-generatorer
 	public String generateStudentID() {
-		if (studentId < 100000) {
-			do {
-				studentId++;
-			} while ((studentRegister.findStudent("S" + studentId.toString())) != null);
+		if (studentId < 100000 && studentRegister.findStudent("S" + studentId.toString()) != null) {
+			studentId++;
 			return "S" + studentId.toString();
 
 		} else
 			return studentId.toString(); /// m�ste �ndras till n�got vettigt tex popup
 	}
 
-	public String generateCourseID() {
+	public synchronized String generateCourseID() {
 		if (courseId < 100000) {
-			do {
-				courseId++;
-			} while (courseRegister.findCourse("C" + courseId.toString()) != null);
-
-			return "C" + courseId.toString();
-		} else
+			if (courseRegister.findCourse("C" + courseId) == null) {
+					return "C" + courseId++;
+				}
+			else {
+				while (courseRegister.findCourse("C" + courseId) != null) {
+					courseId++;
+				}
+				return "C" + courseId++;
+			}
+	
+		}
+		else
 			return courseId.toString(); /// m�ste �ndras till n�got vettigt tex popup
 	}
 	public String generateExamID() {
