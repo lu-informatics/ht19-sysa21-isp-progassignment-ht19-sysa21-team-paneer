@@ -1,4 +1,8 @@
+import java.sql.Date;
+import java.time.LocalTime;
 import java.util.Map;
+
+import javax.swing.table.DefaultTableModel;
 
 public class Test_application {
 
@@ -27,24 +31,6 @@ public class Test_application {
 			System.out.println(tmp.getStudentId());
 		}
 		
-		Result s1e1 = new Result();
-		Result s1e2 = new Result();
-		Result s2e1 = new Result();
-		Result s2e2 = new Result();
-		s1e1.setStudent(s1);
-		s1e1.setExam(e1);
-		s1e2.setStudent(s1);
-		s1e2.setExam(e2);
-		s2e1.setStudent(s2);
-		s2e1.setExam(e1);
-		s2e2.setStudent(s2);
-		s2e2.setExam(e2);
-		
-		e1.addResult(s1e1);
-		e1.addResult(s2e1);
-		e2.addResult(s1e2);
-		e2.addResult(s2e2);
-		
 		s1.registerExam(e1);
 		s1.registerExam(e2);
 		s2.registerExam(e2);
@@ -58,6 +44,14 @@ public class Test_application {
 		c2.setName("SySa12");
 		e1.setExamId("E10000");
 		e2.setExamId("E10001");
+		e1.setDate(Date.valueOf("2020-05-20"));
+		e2.setDate(Date.valueOf("2020-06-02"));
+		e1.setLocation("Room A123");
+		e2.setLocation("Room A123");
+		e1.setTime(LocalTime.NOON);
+		e2.setTime(LocalTime.NOON);
+		e1.setMaxPoints(100);
+		e2.setMaxPoints(100);
 		courseRegister.addCourse(c1);
 		courseRegister.addCourse(c2);
 		examRegister.addExam(e1);
@@ -65,13 +59,15 @@ public class Test_application {
 		c1.addExam(e1);
 		c2.addExam(e2);
 		
-		
+		DefaultTableModel courseTableModel = new DefaultTableModel(new String[][]{{"C10000", "SYSA12", "10"}, {"C10001", "SySa12", "20"}},
+				new String[]{"Course Code", "Name", "Credits"});
+		DefaultTableModel examTableModel = new DefaultTableModel(new String[][]{{"E10000", e1.getCourse().getCourseCode(), "2020-05-20", "12:00", "Room A123", "100"}, 
+			{"E10001", e2.getCourse().getCourseCode(), "2020-06-02", "12:00", "Room A123", "100"}},
+				new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"});
 		
 		ViewController viewController = new ViewController(courseRegister, examRegister, studentRegister);
-		for (Map.Entry<String, WrittenExam> entry : examRegister.getRegister().entrySet()) {
-			WrittenExam tmp = entry.getValue();
-			System.out.println(tmp.getExamId());
-		}
+		viewController.setCourseTableModel(courseTableModel);
+		viewController.setExamTableModel(examTableModel);
 		
 		StartFrame startFrame = new StartFrame(viewController);
 		startFrame.setVisible(true);
