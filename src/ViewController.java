@@ -13,7 +13,7 @@ public class ViewController {
 
 	private Integer studentId = 9999;
 	private Integer courseId = 10000;
-	private Integer examID = 9999;
+	private Integer examID = 10000;
 	private String[] locations = new String[] {"Room A123", "Room A167", "Room B198", "Room B067"};
 	private DefaultTableModel courseTableModel;
 	private DefaultTableModel examTableModel;
@@ -274,7 +274,9 @@ public class ViewController {
 		Course c = courseRegister.findCourse(courseCode);
 		WrittenExam e = c.removeExam(examID);
 		examRegister.removeExam(examID);
-		examTableModel.removeRow(Integer.parseInt(examID.substring(1))-10000);
+		this.examID = Integer.parseInt(examID.substring(1));
+		
+		examTableModel.removeRow(this.examID-10000);
 		return e;
 	}
 	
@@ -441,15 +443,20 @@ public class ViewController {
 			return courseId.toString(); /// m�ste �ndras till n�got vettigt tex popup
 	}
 	public String generateExamID() {
-		
 		if (examID < 100000) {
-			do {
-				examID++;
-			} while (examRegister.findExam("E" + examID.toString()) != null);
+			if (examRegister.findExam("E" + examID) == null) {
+				return "E" + examID++;
+			}
+			else {
+				while (examRegister.findExam("E" + examID) != null) {
+					examID++;
+				}
+				return "E" + examID++;
+			}
 
-			return "E" + examID.toString();
-		} else
-			return examID.toString(); /// m�ste �ndras till n�got vettigt tex popup
+		}
+		else
+			return examID.toString();
 	}
 
 	// Vykontroller
