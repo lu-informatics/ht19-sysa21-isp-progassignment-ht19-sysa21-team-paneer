@@ -1,4 +1,5 @@
 
+import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -6,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class ViewController {
 
@@ -13,12 +15,40 @@ public class ViewController {
 	private Integer courseId = 10000;
 	private Integer examID = 9999;
 	private String[] locations = new String[] {"Room A123", "Room A167", "Room B198", "Room B067"};
+	private DefaultTableModel courseTableModel;
+	private DefaultTableModel examTableModel;
+	private DateLabelFormatter dateFormatter;
+	public DateLabelFormatter getDateFormatter() {
+		return dateFormatter;
+	}
+
+	public void setDateFormatter(DateLabelFormatter dateFormatter) {
+		this.dateFormatter = dateFormatter;
+	}
+
+	public DefaultTableModel getCourseTableModel() {
+		return courseTableModel;
+	}
+
+	public void setCourseTableModel(DefaultTableModel courseTableModel) {
+		this.courseTableModel = courseTableModel;
+	}
+
+	public DefaultTableModel getExamTableModel() {
+		return examTableModel;
+	}
+
+	public void setExamTableModel(DefaultTableModel examTableModel) {
+		this.examTableModel = examTableModel;
+	}
 
 	// Kopplar till gr�nssnitten
 	CourseFrame courseFrame;
 	ResultFrame resultFrame;
 	StartFrame startFrame;
 	StudentFrame studentFrame;
+	CourseData courseData;
+	ExamData examData;
 
 	// Kopplar till probl.-omr�deskomponenten
 	CourseRegister courseRegister;
@@ -36,6 +66,9 @@ public class ViewController {
 		resultFrame = new ResultFrame(this);
 		startFrame = new StartFrame(this);
 		studentFrame = new StudentFrame(this);
+		courseData = new CourseData(this);
+		examData = new ExamData(this);
+		dateFormatter = new DateLabelFormatter();
 	}
 
 	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
@@ -47,6 +80,9 @@ public class ViewController {
 		resultFrame = new ResultFrame(this);
 		startFrame = new StartFrame(this);
 		studentFrame = new StudentFrame(this);
+		courseData = new CourseData(this);
+		examData = new ExamData(this);
+		dateFormatter = new DateLabelFormatter();
 	}
 
 	// Metoder för CourseView objekt
@@ -118,6 +154,21 @@ public class ViewController {
 		courseFrame.getPanelCourseForNewExam().setVisible(false);
 		courseFrame.getPanelCourseForExam().setVisible(true);
 	}
+	public void viewCourseData() {
+		courseData.getTableCourse().setModel(courseTableModel);
+		courseData.setVisible(true);
+	}
+	public void goBackFromCourseData() {
+		courseData.setVisible(false);
+	}
+	public void viewExamData() {
+		examData.getTableExamData().setModel(examTableModel);
+		examData.setVisible(true);
+	}
+	public void goBackFromExamData() {
+		examData.setVisible(false);
+	}
+
 	public void showExceptionWindowForEmptyFields() {
 		JOptionPane.showMessageDialog(null, 
                 "Some of the fields were empty. Please fill in all the required fields.", 
@@ -177,6 +228,8 @@ public class ViewController {
 		courseFrame.getComboBoxChooseCourse().addItem(c.getName() + ", " + courseCode);
 		courseFrame.getComboBoxCourseForExam().addItem(c.getName() + ", " + courseCode);
 		courseFrame.getComboBoxCourseForNewExam().addItem(c.getName() + ", " + courseCode);
+		courseTableModel.insertRow(Integer.parseInt(courseCode.substring(1))-10000, new String[]{courseCode, name, credits});
+		
 	}
 
 	public void deleteCourse(String courseString) {
@@ -187,6 +240,7 @@ public class ViewController {
 		courseFrame.getComboBoxChooseCourse().removeItem(courseString);
 		courseFrame.getComboBoxCourseForExam().removeItem(courseString);
 		courseFrame.getComboBoxCourseForNewExam().removeItem(courseString);
+		courseTableModel.removeRow(courseId-10000);
 	}
 
 	public void editCourse(String courseString, String courseCredits, String name) throws IntegerParseException{
@@ -198,6 +252,9 @@ public class ViewController {
 		courseFrame.getComboBoxChooseCourse().setModel(this.getCourses());
 		courseFrame.getComboBoxCourseForExam().setModel(this.getCourses());
 		courseFrame.getComboBoxCourseForNewExam().setModel(this.getCourses());
+		
+		courseTableModel.setValueAt(name, Integer.parseInt(courseCode.substring(1))-10000, 1);
+		courseTableModel.setValueAt(courseCredits, Integer.parseInt(courseCode.substring(1))-10000, 2);
 		}
 		catch (NumberFormatException exception) {
 			throw new IntegerParseException();
@@ -217,13 +274,13 @@ public class ViewController {
 		Course c = courseRegister.findCourse(courseCode);
 		WrittenExam e = c.removeExam(examID);
 		examRegister.removeExam(examID);
-		
+		examTableModel.removeRow(Integer.parseInt(examID.substring(1))-10000);
 		return e;
 	}
 	
 	
 	
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseString) throws IntegerParseException{
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseString) throws IntegerParseException, ParseException{
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 		
@@ -240,8 +297,11 @@ public class ViewController {
 		catch (NumberFormatException exception) {
 			throw new IntegerParseException();
 		}
+		String dateAsString = dateFormatter.valueToString(date);
 		examRegister.addExam(e);
 		c.addExam(e);
+		examTableModel.insertRow(Integer.parseInt(examID.substring(1))-10000,
+				new String[]{examID, courseCode, dateAsString, hours + ":" + minutes, location, "100"});
 	}
 	public void registerStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
