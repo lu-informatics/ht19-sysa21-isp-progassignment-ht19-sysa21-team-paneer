@@ -6,12 +6,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class ExamData extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tableExamData;
+	private JButton btnGoBack;
 
 	public JTable getTableExamData() {
 		return tableExamData;
@@ -53,6 +57,14 @@ public class ExamData extends JFrame {
 		
 		tableExamData = new JTable();
 		scrollPane.setViewportView(tableExamData);
+		
+		btnGoBack = new JButton("Go back");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.goBackFromExamData();
+			}
+		});
+		contentPane.add(btnGoBack, BorderLayout.SOUTH);
 	}
 
 }

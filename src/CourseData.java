@@ -6,6 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CourseData extends JFrame {
 
@@ -15,6 +18,7 @@ public class CourseData extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tableCourse;
+	private JButton btnGoBack;
 	
 	public JTable getTableCourse() {
 		return tableCourse;
@@ -46,7 +50,7 @@ public class CourseData extends JFrame {
 	public CourseData(ViewController viewController) {
 		setTitle("Course Register");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 287);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -57,6 +61,14 @@ public class CourseData extends JFrame {
 		
 		tableCourse = new JTable();
 		scrollPane.setViewportView(tableCourse);
+		
+		btnGoBack = new JButton("Go back");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.goBackFromCourseData();
+			}
+		});
+		contentPane.add(btnGoBack, BorderLayout.SOUTH);
 	}
 
 }
