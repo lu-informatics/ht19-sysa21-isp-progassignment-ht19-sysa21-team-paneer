@@ -31,10 +31,7 @@ public class Test_application {
 			System.out.println(tmp.getStudentId());
 		}
 		
-		s1.registerExam(e1);
-		s1.registerExam(e2);
-		s2.registerExam(e2);
-		s2.registerExam(e2);
+		
 		
 		c1.setCourseCode("C10000");
 		c2.setCourseCode("C10001");
@@ -58,16 +55,13 @@ public class Test_application {
 		examRegister.addExam(e2);
 		c1.addExam(e1);
 		c2.addExam(e2);
-		
-		DefaultTableModel courseTableModel = new DefaultTableModel(new String[][]{{"C10000", "SYSA12", "10"}, {"C10001", "SySa12", "20"}},
-				new String[]{"Course Code", "Name", "Credits"});
-		DefaultTableModel examTableModel = new DefaultTableModel(new String[][]{{"E10000", e1.getCourse().getCourseCode(), "2020-05-20", "12:00", "Room A123", "100"}, 
-			{"E10001", e2.getCourse().getCourseCode(), "2020-06-02", "12:00", "Room A123", "100"}},
-				new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"});
+		s1.registerExam(e1);
+		s1.registerExam(e2);
+		s2.registerExam(e1);
+		s2.registerExam(e2);
 		
 		ViewController viewController = new ViewController(courseRegister, examRegister, studentRegister);
-		viewController.setCourseTableModel(courseTableModel);
-		viewController.setExamTableModel(examTableModel);
+		viewController.setCourseModel(viewController.getCourses());
 		
 		StartFrame startFrame = new StartFrame(viewController);
 		startFrame.setVisible(true);
