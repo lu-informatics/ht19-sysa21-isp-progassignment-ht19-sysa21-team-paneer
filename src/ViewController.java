@@ -315,12 +315,17 @@ public class ViewController {
 	
 	
 	
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseString) throws IntegerParseException, ParseException{
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID, String courseString) throws IntegerParseException, ParseException, EmptyFieldException{
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 		
 		WrittenExam e = new WrittenExam();
-		e.setDate(date);
+		if (date != null) {
+			e.setDate(date);
+		}
+		else {
+			throw new EmptyFieldException();
+		}
 		e.setLocation(location);
 		e.setExamId(examID);
 		try {

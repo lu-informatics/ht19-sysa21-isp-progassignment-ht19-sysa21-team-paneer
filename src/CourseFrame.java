@@ -794,6 +794,8 @@ public class CourseFrame extends JFrame {
 				}
 				catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoCourses();
+				} catch (EmptyFieldException exception) {
+					viewController.showExceptionWindowForEmptyFields();
 				}
 
 			}
