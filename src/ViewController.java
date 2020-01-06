@@ -1,9 +1,11 @@
 
 import java.text.ParseException;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -17,7 +19,12 @@ public class ViewController {
 	private String[] locations = new String[] {"Room A123", "Room A167", "Room B198", "Room B067"};
 	private DefaultTableModel courseTableModel;
 	private DefaultTableModel examTableModel;
+	private DefaultComboBoxModel<String> courseModel;
+	private DefaultComboBoxModel<String> examModel;
+	private String[] examTableColumns = new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"};;
+	private String[] courseTableColumns = new String[]{"Course Code", "Name", "Credits"};
 	private DateLabelFormatter dateFormatter;
+	
 	public DateLabelFormatter getDateFormatter() {
 		return dateFormatter;
 	}
@@ -40,6 +47,37 @@ public class ViewController {
 
 	public void setExamTableModel(DefaultTableModel examTableModel) {
 		this.examTableModel = examTableModel;
+	}
+	public String[] getExamTableColumns() {
+		return examTableColumns;
+	}
+
+	public void setExamTableColumns(String[] examTableColumns) {
+		this.examTableColumns = examTableColumns;
+	}
+
+	public String[] getCourseTableColumns() {
+		return courseTableColumns;
+	}
+
+	public void setCourseTableColumns(String[] courseTableColumns) {
+		this.courseTableColumns = courseTableColumns;
+	}
+
+	public DefaultComboBoxModel<String> getCourseModel() {
+		return courseModel;
+	}
+
+	public void setCourseModel(DefaultComboBoxModel<String> courseModel) {
+		this.courseModel = courseModel;
+	}
+
+	public DefaultComboBoxModel<String> getExamModel() {
+		return examModel;
+	}
+
+	public void setExamModel(DefaultComboBoxModel<String> examModel) {
+		this.examModel = examModel;
 	}
 
 	// Kopplar till gr�nssnitten
@@ -83,6 +121,8 @@ public class ViewController {
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
 		dateFormatter = new DateLabelFormatter();
+		courseModel = getCourses();
+
 	}
 
 	// Metoder för CourseView objekt
@@ -155,14 +195,14 @@ public class ViewController {
 		courseFrame.getPanelCourseForExam().setVisible(true);
 	}
 	public void viewCourseData() {
-		courseData.getTableCourse().setModel(courseTableModel);
+		courseData.getTableCourse().setModel(fetchCourseTableModel());
 		courseData.setVisible(true);
 	}
 	public void goBackFromCourseData() {
 		courseData.setVisible(false);
 	}
 	public void viewExamData() {
-		examData.getTableExamData().setModel(examTableModel);
+		examData.getTableExamData().setModel(fetchExamTableModel());
 		examData.setVisible(true);
 	}
 	public void goBackFromExamData() {
@@ -179,6 +219,12 @@ public class ViewController {
 		JOptionPane.showMessageDialog(null, 
                 "The exam is not part of the selected course. Please choose another exam.", 
                 "Exam not part of course", 
+                JOptionPane.WARNING_MESSAGE);
+	}
+	public void showExceptionWindowForNoExams() {
+		JOptionPane.showMessageDialog(null, 
+                "There are no exams on the selected course. Please add an exam or choose another course.", 
+                "No exams on course", 
                 JOptionPane.WARNING_MESSAGE);
 	}
 	public void showExceptionWindowForUnlinkedStudent() {
@@ -199,6 +245,12 @@ public class ViewController {
                 "Non-integer values entered", 
                 JOptionPane.WARNING_MESSAGE);
 	}
+	public void showExceptionWindowForNoCourses() {
+		JOptionPane.showMessageDialog(null, 
+                "There are no courses registered. Please add a course before adding any exams.", 
+                "No courses registered", 
+                JOptionPane.WARNING_MESSAGE);
+	}
 	public void showExceptionWindowForNoAvailableIdentifier() {
 		JOptionPane.showMessageDialog(null, 
                 "There is no memory left for adding new courses. Please delete a course to continue.", 
@@ -206,9 +258,8 @@ public class ViewController {
                 JOptionPane.WARNING_MESSAGE);
 	}
 	public String stripString(String comboBoxString) {
-		int startIndex = comboBoxString.indexOf(",") + 2;
-		int endIndex = comboBoxString.length();
-		return comboBoxString.substring(startIndex, endIndex);
+		int startIndex = comboBoxString.indexOf(",");
+		return comboBoxString.substring(0, startIndex);
 	}
 	
 	public void addCourse(String name, String credits) throws NullPointerException{
@@ -225,11 +276,7 @@ public class ViewController {
 		
 		courseRegister.addCourse(c);
 		
-		courseFrame.getComboBoxChooseCourse().addItem(c.getName() + ", " + courseCode);
-		courseFrame.getComboBoxCourseForExam().addItem(c.getName() + ", " + courseCode);
-		courseFrame.getComboBoxCourseForNewExam().addItem(c.getName() + ", " + courseCode);
-		courseTableModel.insertRow(Integer.parseInt(courseCode.substring(1))-10000, new String[]{courseCode, name, credits});
-		
+		this.updateCourses();
 	}
 
 	public void deleteCourse(String courseString) {
@@ -237,28 +284,15 @@ public class ViewController {
 		courseRegister.removeCourse(courseCode);
 		courseId = Integer.parseInt(courseCode.substring(1));
 		
-		courseFrame.getComboBoxChooseCourse().removeItem(courseString);
-		courseFrame.getComboBoxCourseForExam().removeItem(courseString);
-		courseFrame.getComboBoxCourseForNewExam().removeItem(courseString);
-		courseTableModel.removeRow(courseId-10000);
+		this.updateCourses();
 	}
 
-	public void editCourse(String courseString, String courseCredits, String name) throws IntegerParseException{
-		try {
+	public void editCourse(String courseString, String courseCredits, String name){
 		int credits = Integer.parseInt(courseCredits);
 		String courseCode = this.stripString(courseString);
+		System.out.println(courseString + "stripped to: " + courseCode);
 		courseRegister.editCourse(courseCode, name, credits);
-		
-		courseFrame.getComboBoxChooseCourse().setModel(this.getCourses());
-		courseFrame.getComboBoxCourseForExam().setModel(this.getCourses());
-		courseFrame.getComboBoxCourseForNewExam().setModel(this.getCourses());
-		
-		courseTableModel.setValueAt(name, Integer.parseInt(courseCode.substring(1))-10000, 1);
-		courseTableModel.setValueAt(courseCredits, Integer.parseInt(courseCode.substring(1))-10000, 2);
-		}
-		catch (NumberFormatException exception) {
-			throw new IntegerParseException();
-		}
+		this.updateCourses();
 	}
 	
 	public void addToCourse(String courseString, String examID) {
@@ -269,15 +303,14 @@ public class ViewController {
 		c.addExam(e);
 		e.setCourse(c);
 	}
-	public WrittenExam removeFromCourse(String courseString, String examID) {
+	public void removeFromCourse(String courseString, String examID) {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
-		WrittenExam e = c.removeExam(examID);
+		c.removeExam(examID);
 		examRegister.removeExam(examID);
 		this.examID = Integer.parseInt(examID.substring(1));
 		
-		examTableModel.removeRow(this.examID-10000);
-		return e;
+		this.filterExams(courseString);
 	}
 	
 	
@@ -299,11 +332,8 @@ public class ViewController {
 		catch (NumberFormatException exception) {
 			throw new IntegerParseException();
 		}
-		String dateAsString = dateFormatter.valueToString(date);
 		examRegister.addExam(e);
 		c.addExam(e);
-		examTableModel.insertRow(Integer.parseInt(examID.substring(1))-10000,
-				new String[]{examID, courseCode, dateAsString, hours + ":" + minutes, location, "100"});
 	}
 	public void registerStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
@@ -312,13 +342,12 @@ public class ViewController {
 		WrittenExam e = examRegister.findExam(examID);
 		s.registerExam(e);
 	}
-	public WrittenExam unregisterStudent(String studentString, String examID) {
+	public void unregisterStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
-		WrittenExam e = s.unregisterExam(examID);
-		Result result = e.getRegister().get(studentID);
-		e.removeResult(result);
-		return e;
+		s.unregisterExam(examID);
+		
+		filterStudents(examID);
 	}
 
 	public DefaultComboBoxModel<String> getLocations() {
@@ -331,21 +360,48 @@ public class ViewController {
 		String [] courses = new String [courseList.size()];
 				
 		for (Map.Entry<String,Course> entry : courseList.entrySet()) {
-		    courses[i] = entry.getValue().getName() + ", " + entry.getKey();
+		    courses[i] = entry.getKey() + ", " + entry.getValue().getName();
 		    i++;
 		}
+		Arrays.sort(courses);
 		return new DefaultComboBoxModel<String>(courses);
 	}
-	public DefaultComboBoxModel<String> getExams() {
-		int i = 0;
+	public void updateCourses() {
+		courseModel = this.getCourses();
+		courseFrame.getComboBoxChooseCourse().setModel(courseModel);
+		courseFrame.getComboBoxCourseForExam().setModel(courseModel);
+		courseFrame.getComboBoxCourseForNewExam().setModel(courseModel);
+	}
+	public DefaultTableModel fetchExamTableModel() {
 		HashMap<String, WrittenExam> examList = examRegister.getRegister();
-		String [] exams = new String [examList.size()];
+		Map<String, WrittenExam> sortedExamMap = new TreeMap<String, WrittenExam>(examList);
 		
-		for (String key : examList.keySet()) {
-		    exams[i] = key;
-		    i++;
+		String[][] examTableData = new String[sortedExamMap.keySet().size()][examTableColumns.length];
+		int i = 0;
+		for (Map.Entry<String, WrittenExam> entry : sortedExamMap.entrySet()) {
+			examTableData[i][0] = entry.getKey();
+			examTableData[i][1] = entry.getValue().getCourse().getCourseCode();
+			examTableData[i][2] = dateFormatter.valueToString(entry.getValue().getDate());
+			examTableData[i][3] = entry.getValue().getTime().toString();
+			examTableData[i][4] = entry.getValue().getLocation();
+			examTableData[i][5] = "100";
+			i++;
 		}
-		return new DefaultComboBoxModel<String>(exams);
+		return new DefaultTableModel(examTableData, examTableColumns);
+	}
+	public DefaultTableModel fetchCourseTableModel() {
+		HashMap<String, Course> courseList = courseRegister.getCourseList();
+		Map<String, Course> sortedCourseMap = new TreeMap<String, Course>(courseList);
+		
+		String[][] courseTableData = new String[sortedCourseMap.keySet().size()][courseTableColumns.length];
+		int i = 0;
+		for (Map.Entry<String, Course> entry : sortedCourseMap.entrySet()) {
+			courseTableData[i][0] = entry.getKey();
+			courseTableData[i][1] = entry.getValue().getName();
+			courseTableData[i][2] = String.valueOf(entry.getValue().getCredits());
+			i++;
+		}
+		return new DefaultTableModel(courseTableData, courseTableColumns);
 	}
 	public void filterExams(String courseString) {
 		String courseCode = this.stripString(courseString);
@@ -358,10 +414,12 @@ public class ViewController {
 			exams[i] = key;
 			i++;
 		}
-		DefaultComboBoxModel<String> filteredExamModel = new DefaultComboBoxModel<String>(exams);
-		courseFrame.getComboBoxExamIDUnregister().setModel(filteredExamModel);
-		courseFrame.getComboBoxExamIDRegister().setModel(filteredExamModel);
-		courseFrame.getComboBoxExamID().setModel(filteredExamModel);
+		Arrays.sort(exams);
+		examModel = new DefaultComboBoxModel<String>(exams);
+		
+		courseFrame.getComboBoxExamID().setModel(examModel);
+		courseFrame.getComboBoxExamIDRegister().setModel(examModel);
+		courseFrame.getComboBoxExamIDUnregister().setModel(examModel);
 	}
 	public DefaultComboBoxModel<String> getStudents() {
 		int i = 0;
@@ -369,9 +427,10 @@ public class ViewController {
 		String[] students = new String [studentList.size()];
 		
 		for (Map.Entry<String, Student> entry : studentList.entrySet()) {
-		    students[i] = entry.getValue().getName() + ", " + entry.getKey();
+		    students[i] = entry.getKey() + ", " + entry.getValue().getName();
 		    i++;
 		}
+		Arrays.sort(students);
 		return new DefaultComboBoxModel<String>(students);
 	}
 	public void filterStudents(String examID) {
@@ -381,9 +440,10 @@ public class ViewController {
 		String [] students = new String [resultList.size()];
 		
 		for (Map.Entry<String, Result> entry : resultList.entrySet()) {
-		    students[i] = entry.getValue().getStudent().getName() + ", " + entry.getKey();
+		    students[i] = entry.getKey() + ", " + entry.getValue().getStudent().getName();
 		    i++;
 		}
+		Arrays.sort(students);
 		
 		DefaultComboBoxModel<String> filteredStudentModel = new DefaultComboBoxModel<String>(students);
 		courseFrame.getComboBoxStudentIDUnregister().setModel(filteredStudentModel);
