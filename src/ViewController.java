@@ -116,5 +116,11 @@ public class ViewController {
 		
 	}
 	
-
+	public void registerResultForStudent(String studentId, String examId, int score) {
+		Student s = studentRegister.findStudent(studentId);
+		 s.getResults().get(examId).setResult(score);
+		
+		}
+	
+	
 }
