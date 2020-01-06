@@ -85,7 +85,7 @@ public class WrittenExam {
 	}
 
 	public Result removeResult(Result result) {
-		register.put(result.getStudent().getStudentId(),result);
+		register.remove(result.getStudent().getStudentId());
 		return register2.remove(result.getResult());
 	}
 	//Hjälpfunktion 
