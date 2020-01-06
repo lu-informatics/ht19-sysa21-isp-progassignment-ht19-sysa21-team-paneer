@@ -2,8 +2,6 @@ import java.sql.Date;
 import java.time.LocalTime;
 import java.util.Map;
 
-import javax.swing.table.DefaultTableModel;
-
 public class Test_application {
 
 	public static void main(String[] args) {
