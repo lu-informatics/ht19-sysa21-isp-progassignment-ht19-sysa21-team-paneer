@@ -21,8 +21,10 @@ public class StudentFrame extends JFrame {
 	private JTextField textField_FNameInput;
 	private JPanel addPanel;
 	private JPanel editPanel;
+	private JPanel deletePanel;
 	private JTextField textField_EditFName;
 	private JComboBox<String> comboBoxChooseStudent;
+	private JComboBox<String> comboBoxChooseStudentToDelete;
 
 	public JLabel getLblResponse() {
 		return lblResponse;
@@ -39,6 +41,14 @@ public class StudentFrame extends JFrame {
 
 	public void setComboBoxChooseStudent(JComboBox<String> comboBoxChooseStudent) {
 		this.comboBoxChooseStudent = comboBoxChooseStudent;
+	}
+	
+	public JComboBox<String> getComboBoxChooseStudentToDelete() {
+		return comboBoxChooseStudentToDelete;
+	}
+
+	public void setComboBoxChooseStudentToDelete(JComboBox<String> comboBoxChooseStudentToDelete) {
+		this.comboBoxChooseStudentToDelete = comboBoxChooseStudentToDelete;
 	}
 
 	private JLabel lblResponse;
@@ -85,6 +95,8 @@ public class StudentFrame extends JFrame {
 		layeredPane.setLayout(new CardLayout(0, 0));
 		layeredPane.setVisible(false);
 
+	
+		
 		// Start Add student
 
 		addPanel = new JPanel();
@@ -155,6 +167,9 @@ public class StudentFrame extends JFrame {
 		);
 		btnSave.setBounds(177, 213, 115, 29);
 		addPanel.add(btnSave);
+		
+		
+
 
 		// Start Edit Student
 		editPanel = new JPanel();
@@ -210,11 +225,7 @@ public class StudentFrame extends JFrame {
 		textField_EditLName.setColumns(10);
 		textField_EditLName.setVisible(false);
 
-		JLabel lblRemoveStudent = new JLabel("Remove student");
-		lblRemoveStudent.setBounds(15, 524, 115, 20);
-		editPanel.add(lblRemoveStudent);
-		lblRemoveStudent.setVisible(false);
-
+		
 		textField_EditLName = new JTextField();
 		textField_EditLName.setBounds(178, 411, 146, 26);
 		editPanel.add(textField_EditLName);
@@ -255,10 +266,6 @@ public class StudentFrame extends JFrame {
 		lblUseFormatS.setBounds(15, 207, 146, 20);
 		editPanel.add(lblUseFormatS);
 
-		JButton btnDeleteStudent = new JButton("Delete Student");
-		btnDeleteStudent.setBounds(178, 553, 146, 29);
-		editPanel.add(btnDeleteStudent);
-		btnDeleteStudent.setVisible(false);
 
 		JButton btnSaveChanges = new JButton("Save changes");
 		btnSaveChanges.setBounds(178, 464, 146, 29);
@@ -281,7 +288,7 @@ public class StudentFrame extends JFrame {
 						lblStudentFound.setVisible(true);
 						labelIdFound.setVisible(true);
 						lblNameFound.setVisible(true);
-						btnDeleteStudent.setVisible(true);
+						
 						btnSaveChanges.setVisible(true);
 						textField_EditFName.setVisible(true);
 						lblEditNamesLeave.setVisible(true);
@@ -289,7 +296,7 @@ public class StudentFrame extends JFrame {
 						lblNewLastname.setVisible(true);
 						lblNewLastname.setVisible(true);
 						textField_EditLName.setVisible(true);
-						lblRemoveStudent.setVisible(true);
+						
 					} else {
 						lblStudentFound.setVisible(true);
 						lblStudentFound.setText("Invalid ID format");
@@ -320,22 +327,67 @@ public class StudentFrame extends JFrame {
 		}
 
 		);
+		
+		//Start Delete Student
+		
+		deletePanel = new JPanel();
+		deletePanel.setBackground(Color.WHITE);
+		layeredPane.add(deletePanel, "name_526566720530800");
+		deletePanel.setLayout(null);
+		deletePanel.setVisible(false);
 
-		// Delete student
-		btnDeleteStudent.addActionListener(new ActionListener() {
+		JLabel lblStudentDelete = new JLabel("Delete Student");
+		lblStudentDelete.setFont(new Font("Arial", Font.PLAIN, 17));
+		lblStudentDelete.setBounds(15, 28, 190, 20);
+		deletePanel.add(lblStudentDelete);
+		
+		JLabel lblChooseAStudentToDelete = new JLabel("Choose a student below");
+		lblChooseAStudentToDelete.setBounds(15, 63, 210, 20);
+		deletePanel.add(lblChooseAStudentToDelete);
+		
+		comboBoxChooseStudentToDelete = new JComboBox<String>(viewController.getStudents());
+		
+		comboBoxChooseStudentToDelete.setSize(309, 26);
+		comboBoxChooseStudentToDelete.setLocation(15, 99);
+		deletePanel.add(comboBoxChooseStudentToDelete);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setVisible(false);
+		btnDelete.setBounds(209, 385, 115, 29);
+		deletePanel.add(btnDelete);
+		
+		JLabel lbl_DeleteRespons = new JLabel("");
+		lbl_DeleteRespons.setBounds(15, 197, 190, 20);
+		deletePanel.add(lbl_DeleteRespons);
+		
+		comboBoxChooseStudentToDelete.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				comboBoxChooseStudentToDelete = (JComboBox<String>) e.getSource();
+				String studentName = (String) comboBoxChooseStudentToDelete.getSelectedItem();
+				lblStudentFound.setText(studentName);
+				btnDelete.setVisible(true);
+				
+				
+			}
+		});
+		
+		
+	
+
+		// Delete student from register
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int choice = viewController.showConfirmWindowForDeleting();
 				if(choice == JOptionPane.YES_OPTION) {
 				try {
 					viewController.deleteStudent(
 							viewController.findStudent(textFindStudentById.getText()).getStudentId());
-					lblStudentFound.setText("Student deleted");
-					textFindStudentById.setText("");
-					labelIdFound.setVisible(false);
-					lblNameFound.setVisible(false);
+					lbl_DeleteRespons.setText("Student deleted");
+					
 				} 
 				catch (NullPointerException nex) {
-					lblStudentFound.setText("No student found");
+					lbl_DeleteRespons.setText("No student found");
 					labelIdFound.setVisible(false);
 					lblNameFound.setVisible(false);
 			}}}
@@ -349,6 +401,7 @@ public class StudentFrame extends JFrame {
 				layeredPane.setVisible(true);
 				editPanel.setVisible(false);
 				addPanel.setVisible(true);
+				deletePanel.setVisible(false);
 			}
 		});
 		btnRegisterNewStudent.setBounds(15, 151, 204, 29);
@@ -360,6 +413,7 @@ public class StudentFrame extends JFrame {
 				layeredPane.setVisible(true);
 				addPanel.setVisible(false);
 				editPanel.setVisible(true);
+				deletePanel.setVisible(false);
 			}
 		});
 		btnFindStudent.setBounds(15, 218, 204, 29);
@@ -375,6 +429,18 @@ public class StudentFrame extends JFrame {
 		});
 		btnBackToStart.setBounds(15, 400, 204, 29);
 		contentPane.add(btnBackToStart);
+		
+		JButton btnDeleteStudent = new JButton("Delete Student");
+		btnDeleteStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				layeredPane.setVisible(true);
+				addPanel.setVisible(false);
+				editPanel.setVisible(false);
+				deletePanel.setVisible(true);
+			}
+		});
+		btnDeleteStudent.setBounds(15, 286, 204, 29);
+		contentPane.add(btnDeleteStudent);
 
 	}
 

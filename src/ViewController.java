@@ -280,8 +280,8 @@ public class ViewController {
                 JOptionPane.WARNING_MESSAGE);
 	}
 	public String stripString(String comboBoxString) {
-		int startIndex = comboBoxString.indexOf(",");
-		return comboBoxString.substring(0, startIndex);
+		int endIndex = comboBoxString.indexOf(",");
+		return comboBoxString.substring(0, endIndex);
 	}
 
 
@@ -479,6 +479,8 @@ public class ViewController {
 		}
 		tmpStudent.setStudentId(this.generateStudentID());
 		studentRegister.addStudent(tmpStudent);
+		
+		this.updateStudents();
 	}
 	
 
@@ -494,6 +496,14 @@ public class ViewController {
 
 	public Student deleteStudent(String studentID) {
 		return studentRegister.removeStudent(studentID);
+	}
+	
+	public void deleteStudent1(String studentString) {
+		String studentID = this.stripString(studentString);
+		studentRegister.removeStudent(studentID);
+		courseId = Integer.parseInt(studentID.substring(1));
+		
+		this.updateStudents();
 	}
 
 	public Student findStudent(String studentID) {
@@ -526,8 +536,11 @@ public class ViewController {
 	public void updateStudents() {
 		studentModel = this.getStudents();
 		studentFrame.getComboBoxChooseStudent().setModel(studentModel);
+		studentFrame.getComboBoxChooseStudentToDelete().setModel(studentModel);
 
 	}
+	
+	
   
   public void showExceptionWindowForNoStudent() {
 		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
