@@ -1,24 +1,19 @@
-import javax.swing.JComboBox;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import javax.swing.JLabel;
-import javax.swing.JButton;
-
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.util.regex.PatternSyntaxException;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-
-import java.awt.CardLayout;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.SystemColor;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class StudentFrame extends JFrame {
 
@@ -226,7 +221,7 @@ public class StudentFrame extends JFrame {
 		textField_EditLName.setColumns(10);
 		textField_EditLName.setVisible(false);
 
-		comboBoxChooseStudent = new JComboBox(viewController.getStudents());
+		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
 
 		comboBoxChooseStudent.addActionListener(new ActionListener() {
 
@@ -373,7 +368,7 @@ public class StudentFrame extends JFrame {
 		JButton btnBackToStart = new JButton("Back to main menu");
 		btnBackToStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.backToMainMenu(viewController);
+				viewController.returnToMain();
 			}
 		});
 		btnBackToStart.setBounds(15, 400, 204, 29);
