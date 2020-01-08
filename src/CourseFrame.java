@@ -296,6 +296,7 @@ public class CourseFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+
 		UtilDateModel model = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -306,6 +307,8 @@ public class CourseFrame extends JFrame {
 
 		JButton btnGoBack = new JButton("Return to main menu");
 		btnGoBack.addActionListener(new ActionListener() {
+
+
 			public void actionPerformed(ActionEvent e) {
 				viewController.viewBack();
 				viewController.returnToMain();

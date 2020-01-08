@@ -3,12 +3,15 @@ import java.time.LocalTime;
 import java.util.Map;
 
 public class Test_application {
+	
+
 
 	public static void main(String[] args) {
 
 		Student s1 = new Student();
 		Student s2 = new Student();
 		Course c1 = new Course();
+		
 		Course c2 = new Course();
 		WrittenExam e1 = new WrittenExam();
 		WrittenExam e2 = new WrittenExam();
@@ -23,7 +26,7 @@ public class Test_application {
 		s2.setStudentId("S10001");
 		studentRegister.addStudent(s2);
 
-		for (Map.Entry<String, Student> entry : studentRegister.getStudenter().entrySet()) {
+		for (Map.Entry<String, Student> entry : studentRegister.getStudents().entrySet()) {
 			Student tmp = entry.getValue();
 			System.out.println(tmp.getName());
 			System.out.println(tmp.getStudentId());
@@ -37,6 +40,7 @@ public class Test_application {
 		c2.setCredits(20);
 		c1.setName("SYSA12");
 		c2.setName("SySa12");
+
 		e1.setExamId("E10000");
 		e2.setExamId("E10001");
 		e1.setDate(Date.valueOf("2020-05-20"));
@@ -58,11 +62,17 @@ public class Test_application {
 		s2.registerExam(e1);
 		s2.registerExam(e2);
 		
-		ViewController viewController = new ViewController(courseRegister, examRegister, studentRegister);
-		viewController.setCourseModel(viewController.getCourses());
+	
+	
+	
 		
-		StartFrame startFrame = new StartFrame(viewController);
-		startFrame.setVisible(true);
+		
 
+		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
+
+		startFrame.setVisible(true);
+		
+		
+		
 	}
 }

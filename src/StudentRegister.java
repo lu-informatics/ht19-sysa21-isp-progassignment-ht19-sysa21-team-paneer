@@ -1,41 +1,35 @@
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class StudentRegister {
 
-	private HashMap<String, Student> studenter = new HashMap<String, Student>();
+	private HashMap<String, Student> students = new HashMap<String, Student>();
 
-	public HashMap<String, Student> getStudenter() {
-		return studenter;
+	public HashMap<String, Student> getStudents() {
+		return students;
 	}
 
-	public Collection<Student> getStudenterForCombo() {
-		return studenter.values();
-	}
-
+	
 	public void setStudenter(HashMap<String, Student> studenter) {
-		this.studenter = studenter;
+		this.students = studenter;
 	}
 
 	public void addStudent(Student student) {
-		studenter.put(student.getStudentId(), student);
+		students.put(student.getStudentId(), student);
 	}
 
 	public Student removeStudent(String studentID) {
-		return studenter.remove(studentID);
+		return students.remove(studentID);
 	}
 
 	public Student findStudent(String studentID) {
-		return studenter.get(studentID);
+		return students.get(studentID);
 
 	}
 
 	public Student editStudent(String studentID, String name) {
-		Student s = studenter.get(studentID);
+		Student s = students.get(studentID);
 		if (s != null) {
 			s.setName(name);
 		}
