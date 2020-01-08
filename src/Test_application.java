@@ -10,8 +10,8 @@ public class Test_application {
 
 		Student s1 = new Student();
 		Student s2 = new Student();
-		Course c1 = new Course();
-		
+		Student s3 = new Student();
+		Course c1 = new Course();		
 		Course c2 = new Course();
 		WrittenExam e1 = new WrittenExam();
 		WrittenExam e2 = new WrittenExam();
@@ -19,12 +19,15 @@ public class Test_application {
 		ExamRegister examRegister = new ExamRegister();
 		CourseRegister courseRegister = new CourseRegister();
 
-		s1.setName("Helene Schï¿½nbeck");
+		s1.setName("Helene Schönbeck");
 		s1.setStudentId("S10000");
 		studentRegister.addStudent(s1);
 		s2.setName("Joakim Henriksson");
 		s2.setStudentId("S10001");
 		studentRegister.addStudent(s2);
+		s3.setName("Albin Olsson");
+		s3.setStudentId("S10002");
+		studentRegister.addStudent(s3);
 
 		for (Map.Entry<String, Student> entry : studentRegister.getStudents().entrySet()) {
 			Student tmp = entry.getValue();
@@ -57,11 +60,7 @@ public class Test_application {
 		examRegister.addExam(e2);
 		c1.addExam(e1);
 		c2.addExam(e2);
-		s1.registerExam(e1);
-		s1.registerExam(e2);
-		s2.registerExam(e1);
-		s2.registerExam(e2);
-		
+
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 

@@ -27,7 +27,7 @@ public class ViewController {
 	private String[] courseTableColumns = new String[] { "Course Code", "Name", "Credits" };
 	private DateLabelFormatter dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
-	
+
 	public DateLabelFormatter getDateFormatter() {
 		return dateFormatter;
 	}
@@ -83,7 +83,6 @@ public class ViewController {
 	public void setExamModel(DefaultComboBoxModel<String> examModel) {
 		this.examModel = examModel;
 	}
-
 
 	public DefaultComboBoxModel<String> getStudentModel() {
 		return studentModel;
@@ -292,7 +291,6 @@ public class ViewController {
 		return comboBoxString.substring(0, startIndex);
 	}
 
-
 	// Methods for CourseView
 	public void addCourse(String name, String credits) {
 
@@ -346,8 +344,26 @@ public class ViewController {
 		this.filterExams(courseString);
 	}
 
-		
-	
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID,
+			String courseString) throws ParseException, IllegalArgumentException {
+		String courseCode = this.stripString(courseString);
+		Course c = courseRegister.findCourse(courseCode);
+		WrittenExam e = new WrittenExam();
+
+		if (date != null) {
+			e.setDate(date);
+		} else {
+			throw new IllegalArgumentException();
+		}
+		e.setLocation(location);
+		e.setExamId(examID);
+		int hour = Integer.parseInt(hours);
+		int minute = Integer.parseInt(minutes);
+		LocalTime time = LocalTime.of(hour, minute);
+		e.setTime(time);
+		examRegister.addExam(e);
+		c.addExam(e);
+	}
 
 	public void registerStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
@@ -525,8 +541,9 @@ public class ViewController {
 	}
 
 	public int showConfirmWindowForDeleting() {
-		return JOptionPane.showConfirmDialog(null, "This will permanently delete the selected item. Do you want to proceed?",
-				"Important message", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+		return JOptionPane.showConfirmDialog(null,
+				"This will permanently delete the selected item. Do you want to proceed?", "Important message",
+				JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void showExceptionWindowForIDError() {
@@ -560,7 +577,6 @@ public class ViewController {
 				if (this.courseIDValidation("C" + courseId.toString()) == true) {
 					return "C" + studentId.toString();
 
-
 				} else {
 					throw new NullPointerException();
 				}
@@ -578,9 +594,8 @@ public class ViewController {
 				}
 				if (this.examIDValidation("E" + examID.toString())) {
 					return "E" + examID.toString();
-				}
 
-				else {
+				} else {
 					throw new NullPointerException();
 				}
 			}
@@ -626,27 +641,22 @@ public class ViewController {
 		resultFrame.setVisible(false);
 		studentFrame.setVisible(false);
 
-
 	}
-
-
-	
 
 	public void registerResultForStudent(String studentId, String examId, int score) {
 		Student s = studentRegister.findStudent(studentId);
-		 s.getResults().get(examId).setResult(score);
-		
-}
+		s.getResults().get(examId).setResult(score);
+
+	}
 
 	public void showStatistics(String examId) {
 		WrittenExam writtenExam = examRegister.findExam(examId);
 		int amountOfStudentsPassed = writtenExam.calculateNumberOfPassed();
 		int median = writtenExam.calculateMedian();
 		double average = writtenExam.calculateAverage();
-		resultFrame.getLblAm().setText(String.valueOf(amountOfStudentsPassed));	
+		resultFrame.getLblAm().setText(String.valueOf(amountOfStudentsPassed));
 		resultFrame.getLblM().setText(String.valueOf(median));
 		resultFrame.getLblAvg().setText(String.valueOf(average));
 	}
 
 }
-
