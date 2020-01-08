@@ -20,12 +20,12 @@ public class Course {
 		return name;
 	}
 
-	public void setName(String name) throws NullPointerException {
+	public void setName(String name) throws IllegalArgumentException {
 		if (!name.equals("")) {
 			this.name = name;
 		}
 		else {
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		}
 	}
 
