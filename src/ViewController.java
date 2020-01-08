@@ -240,27 +240,17 @@ public class ViewController {
 	public void goBackFromExamData() {
 		examData.setVisible(false);
 	}
-
+	
+	//Exception handling
 	public void showExceptionWindowForEmptyFields() {
 		JOptionPane.showMessageDialog(null, "Some of the fields were empty. Please fill in all the required fields.",
 				"Empty fields", JOptionPane.WARNING_MESSAGE);
-	}
-
-	public void showExceptionWindowForUnlinkedExam() {
-		JOptionPane.showMessageDialog(null, "The exam is not part of the selected course. Please choose another exam.",
-				"Exam not part of course", JOptionPane.WARNING_MESSAGE);
 	}
 
 	public void showExceptionWindowForNoExams() {
 		JOptionPane.showMessageDialog(null,
 				"There are no exams on the selected course or no students registered. Please add an exam, choose another course or add a student if there are no students registered.",
 				"No exams on course/No students", JOptionPane.WARNING_MESSAGE);
-	}
-
-	public void showExceptionWindowForUnlinkedStudent() {
-		JOptionPane.showMessageDialog(null,
-				"The student is not registered for the selected exam. Please choose another student.",
-				"Student not registered for exam", JOptionPane.WARNING_MESSAGE);
 	}
 
 	public void showExceptionWindowForCreditParseException() {
@@ -270,7 +260,7 @@ public class ViewController {
 
 	public void showExceptionWindowForTimeParseException() {
 		JOptionPane.showMessageDialog(null,
-				"Please only enter integer values in the \"Time\" fields in the format hh:mm.",
+				"Please enter integer values in the \"Time\" fields in the format hh:mm (00-24:00-59).",
 				"Non-integer values entered", JOptionPane.WARNING_MESSAGE);
 	}
 
@@ -312,7 +302,11 @@ public class ViewController {
 	public void deleteCourse(String courseString) {
 		String courseCode = this.stripString(courseString);
 		courseRegister.removeCourse(courseCode);
-		courseId = Integer.parseInt(courseCode.substring(1));
+		//Resets the ID counter to the lowest free ID which could be the key of the deleted object.
+		int deletedIdValue = Integer.parseInt(courseCode.substring(1));
+		if (deletedIdValue<courseId) {
+			courseId = deletedIdValue;
+		}
 
 		this.updateCourses();
 	}
@@ -339,12 +333,17 @@ public class ViewController {
 		Course c = courseRegister.findCourse(courseCode);
 		c.removeExam(examID);
 		examRegister.removeExam(examID);
-		this.examID = Integer.parseInt(examID.substring(1));
+		
+		//Resets the ID counter to the lowest free ID which could be the key of the deleted object.
+		int deletedIDValue = Integer.parseInt(examID.substring(1));
+		if (deletedIDValue < this.examID) {
+			this.examID = deletedIDValue;
+		}
 
 		this.filterExams(courseString);
 	}
 
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID,
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location,
 			String courseString) throws ParseException, IllegalArgumentException {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
@@ -356,7 +355,7 @@ public class ViewController {
 			throw new IllegalArgumentException();
 		}
 		e.setLocation(location);
-		e.setExamId(examID);
+		e.setExamId(this.generateExamID());
 		int hour = Integer.parseInt(hours);
 		int minute = Integer.parseInt(minutes);
 		LocalTime time = LocalTime.of(hour, minute);
@@ -570,37 +569,51 @@ public class ViewController {
 	public synchronized String generateCourseID() {
 		if (courseId < 100000) {
 			if (courseRegister.findCourse("C" + courseId) == null) {
-
+				if (this.courseIDValidation("C" + courseId)) {
+					return "C" + courseId;
+				} else {
+					throw new NullPointerException();
+				}
+			}
+			else {
 				while (courseRegister.findCourse("C" + courseId) != null) {
 					courseId++;
 				}
-				if (this.courseIDValidation("C" + courseId.toString()) == true) {
-					return "C" + studentId.toString();
-
+				if (this.courseIDValidation("C" + courseId)) {
+					return "C" + courseId;
 				} else {
 					throw new NullPointerException();
 				}
 			}
 		}
-		throw new NullPointerException();
+		else {
+			throw new NullPointerException();
+		}
 	}
 
 	public String generateExamID() {
 		if (examID < 100000) {
 			if (examRegister.findExam("E" + examID) == null) {
-
+				if (this.examIDValidation("E" + examID.toString())) {
+					return "E" + examID;
+				} else {
+					throw new NullPointerException();
+				}
+			}
+			else {
 				while (examRegister.findExam("E" + examID) != null) {
 					examID++;
 				}
 				if (this.examIDValidation("E" + examID.toString())) {
-					return "E" + examID.toString();
-
+					return "E" + examID;
 				} else {
 					throw new NullPointerException();
 				}
 			}
 		}
-		throw new NullPointerException();
+		else {
+			throw new NullPointerException();
+		}
 	}
 
 	// ID Validation - matches the entered ID by using regular expressions set to
