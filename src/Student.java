@@ -6,6 +6,7 @@ public class Student {
 
 	private String studentId;
 	private String name;
+	
 	private HashMap <String,Result> results = new HashMap<String,Result>(); 
 	
 	public HashMap<String,Result> getResults() {
