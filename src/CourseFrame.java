@@ -751,7 +751,7 @@ public class CourseFrame extends JFrame {
 
 		JLabel lblDate = new JLabel("Date:");
 		panelAddNewExam.add(lblDate);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, viewController.getDateFormatter());
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
 		panelAddNewExam.add(datePicker);
 
