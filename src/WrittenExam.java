@@ -21,6 +21,7 @@ public class WrittenExam {
 	public void setRegister(HashMap<String, Result> register) {
 		this.register = register;
 	}
+
 	public String getExamId() {
 		return examId;
 	}
@@ -78,7 +79,7 @@ public class WrittenExam {
 	}
 
 	public void addResult(Result result) {
-		register.put(result.getStudent().getStudentId(),result);
+		register.put(result.getStudent().getStudentId(), result);
 		register2.put(result.getResult(), result);
 	}
 
@@ -86,7 +87,8 @@ public class WrittenExam {
 		register.remove(result.getStudent().getStudentId());
 		return register2.remove(result.getResult());
 	}
-	//Hjälpfunktion 
+
+	// Hjälpfunktion
 	private int[] getResultAsArraySorted(boolean sort) {
 		int size = register2.values().size();
 		int[] result = new int[size];
@@ -128,6 +130,7 @@ public class WrittenExam {
 			return median;
 		}
 	}
+
 	public double calculateAverage() {
 		int[] result = getResultAsArraySorted(false);
 		int size = result.length;
@@ -135,15 +138,23 @@ public class WrittenExam {
 		for (int i : result) {
 			sum = sum + i;
 		}
-		double average = sum/size;
+		double average = sum / size;
 		return average;
 	}
-	//returnerar antal resultat
-	public int calculateNumberOf() {
-		return register2.values().size();
+
+	// returnerar antal studenter som klarade tenta
+	public int calculateNumberOfPassed() {
+		int passed = 0;
+
+		for (Result result : register2.values()) {
+			if (result.getResult() > 50) {
+				passed++;
+			}
+
+		}
+		return passed;
 	}
 
-	
 }
 //TODO Ta bort och byt till riktiga klassen
 //class Student {
