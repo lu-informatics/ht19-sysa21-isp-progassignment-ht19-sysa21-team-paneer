@@ -6,9 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.awt.EventQueue;
-import java.util.Set;
-import javax.swing.JFrame;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -297,7 +294,6 @@ public class ViewController {
 		return comboBoxString.substring(0, startIndex);
 	}
 
-	}
 
 	// Methods for CourseView
 	public void addCourse(String name, String credits) {
@@ -581,27 +577,26 @@ public class ViewController {
 	public synchronized String generateCourseID() {
 		if (courseId < 100000) {
 			if (courseRegister.findCourse("C" + courseId) == null) {
-				return "C" + courseId++;
-			} else {
+
 				while (courseRegister.findCourse("C" + courseId) != null) {
 					courseId++;
 				}
 				if (this.courseIDValidation("C" + courseId.toString()) == true) {
 					return "C" + studentId.toString();
 
+
 				} else {
 					throw new NullPointerException();
 				}
 			}
 		}
-
+		throw new NullPointerException();
 	}
 
 	public String generateExamID() {
 		if (examID < 100000) {
 			if (examRegister.findExam("E" + examID) == null) {
-				return "E" + examID++;
-			} else {
+
 				while (examRegister.findExam("E" + examID) != null) {
 					examID++;
 				}
@@ -614,6 +609,7 @@ public class ViewController {
 				}
 			}
 		}
+		throw new NullPointerException();
 	}
 
 	// ID Validation - matches the entered ID by using regular expressions set to
@@ -653,6 +649,7 @@ public class ViewController {
 		courseFrame.setVisible(false);
 		resultFrame.setVisible(false);
 		studentFrame.setVisible(false);
+
 
 	}
 
