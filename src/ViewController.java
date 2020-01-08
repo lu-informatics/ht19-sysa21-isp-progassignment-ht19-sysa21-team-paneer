@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.awt.EventQueue;
-import java.util.Set;
-import javax.swing.JFrame;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -290,7 +287,6 @@ public class ViewController {
 		int startIndex = comboBoxString.indexOf(",");
 		return comboBoxString.substring(0, startIndex);
 	}
-	
 
 
 	// Methods for CourseView
@@ -460,7 +456,6 @@ public class ViewController {
 		courseFrame.getComboBoxExamIDUnregister().setModel(examModel);
 	}
 
-	
 	public void filterStudents(String examID) {
 		int i = 0;
 		WrittenExam e = examRegister.findExam(examID);
@@ -577,37 +572,52 @@ public class ViewController {
 	public synchronized String generateCourseID() {
 		if (courseId < 100000) {
 			if (courseRegister.findCourse("C" + courseId) == null) {
+				if (this.courseIDValidation("C" + courseId)) {
 					return "C" + courseId++;
+				} else {
+					throw new NullPointerException();
 				}
+			}
 			else {
 				while (courseRegister.findCourse("C" + courseId) != null) {
 					courseId++;
 				}
-        if (this.courseIDValidation("C" + courseId.toString()) == true) {
-			return "C" + studentId.toString();
+				if (this.courseIDValidation("C" + courseId.toString()) == true) {
+					return "C" + studentId.toString();
 
-		} else {
-			throw new NullPointerException();
-	
-
+				} else {
+					throw new NullPointerException();
+				}
+			}
+		}
+		throw new NullPointerException();
 	}
+
 	public String generateExamID() {
 		if (examID < 100000) {
 			if (examRegister.findExam("E" + examID) == null) {
-				return "E" + examID++;
+				if (this.examIDValidation("E" + examID)) {
+					return "E" + examID++;
+				} else {
+					throw new NullPointerException();
+				}
 			}
 			else {
 				while (examRegister.findExam("E" + examID) != null) {
 					examID++;
 				}
 				if (this.examIDValidation("E" + examID.toString())) {
-			return "E" + examID.toString();
+					return "E" + examID.toString();
+				
+				}else {
+					throw new NullPointerException();
+				}
+				}
+			}
+		throw new NullPointerException();
 		}
 
-		else {
-			throw new NullPointerException();
-		}
-	}}}
+
 
 		
 
@@ -650,8 +660,8 @@ public class ViewController {
 		studentFrame.setVisible(false);
 
 
-	
+	}
 
 	
 
-}}
+}
