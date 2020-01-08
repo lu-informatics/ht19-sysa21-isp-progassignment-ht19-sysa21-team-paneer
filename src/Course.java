@@ -6,7 +6,7 @@ public class Course {
 	private String courseCode;
 	private String name;
 	private int credits;
-	private HashMap<String, Result> examList = new HashMap<String, Result>();
+	private HashMap<String, WrittenExam> examList = new HashMap<String, WrittenExam>();
 
 	public String getCourseCode() {
 		return courseCode;
@@ -20,8 +20,13 @@ public class Course {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String name) throws NullPointerException {
+		if (!name.equals("")) {
+			this.name = name;
+		}
+		else {
+			throw new NullPointerException();
+		}
 	}
 
 	public int getCredits() {
@@ -32,29 +37,28 @@ public class Course {
 		this.credits = credits;
 	}
 
-	public HashMap<String, Result> getExamList() {
+	public HashMap<String, WrittenExam> getExamList() {
 		return examList;
 	}
 
-	public void setExamList(HashMap<String, Result> examList) {
+	public void setExamList(HashMap<String, WrittenExam> examList) {
 		this.examList = examList;
 	}
 
 	public void addExam(WrittenExam exam) {
-		Result r = new Result();
-		r.setExam(exam);
-		examList.put(exam.getExamId(), r);
+		exam.setCourse(this);
+		examList.put(exam.getExamId(), exam);
 
 	}
 
 	public WrittenExam removeExam(String examID) {
-		WrittenExam w = examList.get(examID).getExam();
+		WrittenExam w = examList.get(examID);
 		examList.remove(examID);
 		return w;
 	}
 
 	public WrittenExam findExam(String examID) {
-		WrittenExam w = examList.get(examID).getExam();
+		WrittenExam w = examList.get(examID);
 		return w;
 	}
 
