@@ -147,7 +147,7 @@ public class WrittenExam {
 		int passed = 0;
 
 		for (Result result : register2.values()) {
-			if (result.getResult() > 50) {
+			if (result.getResult() > 49) {
 				passed++;
 			}
 
