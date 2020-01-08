@@ -223,8 +223,8 @@ public class ViewController {
 	}
 	public void showExceptionWindowForNoExams() {
 		JOptionPane.showMessageDialog(null, 
-                "There are no exams on the selected course. Please add an exam or choose another course.", 
-                "No exams on course", 
+                "There are no exams on the selected course or no students registered. Please add an exam, choose another course or add a student if there are no students registered.", 
+                "No exams on course/No students", 
                 JOptionPane.WARNING_MESSAGE);
 	}
 	public void showExceptionWindowForUnlinkedStudent() {
