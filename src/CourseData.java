@@ -60,6 +60,8 @@ public class CourseData extends JFrame {
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
 		tableCourse = new JTable();
+		tableCourse.setEnabled(false);
+		tableCourse.setFillsViewportHeight(true);
 		scrollPane.setViewportView(tableCourse);
 		
 		btnGoBack = new JButton("Go back");
