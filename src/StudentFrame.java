@@ -13,8 +13,12 @@ import java.awt.event.ActionListener;
 import java.util.regex.PatternSyntaxException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+
 import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class StudentFrame extends JFrame {
 
@@ -23,7 +27,7 @@ public class StudentFrame extends JFrame {
 	private JPanel addPanel;
 	private JPanel editPanel;
 	private JTextField textField_EditFName;
-	private JComboBox<String[]> studentBox;
+	private JComboBox<String> comboBoxChooseStudent;
 
 	public JLabel getLblResponse() {
 		return lblResponse;
@@ -32,6 +36,14 @@ public class StudentFrame extends JFrame {
 	public void setLblResponse(String response) {
 		lblResponse.setText(response);
 		;
+	}
+	
+	public JComboBox<String> getComboBoxChooseStudent() {
+		return comboBoxChooseStudent;
+	}
+
+	public void setComboBoxChooseStudent(JComboBox<String> comboBoxChooseStudent) {
+		this.comboBoxChooseStudent = comboBoxChooseStudent;
 	}
 
 	private JLabel lblResponse;
@@ -67,6 +79,7 @@ public class StudentFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 632, 686);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -80,19 +93,21 @@ public class StudentFrame extends JFrame {
 		// Start Add student
 
 		addPanel = new JPanel();
+		addPanel.setBackground(Color.WHITE);
 		layeredPane.add(addPanel, "name_526566720530800");
 		addPanel.setLayout(null);
 		addPanel.setVisible(false);
 
 		JLabel lblStudentRegistration = new JLabel("Register new Student");
-		lblStudentRegistration.setBounds(15, 48, 190, 20);
+		lblStudentRegistration.setFont(new Font("Arial", Font.PLAIN, 17));
+		lblStudentRegistration.setBounds(15, 28, 190, 20);
 		addPanel.add(lblStudentRegistration);
 
-		JLabel lblFirstName = new JLabel("First name:");
+		JLabel lblFirstName = new JLabel("First name*");
 		lblFirstName.setBounds(15, 109, 86, 20);
 		addPanel.add(lblFirstName);
 
-		JLabel lblLastName = new JLabel("Last name:");
+		JLabel lblLastName = new JLabel("Last name*");
 		lblLastName.setBounds(15, 165, 86, 20);
 		addPanel.add(lblLastName);
 
@@ -124,26 +139,19 @@ public class StudentFrame extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String studentId = viewController.generateStudentID();
-					if (viewController.studentIDValidation(studentId) == true) {
-						
-
-						if (!textField_FNameInput.getText().equals("") && !textField_LNameInput.getText().equals("")) {
-							viewController.registerNewStudent(studentId, textField_FNameInput.getText(),
-									textField_LNameInput.getText());
-							lblResponse.setText("Student created:");
-							lblNameRegistered.setText("Name: " + viewController.findStudentName(studentId));
-							lblStudentId.setText("Student ID: " + viewController.findStudentiD(studentId));
-							textField_FNameInput.setText("");
-							textField_LNameInput.setText("");
-						} else {
-							lblResponse.setText("Please enter both a first- and a lastname");
-						}
+					if (!textField_FNameInput.getText().equals("") && !textField_LNameInput.getText().equals("")) {
+						viewController.registerNewStudent(textField_FNameInput.getText(),
+								textField_LNameInput.getText());
+						lblResponse.setText("Student created");
+												textField_FNameInput.setText("");
+						textField_LNameInput.setText("");
+					} else {
+						lblResponse.setText("Please enter both a first- and a lastname");
 					}
-					}				
+				}
 
 				catch (NullPointerException nex) {
-					lblResponse.setText("Something went wrong. Please contact admin.");
+					viewController.showExceptionWindowForIDError();
 
 				}
 			}
@@ -155,10 +163,12 @@ public class StudentFrame extends JFrame {
 
 		// Start Edit Student
 		editPanel = new JPanel();
+		editPanel.setBackground(Color.WHITE);
 		layeredPane.add(editPanel, "name_526574109746900");
 		editPanel.setLayout(null);
 
 		JLabel lblEditStudent = new JLabel("Edit Student");
+		lblEditStudent.setFont(new Font("Arial", Font.PLAIN, 17));
 		lblEditStudent.setBounds(15, 27, 115, 20);
 		editPanel.add(lblEditStudent);
 
@@ -167,7 +177,8 @@ public class StudentFrame extends JFrame {
 		editPanel.add(lblChooseAStudent);
 
 		JLabel lblStudentAdministration = new JLabel("Student Administration");
-		lblStudentAdministration.setBounds(15, 40, 176, 20);
+		lblStudentAdministration.setFont(new Font("Arial", Font.PLAIN, 20));
+		lblStudentAdministration.setBounds(15, 40, 223, 29);
 		contentPane.add(lblStudentAdministration);
 
 		JLabel lblStudentFound = new JLabel("");
@@ -215,18 +226,19 @@ public class StudentFrame extends JFrame {
 		textField_EditLName.setColumns(10);
 		textField_EditLName.setVisible(false);
 
-		studentBox = new JComboBox();
+		comboBoxChooseStudent = new JComboBox(viewController.getStudents());
 
-		studentBox.addActionListener(new ActionListener() {
+		comboBoxChooseStudent.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
-				studentBox = (JComboBox<String[]>) e.getSource();
-				String studentName = (String) studentBox.getSelectedItem();
+				comboBoxChooseStudent = (JComboBox<String>) e.getSource();
+				String studentName = (String) comboBoxChooseStudent.getSelectedItem();
 				lblStudentFound.setText(studentName);
 			}
 		});
-		studentBox.setSize(309, 26);
-		studentBox.setLocation(15, 99);
-		editPanel.add(studentBox);
+		comboBoxChooseStudent.setSize(309, 26);
+		comboBoxChooseStudent.setLocation(15, 99);
+		editPanel.add(comboBoxChooseStudent);
 
 		JLabel lblOrSearchBy = new JLabel("Or search by Student ID");
 		lblOrSearchBy.setBounds(15, 149, 186, 20);
@@ -243,7 +255,7 @@ public class StudentFrame extends JFrame {
 		editPanel.add(textFindStudentById);
 		textFindStudentById.setColumns(10);
 
-		JLabel lblUseFormatS = new JLabel("Use format S10000-99999");
+		JLabel lblUseFormatS = new JLabel("Use format S10000-S99999");
 		lblUseFormatS.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		lblUseFormatS.setBounds(15, 207, 146, 20);
 		editPanel.add(lblUseFormatS);
@@ -267,13 +279,13 @@ public class StudentFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String input = textFindStudentById.getText();
-					if (viewController.studentIDValidation(input) == true) {
-						lblStudentFound.setVisible(true);
-						labelIdFound.setVisible(true);
-						lblNameFound.setVisible(true);
+					if (viewController.studentIDValidation(input) == true) {						
 						lblStudentFound.setText("Student found:");
 						labelIdFound.setText(viewController.findStudentiD(input));
 						lblNameFound.setText(viewController.findStudentName(input));
+						lblStudentFound.setVisible(true);
+						labelIdFound.setVisible(true);
+						lblNameFound.setVisible(true);
 						btnDeleteStudent.setVisible(true);
 						btnSaveChanges.setVisible(true);
 						textField_EditFName.setVisible(true);
@@ -290,10 +302,7 @@ public class StudentFrame extends JFrame {
 				}
 
 				catch (NullPointerException nex) {
-					lblStudentFound.setVisible(true);
-					lblStudentFound.setText("No Student found");
-					labelIdFound.setVisible(false);
-					lblNameFound.setVisible(false);
+					viewController.showExceptionWindowForNoStudent();
 
 				}
 
@@ -320,19 +329,21 @@ public class StudentFrame extends JFrame {
 		// Delete student
 		btnDeleteStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int choice = viewController.showConfirmWindowForDeletingStudent();
+				if(choice == JOptionPane.YES_OPTION) {
 				try {
 					viewController.deleteStudent(
-							viewController.studentRegister.findStudent(textFindStudentById.getText()).getStudentId());
+							viewController.findStudent(textFindStudentById.getText()).getStudentId());
 					lblStudentFound.setText("Student deleted");
 					textFindStudentById.setText("");
 					labelIdFound.setVisible(false);
 					lblNameFound.setVisible(false);
-				} catch (NullPointerException nex) {
+				} 
+				catch (NullPointerException nex) {
 					lblStudentFound.setText("No student found");
 					labelIdFound.setVisible(false);
 					lblNameFound.setVisible(false);
-				}
-			}
+			}}}
 		});
 
 //Start buttons
@@ -369,4 +380,6 @@ public class StudentFrame extends JFrame {
 		contentPane.add(btnBackToStart);
 
 	}
+
+	
 }

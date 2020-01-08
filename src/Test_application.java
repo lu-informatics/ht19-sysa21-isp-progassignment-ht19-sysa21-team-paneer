@@ -9,6 +9,7 @@ public class Test_application {
 		Student s1 = new Student();
 		Student s2 = new Student();
 		Course c1 = new Course();
+		
 		Course c2 = new Course();
 		WrittenExam e1 = new WrittenExam();
 		WrittenExam e2 = new WrittenExam();
@@ -23,7 +24,7 @@ public class Test_application {
 		s2.setStudentId("S10001");
 		studentRegister.addStudent(s2);
 
-		for (Map.Entry<String, Student> entry : studentRegister.getStudenter().entrySet()) {
+		for (Map.Entry<String, Student> entry : studentRegister.getStudents().entrySet()) {
 			Student tmp = entry.getValue();
 			System.out.println(tmp.getName());
 			System.out.println(tmp.getStudentId());
@@ -35,8 +36,7 @@ public class Test_application {
 		c1.setName("SYSA12");
 		c2.setName("SySa12");
 		
-		String [] studentArray = studentRegister.getStudenter().keySet().toArray(new String[studentRegister.getStudenter().size()]);
-		
+	
 	
 		
 		
