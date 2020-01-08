@@ -324,7 +324,7 @@ public class StudentFrame extends JFrame {
 		// Delete student
 		btnDeleteStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int choice = viewController.showConfirmWindowForDeletingStudent();
+				int choice = viewController.showConfirmWindowForDeleting();
 				if(choice == JOptionPane.YES_OPTION) {
 				try {
 					viewController.deleteStudent(
@@ -368,7 +368,9 @@ public class StudentFrame extends JFrame {
 		JButton btnBackToStart = new JButton("Back to main menu");
 		btnBackToStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				viewController.returnToMain();
+
 			}
 		});
 		btnBackToStart.setBounds(15, 400, 204, 29);
