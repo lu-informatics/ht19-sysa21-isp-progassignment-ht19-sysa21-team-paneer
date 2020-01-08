@@ -1,6 +1,7 @@
 
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,14 +27,14 @@ public class ViewController {
 	private DefaultComboBoxModel<String> examModel;
 	private String[] examTableColumns = new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"};;
 	private String[] courseTableColumns = new String[]{"Course Code", "Name", "Credits"};
-	private DateLabelFormatter dateFormatter;
+	private SimpleDateFormat dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
 	
-	public DateLabelFormatter getDateFormatter() {
+	public SimpleDateFormat getDateFormatter() {
 		return dateFormatter;
 	}
 
-	public void setDateFormatter(DateLabelFormatter dateFormatter) {
+	public void setDateFormatter(SimpleDateFormat dateFormatter) {
 		this.dateFormatter = dateFormatter;
 	}
 
@@ -121,7 +122,7 @@ public class ViewController {
 
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
-		dateFormatter = new DateLabelFormatter();
+		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
 	}
 
@@ -142,7 +143,7 @@ public class ViewController {
 
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
-		dateFormatter = new DateLabelFormatter();
+		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		courseModel = getCourses();
 
 	}
@@ -405,7 +406,7 @@ public class ViewController {
 		for (Map.Entry<String, WrittenExam> entry : sortedExamMap.entrySet()) {
 			examTableData[i][0] = entry.getKey();
 			examTableData[i][1] = entry.getValue().getCourse().getCourseCode();
-			examTableData[i][2] = dateFormatter.valueToString(entry.getValue().getDate());
+			examTableData[i][2] = dateFormatter.format(entry.getValue().getDate());
 			examTableData[i][3] = entry.getValue().getTime().toString();
 			examTableData[i][4] = entry.getValue().getLocation();
 			examTableData[i][5] = "100";
@@ -531,8 +532,8 @@ public class ViewController {
 		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
 	}
 
-	public int showConfirmWindowForDeletingStudent() {
-		return JOptionPane.showConfirmDialog(null, "This will permanently delete the Student. Do you want to proceed",
+	public int showConfirmWindowForDeleting() {
+		return JOptionPane.showConfirmDialog(null, "This will permanently delete the item. Do you want to proceed?",
 				"Important message", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 	}
 

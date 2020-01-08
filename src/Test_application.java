@@ -1,4 +1,5 @@
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class Test_application {
 		}
 		
 		
-		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		c1.setCourseCode("C10000");
 		c2.setCourseCode("C10001");
 		c1.setCredits(10);
@@ -43,8 +44,12 @@ public class Test_application {
 
 		e1.setExamId("E10000");
 		e2.setExamId("E10001");
-		e1.setDate(Date.valueOf("2020-05-20"));
-		e2.setDate(Date.valueOf("2020-06-02"));
+		try {
+			e1.setDate(dateFormat.parse("2020-05-20"));
+			e2.setDate(dateFormat.parse("2020-06-02"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		e1.setLocation("Room A123");
 		e2.setLocation("Room A123");
 		e1.setTime(LocalTime.NOON);
