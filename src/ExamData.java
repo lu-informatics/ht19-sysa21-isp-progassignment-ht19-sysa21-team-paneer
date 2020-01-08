@@ -56,6 +56,8 @@ public class ExamData extends JFrame {
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
 		tableExamData = new JTable();
+		tableExamData.setEnabled(false);
+		tableExamData.setFillsViewportHeight(true);
 		scrollPane.setViewportView(tableExamData);
 		
 		btnGoBack = new JButton("Go back");

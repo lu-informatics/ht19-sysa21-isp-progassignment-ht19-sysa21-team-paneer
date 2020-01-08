@@ -60,9 +60,7 @@ public class Test_application {
 		examRegister.addExam(e2);
 		c1.addExam(e1);
 		c2.addExam(e2);
-		
-		
-		
+
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 
