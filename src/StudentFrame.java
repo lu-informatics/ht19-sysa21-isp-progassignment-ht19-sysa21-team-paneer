@@ -373,7 +373,7 @@ public class StudentFrame extends JFrame {
 		JButton btnBackToStart = new JButton("Back to main menu");
 		btnBackToStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.backToMainMenu(viewController);
+				viewController.returnToMain(viewController);
 			}
 		});
 		btnBackToStart.setBounds(15, 400, 204, 29);

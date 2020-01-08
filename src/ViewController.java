@@ -291,9 +291,7 @@ public class ViewController {
 		return comboBoxString.substring(0, startIndex);
 	}
 	
-	public void addCourse(String name, String credits) throws NullPointerException{
 
-	}
 
 	// Methods for CourseView
 	public void addCourse(String name, String credits) {
@@ -461,18 +459,8 @@ public class ViewController {
 		courseFrame.getComboBoxExamIDRegister().setModel(examModel);
 		courseFrame.getComboBoxExamIDUnregister().setModel(examModel);
 	}
-	public DefaultComboBoxModel<String> getStudents() {
-		int i = 0;
-		HashMap<String, Student> studentList = studentRegister.getStudenter();
-		String[] students = new String [studentList.size()];
-		
-		for (Map.Entry<String, Student> entry : studentList.entrySet()) {
-		    students[i] = entry.getKey() + ", " + entry.getValue().getName();
-		    i++;
-		}
-		Arrays.sort(students);
-		return new DefaultComboBoxModel<String>(students);
-	}
+
+	
 	public void filterStudents(String examID) {
 		int i = 0;
 		WrittenExam e = examRegister.findExam(examID);
@@ -612,14 +600,14 @@ public class ViewController {
 				while (examRegister.findExam("E" + examID) != null) {
 					examID++;
 				}
-				if (this.examIDValidation("E" + examId.toString())) {
-			return "E" + examId.toString();
+				if (this.examIDValidation("E" + examID.toString())) {
+			return "E" + examID.toString();
 		}
 
 		else {
 			throw new NullPointerException();
 		}
-	}
+	}}}
 
 		
 
@@ -666,4 +654,4 @@ public class ViewController {
 
 	
 
-}
+}}
