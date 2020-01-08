@@ -664,4 +664,22 @@ public class ViewController {
 
 	
 
+	public void registerResultForStudent(String studentId, String examId, int score) {
+		Student s = studentRegister.findStudent(studentId);
+		 s.getResults().get(examId).setResult(score);
+		
 }
+
+	public void showStatistics(String examId) {
+		WrittenExam writtenExam = examRegister.findExam(examId);
+		int amountOfStudentsPassed = writtenExam.calculateNumberOf();
+		int median = writtenExam.calculateMedian();
+		double average = writtenExam.calculateAverage();
+		resultFrame.getLblAm().setText(String.valueOf(amountOfStudentsPassed));	
+		resultFrame.getLblM().setText(String.valueOf(median));
+		resultFrame.getLblAvg().setText(String.valueOf(average));
+	}
+	
+
+}
+
