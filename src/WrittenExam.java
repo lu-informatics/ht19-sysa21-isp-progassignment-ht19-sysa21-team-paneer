@@ -1,17 +1,28 @@
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.jdatepicker.DateModel;
+
 public class WrittenExam {
 
-	private HashMap<String, Student> register = new HashMap<>();
+	private HashMap<String, Result> register = new HashMap<>();
 	private HashMap<Integer, Result> register2 = new HashMap<>();
 	private String examId;
 	private Date date;
 	private String location;
-	private Date time;
+	private LocalTime time;
 	private int maxPoints = 100;
+	private Course course;
 
+	public HashMap<String, Result> getRegister() {
+		return register;
+	}
+
+	public void setRegister(HashMap<String, Result> register) {
+		this.register = register;
+	}
 	public String getExamId() {
 		return examId;
 	}
@@ -36,12 +47,28 @@ public class WrittenExam {
 		this.location = location;
 	}
 
-	public Date getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(LocalTime time) {
 		this.time = time;
+	}
+
+	public HashMap<Integer, Result> getRegister2() {
+		return register2;
+	}
+
+	public void setRegister2(HashMap<Integer, Result> register2) {
+		this.register2 = register2;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	public int getMaxPoints() {
@@ -52,19 +79,13 @@ public class WrittenExam {
 		this.maxPoints = maxPoints;
 	}
 
-	public void registerStudentForExam(Student student) {
-		register.put(student.getStudentId(), student);
-	}
-
-	public void unregisterStudentForExam(Student student) {
-		register.remove(student.getStudentId());
-	}
-
 	public void addResult(Result result) {
+		register.put(result.getStudent().getStudentId(),result);
 		register2.put(result.getResult(), result);
 	}
 
 	public Result removeResult(Result result) {
+		register.remove(result.getStudent().getStudentId());
 		return register2.remove(result.getResult());
 	}
 	//Hjälpfunktion 
@@ -123,6 +144,8 @@ public class WrittenExam {
 	public int calculateNumberOf() {
 		return register2.values().size();
 	}
+
+	
 }
 //TODO Ta bort och byt till riktiga klassen
 //class Student {

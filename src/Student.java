@@ -31,12 +31,15 @@ public class Student {
 	public void registerExam(WrittenExam exam) {
 		Result r = new Result();
 		r.setExam(exam);
+		r.setStudent(this);
 		results.put(exam.getExamId(), r);
+		exam.addResult(r);
 	}
 	
 	public WrittenExam unregisterExam(String examID) {
 		WrittenExam w = results.get(examID).getExam();
-		results.remove(examID);
+		Result r = results.remove(examID);
+		w.removeResult(r);
 		return w;
 		
 	}
@@ -61,7 +64,7 @@ public class Student {
 		 return results.get(examID).getExam();
 	}
 
-	
+
 
 
 

@@ -20,6 +20,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.JInternalFrame;
+import javax.swing.Box;
+import java.awt.Dimension;
 
 public class ResultFrame extends JFrame {
 
@@ -29,9 +31,38 @@ public class ResultFrame extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTable table;
-	ViewController viewcontroller;
+	private JLabel lblAm;
+	private JLabel lblM;
+	private JLabel lblAvg;
 	
+	public JLabel getLblAm() {
+		return lblAm;
+	}
+
+	public void setLblAm(JLabel lblAm) {
+		this.lblAm = lblAm;
+	}
+
+	public JLabel getLblM() {
+		return lblM;
+	}
+
+	public void setLblM(JLabel lblM) {
+		this.lblM = lblM;
+	}
+
+	public JLabel getLblAvg() {
+		return lblAvg;
+	}
+
+	public void setLblAvg(JLabel lblAvg) {
+		this.lblAvg = lblAvg;
+	}
+	
+	
+	ViewController viewController;
+	Result result;
+
 	/**
 	 * Launch the application.
 	 */
@@ -39,7 +70,8 @@ public class ResultFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ResultFrame frame = new ResultFrame();
+					ViewController viewController = new ViewController();
+					ResultFrame frame = new ResultFrame(viewController);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +83,7 @@ public class ResultFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ResultFrame() {
+	public ResultFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 522, 502);
 		contentPane = new JPanel();
@@ -148,14 +180,25 @@ public class ResultFrame extends JFrame {
 		textField_1.setColumns(10);
 		panel.add(textField_1);
 		
+		JInternalFrame internalFrameExamResults = new JInternalFrame("Exam Results");
+		internalFrameExamResults.setVisible(false);
+		internalFrameExamResults.setClosable(true);
+		internalFrameExamResults.setBounds(267, 24, 206, 176);
+		contentPane.add(internalFrameExamResults);
+		internalFrameExamResults.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			int score = Integer.parseInt(textField.getText());
+			result.gradeCalculator();
+			textField_1.setText(Character.toString(result.getLetterGrade()));
 			String studentId =  comboBoxStudent.getSelectedItem().toString();
 			String examId = comboBox_1.getSelectedItem().toString();
-			viewcontroller.registerResultForStudent(studentId, examId, score);
+			viewController.registerResultForStudent(studentId, examId, score);
 			lblResponse.setText("Result Registered");
+		
+			
 			}
 		});
 		
@@ -163,17 +206,29 @@ public class ResultFrame extends JFrame {
 		panel.add(btnSave);
 		
 		
-		JInternalFrame internalFrameExamResults = new JInternalFrame("Exam Results");
-		internalFrameExamResults.setClosable(true);
-		internalFrameExamResults.setBounds(290, 15, 206, 407);
-		contentPane.add(internalFrameExamResults);
-		
 		JLabel lblStatistics = new JLabel("Statistics:");
-		internalFrameExamResults.getContentPane().add(lblStatistics, BorderLayout.NORTH);
+		internalFrameExamResults.getContentPane().add(lblStatistics);
 		
-		table = new JTable();
-		table.setShowGrid(false);
-		internalFrameExamResults.getContentPane().add(table, BorderLayout.CENTER);
+		Component rigidArea = Box.createRigidArea(new Dimension(150, 15));
+		internalFrameExamResults.getContentPane().add(rigidArea);
+		
+		JLabel lblAverage = new JLabel("Average:");
+		internalFrameExamResults.getContentPane().add(lblAverage);
+		
+		lblAvg = new JLabel("avg");
+		internalFrameExamResults.getContentPane().add(lblAvg);
+		
+		JLabel lblAmountOfStudents = new JLabel("Amount of students who passed:");
+		internalFrameExamResults.getContentPane().add(lblAmountOfStudents);
+		
+		lblAm = new JLabel("am");
+		internalFrameExamResults.getContentPane().add(lblAm);
+		
+		JLabel lblMedian = new JLabel("Median:");
+		internalFrameExamResults.getContentPane().add(lblMedian);
+		
+		lblM = new JLabel("m");
+		internalFrameExamResults.getContentPane().add(lblM);
 		
 		JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setBounds(112, 90, 118, 22);
@@ -203,15 +258,26 @@ public class ResultFrame extends JFrame {
 		textFieldResultOutput.setEditable(false);
 		textFieldResultOutput.setColumns(10);
 		panelFind.add(textFieldResultOutput);
+
 		
 		JButton btnExamResults = new JButton("Exam results");
+		btnExamResults.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		internalFrameExamResults.setVisible(true);
+		String examId = comboBox_1.getSelectedItem().toString();
+		viewController.showStatistics(examId);
+		
+		
+			}
+		});	
+		
 		btnExamResults.setBounds(57, 113, 116, 23);
 		panelFind.add(btnExamResults);
 		
 		JButton btnReturn = new JButton("Return");
-		btnReturn.setBounds(407, 442, 89, 23);
+		btnReturn.setBounds(384, 431, 89, 23);
 		contentPane.add(btnReturn);
-		internalFrameExamResults.setVisible(true);
+		
 		
 	
 	}

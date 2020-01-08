@@ -1,8 +1,14 @@
 import java.util.HashMap;
 public class ExamRegister {
 	
-	HashMap<String, WrittenExam> register = new HashMap<>();
+	HashMap<String, WrittenExam> register = new HashMap<String, WrittenExam>();
 	
+	public HashMap<String, WrittenExam> getRegister() {
+		return register;
+	}
+	public void setRegister(HashMap<String, WrittenExam> register) {
+		this.register = register;
+	}
 	public void addExam(WrittenExam exam) {
 		register.put(exam.getExamId(), exam);
 	}
