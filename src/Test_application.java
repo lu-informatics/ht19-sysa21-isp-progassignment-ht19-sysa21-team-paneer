@@ -49,15 +49,17 @@ public class Test_application {
 		e2.setMaxPoints(100);
 		
 		Result r1 = new Result();
-		r1.setResult(50);
+		r1.setResult(36);
 		r1.setExam(e1);
+		r1.setStudent(s1);
 		Result r2 = new Result();
-		r2.setResult(75);
-		r1.setExam(e1);
+		r2.setResult(68);
+		r2.setExam(e1);
+		r2.setStudent(s2);
 		Result r3 = new Result();
-		r3.setResult(100);
+		r3.setResult(98);
 		r3.setExam(e1);
-		
+		r3.setStudent(s3);
 		//Lägger till student i register
 		studentRegister.addStudent(s1);
 		studentRegister.addStudent(s2);
@@ -94,8 +96,9 @@ public class Test_application {
 			System.out.println(register.getName());
 		}
 		
-		
-		
+		System.out.println(e1.calculateNumberOfPassed());
+		System.out.println(e1.calculateMedian());
+		System.out.println(e1.calculateAverage());
 		
 
 
