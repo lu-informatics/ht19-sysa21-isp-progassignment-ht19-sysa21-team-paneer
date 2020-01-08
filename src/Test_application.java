@@ -62,11 +62,6 @@ public class Test_application {
 		s2.registerExam(e1);
 		s2.registerExam(e2);
 		
-	
-	
-	
-		
-		
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 

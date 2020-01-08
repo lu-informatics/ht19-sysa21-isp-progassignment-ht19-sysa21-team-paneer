@@ -26,7 +26,8 @@ public class ViewController {
 			"Max. Points" };;
 	private String[] courseTableColumns = new String[] { "Course Code", "Name", "Credits" };
 	private DateLabelFormatter dateFormatter;
-
+	private DefaultComboBoxModel<String> studentModel;
+	
 	public DateLabelFormatter getDateFormatter() {
 		return dateFormatter;
 	}
@@ -83,9 +84,6 @@ public class ViewController {
 		this.examModel = examModel;
 	}
 
-	// Kopplar till gr�nssnitten
-
-	private DefaultComboBoxModel<String> studentModel;
 
 	public DefaultComboBoxModel<String> getStudentModel() {
 		return studentModel;
@@ -348,30 +346,8 @@ public class ViewController {
 		this.filterExams(courseString);
 	}
 
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID,
-			String courseString) throws IntegerParseException, ParseException, EmptyFieldException {
-		String courseCode = this.stripString(courseString);
-		Course c = courseRegister.findCourse(courseCode);
-
-		WrittenExam e = new WrittenExam();
-		if (date != null) {
-			e.setDate(date);
-		} else {
-			throw new EmptyFieldException();
-		}
-		e.setLocation(location);
-		e.setExamId(examID);
-		try {
-			int hour = Integer.parseInt(hours);
-			int minute = Integer.parseInt(minutes);
-			LocalTime time = LocalTime.of(hour, minute);
-			e.setTime(time);
-		} catch (NumberFormatException exception) {
-			throw new IntegerParseException();
-		}
-		examRegister.addExam(e);
-		c.addExam(e);
-	}
+		
+	
 
 	public void registerStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);

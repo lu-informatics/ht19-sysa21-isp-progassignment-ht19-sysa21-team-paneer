@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -387,13 +388,16 @@ public class CourseFrame extends JFrame {
 		panelDelete.add(btnDelete, BorderLayout.SOUTH);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
-					viewController.deleteCourse(courseCode);
-					lblResponse.setText("Course deleted.");
-				}
-				catch (NumberFormatException exception) {
-					viewController.showExceptionWindowForEmptyFields();
+				int choice = viewController.showConfirmWindowForDeleting();
+				if(choice == JOptionPane.YES_OPTION) {
+					try {
+						String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
+						viewController.deleteCourse(courseCode);
+						lblResponse.setText("Course deleted.");
+					}
+					catch (NumberFormatException exception) {
+						viewController.showExceptionWindowForEmptyFields();
+					}
 				}
 			}
 		});
@@ -666,17 +670,20 @@ public class CourseFrame extends JFrame {
 		JButton btnRemoveFromCourse = new JButton("Remove from course");
 		btnRemoveFromCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					String courseCode = comboBoxCourseForExam.getSelectedItem().toString();
-					String examID = comboBoxExamID.getSelectedItem().toString();
-					viewController.removeFromCourse(courseCode, examID);
-					lblResponse.setText("Exam removed from course.");
-				}
-				catch (NumberFormatException exception) {
-					viewController.showExceptionWindowForEmptyFields();
-				}
-				catch (NullPointerException exception) {
-					viewController.showExceptionWindowForUnlinkedExam();
+				int choice = viewController.showConfirmWindowForDeleting();
+				if(choice == JOptionPane.YES_OPTION) {
+					try {
+						String courseCode = comboBoxCourseForExam.getSelectedItem().toString();
+						String examID = comboBoxExamID.getSelectedItem().toString();
+						viewController.removeFromCourse(courseCode, examID);
+						lblResponse.setText("Exam removed from course.");
+					}
+					catch (NumberFormatException exception) {
+						viewController.showExceptionWindowForEmptyFields();
+					}
+					catch (NullPointerException exception) {
+						viewController.showExceptionWindowForUnlinkedExam();
+					}
 				}
 			}
 		});
@@ -790,18 +797,14 @@ public class CourseFrame extends JFrame {
 				}
 				catch (DateTimeException exception) {
 					viewController.showExceptionWindowForTimeParseException();
-				}
-				catch (IntegerParseException exception) {
-					viewController.showExceptionWindowForTimeParseException();
 				} catch (ParseException exception) {
 					viewController.showExceptionWindowForNoAvailableIdentifier();
 				}
 				catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoCourses();
-				} catch (EmptyFieldException exception) {
+				} catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
-
 			}
 		});
 		panelAddNewExam.add(btnAddExamTo);
