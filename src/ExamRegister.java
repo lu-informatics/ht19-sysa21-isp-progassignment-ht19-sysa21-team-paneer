@@ -1,7 +1,7 @@
 import java.util.HashMap;
 public class ExamRegister {
 	
-	HashMap<String, WrittenExam> register = new HashMap<String, WrittenExam>();
+	private HashMap<String, WrittenExam> register = new HashMap<String, WrittenExam>();
 	
 	public HashMap<String, WrittenExam> getRegister() {
 		return register;

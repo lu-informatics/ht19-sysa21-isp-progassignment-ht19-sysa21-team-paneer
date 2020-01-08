@@ -324,7 +324,7 @@ public class StudentFrame extends JFrame {
 		// Delete student
 		btnDeleteStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int choice = viewController.showConfirmWindowForDeletingStudent();
+				int choice = viewController.showConfirmWindowForDeleting();
 				if(choice == JOptionPane.YES_OPTION) {
 				try {
 					viewController.deleteStudent(

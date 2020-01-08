@@ -542,8 +542,8 @@ public class ViewController {
 		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
 	}
 
-	public int showConfirmWindowForDeletingStudent() {
-		return JOptionPane.showConfirmDialog(null, "This will permanently delete the Student. Do you want to proceed",
+	public int showConfirmWindowForDeleting() {
+		return JOptionPane.showConfirmDialog(null, "This will permanently delete the selected item. Do you want to proceed?",
 				"Important message", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 	}
 
