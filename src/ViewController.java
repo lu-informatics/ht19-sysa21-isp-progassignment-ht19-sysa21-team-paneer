@@ -185,6 +185,7 @@ public class ViewController {
 	}
 
 	public void openCourseRegister() {
+
 		courseFrame.getPanelCourseRegister().setVisible(true);
 		courseFrame.getPanelWrittenExams().setVisible(false);
 		courseFrame.getPanelWelcome().setVisible(false);
