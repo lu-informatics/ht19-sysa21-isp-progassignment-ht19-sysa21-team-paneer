@@ -326,67 +326,67 @@ public class CourseFrame extends JFrame {
 		panelWrittenExams = new JPanel();
 		panelWrittenExams.setBounds(10, 10, 289, 444);
 		panelWrittenExams.setVisible(false);
-		
-				panelWelcome = new JPanel();
-				panelWelcome.setBounds(10, 11, 205, 337);
-				contentPane.add(panelWelcome);
-				panelWelcome.setLayout(null);
-				
-						JLabel lblWelcome = new JLabel("Welcome");
-						lblWelcome.setBounds(0, 0, 82, 24);
-						lblWelcome.setFont(new Font("Arial", Font.PLAIN, 20));
-						panelWelcome.add(lblWelcome);
-						
-								JButton btnOpenCourseRegister = new JButton("Administrate Courses");
-								btnOpenCourseRegister.setBounds(6, 48, 199, 29);
-								btnOpenCourseRegister.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										viewController.openCourseRegister();
-									}
-								});
-								panelWelcome.add(btnOpenCourseRegister);
-								
-										JButton btnOpenExamRegister = new JButton("Administrate Exams");
-										btnOpenExamRegister.setBounds(6, 93, 199, 29);
-										btnOpenExamRegister.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												viewController.openExamRegister();
-											}
-										});
-										panelWelcome.add(btnOpenExamRegister);
-										
-												JButton btnViewAllCourses = new JButton("View all courses");
-												btnViewAllCourses.setBounds(6, 138, 199, 29);
-												btnViewAllCourses.addActionListener(new ActionListener() {
-													public void actionPerformed(ActionEvent e) {
-														viewController.viewCourseData();
-													}
-												});
-												panelWelcome.add(btnViewAllCourses);
-												
-														JButton btnViewAllExams = new JButton("View all exams");
-														btnViewAllExams.setBounds(6, 189, 199, 29);
-														btnViewAllExams.addActionListener(new ActionListener() {
-															public void actionPerformed(ActionEvent e) {
-																viewController.viewExamData();
-															}
-														});
-														panelWelcome.add(btnViewAllExams);
+
+		panelWelcome = new JPanel();
+		panelWelcome.setBounds(10, 11, 205, 337);
+		contentPane.add(panelWelcome);
+		panelWelcome.setLayout(null);
+
+		JLabel lblWelcome = new JLabel("Welcome");
+		lblWelcome.setBounds(0, 0, 82, 24);
+		lblWelcome.setFont(new Font("Arial", Font.PLAIN, 20));
+		panelWelcome.add(lblWelcome);
+
+		JButton btnOpenCourseRegister = new JButton("Administrate Courses");
+		btnOpenCourseRegister.setBounds(6, 48, 199, 29);
+		btnOpenCourseRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.openCourseRegister();
+			}
+		});
+		panelWelcome.add(btnOpenCourseRegister);
+
+		JButton btnOpenExamRegister = new JButton("Administrate Exams");
+		btnOpenExamRegister.setBounds(6, 93, 199, 29);
+		btnOpenExamRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.openExamRegister();
+			}
+		});
+		panelWelcome.add(btnOpenExamRegister);
+
+		JButton btnViewAllCourses = new JButton("View all courses");
+		btnViewAllCourses.setBounds(6, 138, 199, 29);
+		btnViewAllCourses.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.viewCourseData();
+			}
+		});
+		panelWelcome.add(btnViewAllCourses);
+
+		JButton btnViewAllExams = new JButton("View all exams");
+		btnViewAllExams.setBounds(6, 189, 199, 29);
+		btnViewAllExams.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.viewExamData();
+			}
+		});
+		panelWelcome.add(btnViewAllExams);
 		contentPane.add(panelWrittenExams);
 		panelWrittenExams.setLayout(null);
-		
-				panelCourseForNewExam = new JPanel();
-				panelCourseForNewExam.setBounds(0, 151, 279, 41);
-				panelWrittenExams.add(panelCourseForNewExam);
-				panelCourseForNewExam.setLayout(null);
-				
-						JLabel label_2 = new JLabel("Course ID:");
-						label_2.setBounds(0, 8, 77, 20);
-						panelCourseForNewExam.add(label_2);
-						
-								comboBoxCourseForNewExam = new JComboBox<String>(viewController.getCourses());
-								comboBoxCourseForNewExam.setBounds(104, 5, 175, 26);
-								panelCourseForNewExam.add(comboBoxCourseForNewExam);
+
+		panelCourseForNewExam = new JPanel();
+		panelCourseForNewExam.setBounds(0, 151, 279, 41);
+		panelWrittenExams.add(panelCourseForNewExam);
+		panelCourseForNewExam.setLayout(null);
+
+		JLabel label_2 = new JLabel("Course ID:");
+		label_2.setBounds(0, 8, 77, 20);
+		panelCourseForNewExam.add(label_2);
+
+		comboBoxCourseForNewExam = new JComboBox<String>(viewController.getCourses());
+		comboBoxCourseForNewExam.setBounds(104, 5, 175, 26);
+		panelCourseForNewExam.add(comboBoxCourseForNewExam);
 
 		panelAddNewExam = new JPanel();
 		panelAddNewExam.setBounds(0, 192, 279, 194);
