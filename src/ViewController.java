@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class ViewController {
 
-	private Integer studentId = 9999;
+	private Integer studentId = 10000;
 
 	private Integer courseId = 10000;
 	private Integer examID = 10000;
@@ -286,6 +286,7 @@ public class ViewController {
 				"Memory has run out", JOptionPane.WARNING_MESSAGE);
 	}
 
+	// Method to isolate ID from combobox information. to Use in other methods
 	public String stripString(String comboBoxString) {
 		int endIndex = comboBoxString.indexOf(",");
 		return comboBoxString.substring(0, endIndex);
@@ -477,39 +478,49 @@ public class ViewController {
 
 	public void registerNewStudent(String firstName, String lastName) throws NullPointerException {
 
-		Student tmpStudent = new Student();
+		if (!firstName.equals("") && !lastName.equals("")) {
+			Student tmpStudent = new Student();
 
-		try {
 			tmpStudent.setName(firstName + " " + lastName);
+			;
 
-		} catch (NullPointerException exception) {
-			throw new NullPointerException();
+			tmpStudent.setStudentId(this.generateStudentID());
+			studentRegister.addStudent(tmpStudent);
+			this.updateStudents();
 		}
-		tmpStudent.setStudentId(this.generateStudentID());
-		studentRegister.addStudent(tmpStudent);
-		
-		this.updateStudents();
+
+		else {
+
+			throw new IllegalArgumentException();
+		}
 	}
 
-	public Student editStudent(String studentID, String firstName, String lastName) {
-		String fullName = studentRegister.findStudent(studentID).getName();
-		String[] split = fullName.split(" ");
-		split[0] = firstName;
-		split[1] = lastName;
-		fullName = split[0] + " " + split[1];
-
-		return studentRegister.editStudent(studentID, fullName);
-	}
-
-	public Student deleteStudent(String studentID) {
-		return studentRegister.removeStudent(studentID);
-	}
-	
-	public void deleteStudent1(String studentString) {
+	public void editStudent(String studentString, String firstName, String lastName) {
 		String studentID = this.stripString(studentString);
-		studentRegister.removeStudent(studentID);
-		courseId = Integer.parseInt(studentID.substring(1));
-		
+		String fullName = studentRegister.findStudent(studentID).getName();
+
+		if (!firstName.equals("") && !lastName.equals("")) {
+			String[] split = fullName.split(" ");
+			split[0] = firstName;
+			split[1] = lastName;
+			fullName = split[0] + " " + split[1];
+			studentRegister.editStudent(studentID, fullName);
+			this.updateStudents();
+		} else {
+			throw new IllegalArgumentException();
+		}
+
+	}
+
+	public void deleteStudent(String studentString) {
+		String tempStudentID = this.stripString(studentString);
+		studentRegister.removeStudent(tempStudentID);
+		int deletedIdValue = Integer.parseInt(tempStudentID.substring(1));
+		courseId = Integer.parseInt(tempStudentID.substring(1));
+		if (deletedIdValue < studentId) {
+			studentId = deletedIdValue;
+		}
+
 		this.updateStudents();
 	}
 
@@ -547,9 +558,7 @@ public class ViewController {
 
 	}
 
-
 	public void showExceptionWindowForNoStudent() {
-
 		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
 	}
 
@@ -568,19 +577,28 @@ public class ViewController {
 	public String generateStudentID() {
 
 		if (studentId < 100000) {
-			do {
-				studentId++;
-			} while ((studentRegister.findStudent("S" + studentId.toString())) != null);
+			if (studentRegister.findStudent("S" + studentId) == null) {
+				if (this.studentIDValidation("S" + studentId.toString()) == true) {
+					return "S" + studentId.toString();
+				} else {
+					throw new NullPointerException();
+				}
+			} else {
+				while (studentRegister.findStudent("S" + studentId) != null) {
+					studentId++;
+				}
+				if (this.studentIDValidation("S" + studentId.toString()) == true) {
+					return "S" + studentId.toString();
+				} else {
+					throw new NullPointerException();
+				}
+			}
 		}
+		throw new NullPointerException();
 
-		if (this.studentIDValidation("S" + studentId.toString()) == true) {
-			return "S" + studentId.toString();
-		} else {
-			throw new NullPointerException();
-		}
 	}
 
-	public synchronized String generateCourseID() {
+	public String generateCourseID() {
 		if (courseId < 100000) {
 			if (courseRegister.findCourse("C" + courseId) == null) {
 
