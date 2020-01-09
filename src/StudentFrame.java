@@ -80,7 +80,7 @@ public class StudentFrame extends JFrame {
 	public StudentFrame(ViewController viewController) {
 
 		this.viewController = viewController;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 632, 550);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -293,22 +293,22 @@ public class StudentFrame extends JFrame {
 
 		// Delete student from register
 		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				int choice = viewController.showConfirmWindowForDeleting();
 				if (choice == JOptionPane.YES_OPTION) {
 					try {
 						String student = (String) comboBoxChooseStudentToDelete.getSelectedItem();
 						viewController.deleteStudent(student);
-						lblStudentUpdated.setText(student);
-						btnDelete.setVisible(true);
 						lbl_DeleteRespons.setText("Student deleted");
 
 					} catch (NullPointerException nex) {
 						lbl_DeleteRespons.setText("No student found");
-						
 						lblNameChanged.setVisible(false);
 					}
-				}
+				}else if (choice == JOptionPane.NO_OPTION) {
+					lbl_DeleteRespons.setText("");{
+			}
+			}
 			}
 		});
 

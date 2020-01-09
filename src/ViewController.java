@@ -14,10 +14,8 @@ import javax.swing.table.DefaultTableModel;
 public class ViewController {
 
 	private Integer studentId = 10000;
-
 	private Integer courseId = 10000;
 	private Integer examID = 10000;
-	private String[] locations = new String[] { "Room A123", "Room A167", "Room B198", "Room B067" };
 	private DefaultTableModel courseTableModel;
 	private DefaultTableModel examTableModel;
 	private DefaultComboBoxModel<String> courseModel;
@@ -25,9 +23,8 @@ public class ViewController {
 	private String[] examTableColumns = new String[] { "Exam ID", "Course Code", "Date", "Time", "Location",
 			"Max. Points" };;
 	private String[] courseTableColumns = new String[] { "Course Code", "Name", "Credits" };
-	private String[] studentTableColumns = new String[] {"Student ID", "Name"};
-	
-
+	private String[] studentTableColumns = new String[] { "Student ID", "Name" };
+	private String[] locations = new String[] { "Room A123", "Room A167", "Room B198", "Room B067" };
 	private DateLabelFormatter dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
 
@@ -35,16 +32,18 @@ public class ViewController {
 		return dateFormatter;
 	}
 
-		public void setDateFormatter(DateLabelFormatter dateFormatter) {
+	public void setDateFormatter(DateLabelFormatter dateFormatter) {
 		this.dateFormatter = dateFormatter;
 	}
-		public String[] getStudentTableColumns() {
-			return studentTableColumns;
-		}
 
-		public void setStudentTableColumns(String[] studentTableColumns) {
-			this.studentTableColumns = studentTableColumns;
-		}
+	public String[] getStudentTableColumns() {
+		return studentTableColumns;
+	}
+
+	public void setStudentTableColumns(String[] studentTableColumns) {
+		this.studentTableColumns = studentTableColumns;
+	}
+
 	public DefaultTableModel getCourseTableModel() {
 		return courseTableModel;
 	}
@@ -138,7 +137,7 @@ public class ViewController {
 	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
 		this.courseRegister = courseRegister;
 		this.examRegister = examRegister;
-		this.studentRegister = studentRegister;		
+		this.studentRegister = studentRegister;
 
 		courseFrame = new CourseFrame(this);
 		resultFrame = new ResultFrame(this);
@@ -154,7 +153,31 @@ public class ViewController {
 
 	}
 
-	// Metoder för CourseView objekt
+	// Methods viewControll
+
+	public void administrateStudents(ViewController controller) {
+		studentFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void administrateCourses(ViewController controller) {
+		courseFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void resultReports(ViewController controller) {
+		resultFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void returnToMain() {
+		startFrame.setVisible(true);
+		courseFrame.setVisible(false);
+		resultFrame.setVisible(false);
+		studentFrame.setVisible(false);
+
+	}
+
 	public void viewBack() {
 		courseFrame.getPanelCourseRegister().setVisible(false);
 		courseFrame.getPanelWrittenExams().setVisible(false);
@@ -232,7 +255,7 @@ public class ViewController {
 		courseFrame.getPanelCourseForNewExam().setVisible(false);
 		courseFrame.getPanelCourseForExam().setVisible(true);
 	}
-	
+
 	public void viewStudentData() {
 		studentData.getTableStudent().setModel(fetchStudentTableModel());
 		studentData.setVisible(true);
@@ -255,6 +278,12 @@ public class ViewController {
 	public void goBackFromExamData() {
 		examData.setVisible(false);
 	}
+
+	public void goBackFromStudentData() {
+		studentData.setVisible(false);
+	}
+
+	// Methods for OptionPanes
 
 	public void showExceptionWindowForEmptyFields() {
 		JOptionPane.showMessageDialog(null, "Some of the fields were empty. Please fill in all the required fields.",
@@ -300,7 +329,7 @@ public class ViewController {
 				"There is no memory left for adding new courses. Please delete a course to continue.",
 				"Memory has run out", JOptionPane.WARNING_MESSAGE);
 	}
-	
+
 	public void showExceptionWindowForNoStudent() {
 		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
 	}
@@ -315,7 +344,6 @@ public class ViewController {
 		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
 				JOptionPane.WARNING_MESSAGE);
 	}
-
 
 	// Method to isolate ID from combobox information. to Use in other methods
 	public String stripString(String comboBoxString) {
@@ -454,20 +482,6 @@ public class ViewController {
 		}
 		return new DefaultTableModel(examTableData, examTableColumns);
 	}
-	
-	public DefaultTableModel fetchStudentTableModel() {
-		HashMap<String, Student> studentList = studentRegister.getStudents();
-		Map<String, Student> sortedStudentMap = new TreeMap<String, Student>(studentList);
-
-		String[][] studentTableData = new String[sortedStudentMap.keySet().size()][studentTableColumns.length];
-		int i = 0;
-		for (Map.Entry<String, Student> entry : sortedStudentMap.entrySet()) {
-			studentTableData[i][0] = entry.getKey();
-			studentTableData[i][1] = entry.getValue().getName();
-			i++;
-		}
-		return new DefaultTableModel(studentTableData, studentTableColumns);
-	}
 
 	public DefaultTableModel fetchCourseTableModel() {
 		HashMap<String, Course> courseList = courseRegister.getCourseList();
@@ -519,7 +533,7 @@ public class ViewController {
 		courseFrame.getComboBoxStudentIDUnregister().setModel(filteredStudentModel);
 	}
 
-	// Metoder f�r StudentFrame-objekt
+	// Methods for studentView
 
 	public void registerNewStudent(String firstName, String lastName) throws NullPointerException {
 
@@ -569,13 +583,10 @@ public class ViewController {
 		this.updateStudents();
 	}
 
-	
 	public String findStudentName(String studentID) {
 		return studentRegister.findStudent(studentID).getName();
 
 	}
-
-	
 
 	public DefaultComboBoxModel<String> getStudents() {
 		int i = 0;
@@ -597,7 +608,20 @@ public class ViewController {
 
 	}
 
-	
+	public DefaultTableModel fetchStudentTableModel() {
+		HashMap<String, Student> studentList = studentRegister.getStudents();
+		Map<String, Student> sortedStudentMap = new TreeMap<String, Student>(studentList);
+
+		String[][] studentTableData = new String[sortedStudentMap.keySet().size()][studentTableColumns.length];
+		int i = 0;
+		for (Map.Entry<String, Student> entry : sortedStudentMap.entrySet()) {
+			studentTableData[i][0] = entry.getKey();
+			studentTableData[i][1] = entry.getValue().getName();
+			i++;
+		}
+		return new DefaultTableModel(studentTableData, studentTableColumns);
+	}
+
 	// ID-generators
 	public String generateStudentID() {
 
@@ -675,29 +699,7 @@ public class ViewController {
 		return id.matches("E[1-9]{1}[0-9]{4}");
 	}
 
-	// View controllers
-	public void administrateStudents(ViewController controller) {
-		studentFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void administrateCourses(ViewController controller) {
-		courseFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void resultReports(ViewController controller) {
-		resultFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void returnToMain() {
-		startFrame.setVisible(true);
-		courseFrame.setVisible(false);
-		resultFrame.setVisible(false);
-		studentFrame.setVisible(false);
-
-	}
+//Methods for resultView
 
 	public void registerResultForStudent(String studentId, String examId, int score) {
 		Student s = studentRegister.findStudent(studentId);

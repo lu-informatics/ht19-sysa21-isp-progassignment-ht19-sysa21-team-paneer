@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class StudentData extends JFrame {
 
@@ -47,7 +49,7 @@ public class StudentData extends JFrame {
 	 */
 	public StudentData(ViewController viewController) {
 		setTitle("Student Register");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));				
@@ -62,8 +64,13 @@ public class StudentData extends JFrame {
 		tableStudent.setFillsViewportHeight(true);
 		scrollPane.setViewportView(tableStudent);
 		
-		JButton backToMain = new JButton("Back to main menu");
+		JButton goBack = new JButton("Go back");
+		goBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.goBackFromStudentData();
+			}
+		});
 		
-		contentPane.add(backToMain, BorderLayout.SOUTH);
+		contentPane.add(goBack, BorderLayout.SOUTH);
 	}
 }
