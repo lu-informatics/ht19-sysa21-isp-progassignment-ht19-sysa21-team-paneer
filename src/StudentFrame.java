@@ -346,7 +346,7 @@ public class StudentFrame extends JFrame {
 
 			}
 		});
-		btnBackToStart.setBounds(15, 338, 204, 29);
+		btnBackToStart.setBounds(15, 449, 204, 29);
 		contentPane.add(btnBackToStart);
 
 		JButton btnDeleteStudent = new JButton("Delete Student");
@@ -360,6 +360,15 @@ public class StudentFrame extends JFrame {
 		});
 		btnDeleteStudent.setBounds(15, 198, 204, 29);
 		contentPane.add(btnDeleteStudent);
+		
+		JButton btnShowAllStudents = new JButton("Show all students");
+		btnShowAllStudents.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewController.viewStudentData();
+			}
+		});
+		btnShowAllStudents.setBounds(15, 243, 204, 29);
+		contentPane.add(btnShowAllStudents);
 
 	}
 

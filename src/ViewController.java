@@ -25,6 +25,9 @@ public class ViewController {
 	private String[] examTableColumns = new String[] { "Exam ID", "Course Code", "Date", "Time", "Location",
 			"Max. Points" };;
 	private String[] courseTableColumns = new String[] { "Course Code", "Name", "Credits" };
+	private String[] studentTableColumns = new String[] {"Student ID", "Name"};
+	
+
 	private DateLabelFormatter dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
 
@@ -32,10 +35,16 @@ public class ViewController {
 		return dateFormatter;
 	}
 
-	public void setDateFormatter(DateLabelFormatter dateFormatter) {
+		public void setDateFormatter(DateLabelFormatter dateFormatter) {
 		this.dateFormatter = dateFormatter;
 	}
+		public String[] getStudentTableColumns() {
+			return studentTableColumns;
+		}
 
+		public void setStudentTableColumns(String[] studentTableColumns) {
+			this.studentTableColumns = studentTableColumns;
+		}
 	public DefaultTableModel getCourseTableModel() {
 		return courseTableModel;
 	}
@@ -101,6 +110,7 @@ public class ViewController {
 
 	CourseData courseData;
 	ExamData examData;
+	StudentData studentData;
 
 	// Connects to the data storage
 	CourseRegister courseRegister;
@@ -120,6 +130,7 @@ public class ViewController {
 
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
+		studentData = new StudentData(this);
 		dateFormatter = new DateLabelFormatter();
 
 	}
@@ -127,10 +138,7 @@ public class ViewController {
 	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
 		this.courseRegister = courseRegister;
 		this.examRegister = examRegister;
-
-		this.studentRegister = studentRegister;
-
-		studentModel = getStudents();
+		this.studentRegister = studentRegister;		
 
 		courseFrame = new CourseFrame(this);
 		resultFrame = new ResultFrame(this);
@@ -139,8 +147,10 @@ public class ViewController {
 
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
+		studentData = new StudentData(this);
 		dateFormatter = new DateLabelFormatter();
 		courseModel = getCourses();
+		studentModel = getStudents();
 
 	}
 
@@ -222,6 +232,11 @@ public class ViewController {
 		courseFrame.getPanelCourseForNewExam().setVisible(false);
 		courseFrame.getPanelCourseForExam().setVisible(true);
 	}
+	
+	public void viewStudentData() {
+		studentData.getTableStudent().setModel(fetchStudentTableModel());
+		studentData.setVisible(true);
+	}
 
 	public void viewCourseData() {
 		courseData.getTableCourse().setModel(fetchCourseTableModel());
@@ -285,6 +300,22 @@ public class ViewController {
 				"There is no memory left for adding new courses. Please delete a course to continue.",
 				"Memory has run out", JOptionPane.WARNING_MESSAGE);
 	}
+	
+	public void showExceptionWindowForNoStudent() {
+		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
+	}
+
+	public int showConfirmWindowForDeleting() {
+		return JOptionPane.showConfirmDialog(null,
+				"This will permanently delete the selected item. Do you want to proceed?", "Important message",
+				JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+	}
+
+	public void showExceptionWindowForIDError() {
+		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
+				JOptionPane.WARNING_MESSAGE);
+	}
+
 
 	// Method to isolate ID from combobox information. to Use in other methods
 	public String stripString(String comboBoxString) {
@@ -423,6 +454,20 @@ public class ViewController {
 		}
 		return new DefaultTableModel(examTableData, examTableColumns);
 	}
+	
+	public DefaultTableModel fetchStudentTableModel() {
+		HashMap<String, Student> studentList = studentRegister.getStudents();
+		Map<String, Student> sortedStudentMap = new TreeMap<String, Student>(studentList);
+
+		String[][] studentTableData = new String[sortedStudentMap.keySet().size()][studentTableColumns.length];
+		int i = 0;
+		for (Map.Entry<String, Student> entry : sortedStudentMap.entrySet()) {
+			studentTableData[i][0] = entry.getKey();
+			studentTableData[i][1] = entry.getValue().getName();
+			i++;
+		}
+		return new DefaultTableModel(studentTableData, studentTableColumns);
+	}
 
 	public DefaultTableModel fetchCourseTableModel() {
 		HashMap<String, Course> courseList = courseRegister.getCourseList();
@@ -524,19 +569,13 @@ public class ViewController {
 		this.updateStudents();
 	}
 
-	public Student findStudent(String studentID) {
-		return studentRegister.findStudent(studentID);
-	}
-
+	
 	public String findStudentName(String studentID) {
 		return studentRegister.findStudent(studentID).getName();
 
 	}
 
-	public String findStudentiD(String studentID) {
-		return studentRegister.findStudent(studentID).getStudentId();
-
-	}
+	
 
 	public DefaultComboBoxModel<String> getStudents() {
 		int i = 0;
@@ -558,21 +597,7 @@ public class ViewController {
 
 	}
 
-	public void showExceptionWindowForNoStudent() {
-		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
-	}
-
-	public int showConfirmWindowForDeleting() {
-		return JOptionPane.showConfirmDialog(null,
-				"This will permanently delete the selected item. Do you want to proceed?", "Important message",
-				JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
-	}
-
-	public void showExceptionWindowForIDError() {
-		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
-				JOptionPane.WARNING_MESSAGE);
-	}
-
+	
 	// ID-generators
 	public String generateStudentID() {
 
