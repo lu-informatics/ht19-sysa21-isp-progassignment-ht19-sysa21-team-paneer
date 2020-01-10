@@ -1,4 +1,3 @@
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -14,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class ViewController {
 
-	private Integer studentId = 9999;
+	private Integer studentId = 10000;
 
 	private Integer courseId = 10000;
 	private Integer examID = 10000;
@@ -25,6 +24,8 @@ public class ViewController {
 	private DefaultComboBoxModel<String> examModel;
 	private String[] examTableColumns = new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"};;
 	private String[] courseTableColumns = new String[]{"Course Code", "Name", "Credits"};
+	private String[] studentTableColumns = new String[] { "Student ID", "Name" };
+
 	private SimpleDateFormat dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
 	
@@ -91,6 +92,15 @@ public class ViewController {
 	public void setStudentModel(DefaultComboBoxModel<String> studentModel) {
 		this.studentModel = studentModel;
 	}
+	
+	public String[] getStudentTableColumns() {
+		return studentTableColumns;
+	}
+
+	public void setStudentTableColumns(String[] studentTableColumns) {
+		this.studentTableColumns = studentTableColumns;
+	}
+
 
 	// Connects to the views
 
@@ -101,6 +111,7 @@ public class ViewController {
 
 	CourseData courseData;
 	ExamData examData;
+	StudentData studentData;
 
 	// Connects to the data storage
 	CourseRegister courseRegister;
@@ -139,6 +150,8 @@ public class ViewController {
 
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
+		studentData = new StudentData(this);
+
 		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		courseModel = getCourses();
 
@@ -241,6 +254,17 @@ public class ViewController {
 		examData.setVisible(false);
 	}
 	
+
+
+	public void viewStudentData() {
+		studentData.getTableStudent().setModel(fetchStudentTableModel());
+		studentData.setVisible(true);
+	}
+	public void goBackFromStudentData() {
+		studentData.setVisible(false);
+	}
+
+	
 	//Exception handling
 	public void showExceptionWindowForEmptyFields() {
 		JOptionPane.showMessageDialog(null, "Some of the fields were empty. Please fill in all the required fields.",
@@ -274,6 +298,22 @@ public class ViewController {
 		JOptionPane.showMessageDialog(null,
 				"There is no memory left for adding new courses. Please delete a course to continue.",
 				"Memory has run out", JOptionPane.WARNING_MESSAGE);
+	}
+	
+
+	public void showExceptionWindowForNoStudent() {
+		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
+	}
+
+	public int showConfirmWindowForDeleting() {
+		return JOptionPane.showConfirmDialog(null,
+				"This will permanently delete the selected item. Do you want to proceed?", "Important message",
+				JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+	}
+
+	public void showExceptionWindowForIDError() {
+		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
+				JOptionPane.WARNING_MESSAGE);
 	}
 
 	public String stripString(String comboBoxString) {
@@ -472,47 +512,56 @@ public class ViewController {
 		courseFrame.getComboBoxStudentIDUnregister().setModel(filteredStudentModel);
 	}
 
-	// Metoder f�r StudentFrame-objekt
-
 	public void registerNewStudent(String firstName, String lastName) throws NullPointerException {
 
-		Student tmpStudent = new Student();
+		if (!firstName.equals("") && !lastName.equals("")) {
+			Student tmpStudent = new Student();
 
-		try {
 			tmpStudent.setName(firstName + " " + lastName);
+			;
 
-		} catch (NullPointerException exception) {
-			throw new NullPointerException();
+			tmpStudent.setStudentId(this.generateStudentID());
+			studentRegister.addStudent(tmpStudent);
+			this.updateStudents();
 		}
-		tmpStudent.setStudentId(this.generateStudentID());
-		studentRegister.addStudent(tmpStudent);
+
+		else {
+
+			throw new IllegalArgumentException();
+		}
 	}
 
-	public Student editStudent(String studentID, String firstName, String lastName) {
+	public void editStudent(String studentString, String firstName, String lastName) {
+		String studentID = this.stripString(studentString);
 		String fullName = studentRegister.findStudent(studentID).getName();
-		String[] split = fullName.split(" ");
-		split[0] = firstName;
-		split[1] = lastName;
-		fullName = split[0] + " " + split[1];
 
-		return studentRegister.editStudent(studentID, fullName);
+		if (!firstName.equals("") && !lastName.equals("")) {
+			String[] split = fullName.split(" ");
+			split[0] = firstName;
+			split[1] = lastName;
+			fullName = split[0] + " " + split[1];
+			studentRegister.editStudent(studentID, fullName);
+			this.updateStudents();
+		} else {
+			throw new IllegalArgumentException();
+		}
+
 	}
 
-	public Student deleteStudent(String studentID) {
-		return studentRegister.removeStudent(studentID);
-	}
+	public void deleteStudent(String studentString) {
+		String tempStudentID = this.stripString(studentString);
+		studentRegister.removeStudent(tempStudentID);
+		int deletedIdValue = Integer.parseInt(tempStudentID.substring(1));
+		courseId = Integer.parseInt(tempStudentID.substring(1));
+		if (deletedIdValue < studentId) {
+			studentId = deletedIdValue;
+		}
 
-	public Student findStudent(String studentID) {
-		return studentRegister.findStudent(studentID);
+		this.updateStudents();
 	}
 
 	public String findStudentName(String studentID) {
 		return studentRegister.findStudent(studentID).getName();
-
-	}
-
-	public String findStudentiD(String studentID) {
-		return studentRegister.findStudent(studentID).getStudentId();
 
 	}
 
@@ -532,39 +581,50 @@ public class ViewController {
 	public void updateStudents() {
 		studentModel = this.getStudents();
 		studentFrame.getComboBoxChooseStudent().setModel(studentModel);
+		studentFrame.getComboBoxChooseStudentToDelete().setModel(studentModel);
 
 	}
 
-	public void showExceptionWindowForNoStudent() {
-		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
-	}
+	public DefaultTableModel fetchStudentTableModel() {
+		HashMap<String, Student> studentList = studentRegister.getStudents();
+		Map<String, Student> sortedStudentMap = new TreeMap<String, Student>(studentList);
 
-	public int showConfirmWindowForDeleting() {
-		return JOptionPane.showConfirmDialog(null,
-				"This will permanently delete the selected item. Do you want to proceed?", "Important message",
-				JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
-	}
-
-	public void showExceptionWindowForIDError() {
-		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
-				JOptionPane.WARNING_MESSAGE);
+		String[][] studentTableData = new String[sortedStudentMap.keySet().size()][studentTableColumns.length];
+		int i = 0;
+		for (Map.Entry<String, Student> entry : sortedStudentMap.entrySet()) {
+			studentTableData[i][0] = entry.getKey();
+			studentTableData[i][1] = entry.getValue().getName();
+			i++;
+		}
+		return new DefaultTableModel(studentTableData, studentTableColumns);
 	}
 
 	// ID-generators
 	public String generateStudentID() {
 
 		if (studentId < 100000) {
-			do {
-				studentId++;
-			} while ((studentRegister.findStudent("S" + studentId.toString())) != null);
+			if (studentRegister.findStudent("S" + studentId) == null) {
+				if (this.studentIDValidation("S" + studentId.toString()) == true) {
+					return "S" + studentId.toString();
+				} else {
+					throw new NullPointerException();
+				}
+			} else {
+				while (studentRegister.findStudent("S" + studentId) != null) {
+					studentId++;
+				}
+				if (this.studentIDValidation("S" + studentId.toString()) == true) {
+					return "S" + studentId.toString();
+				} else {
+					throw new NullPointerException();
+				}
+			}
 		}
+		throw new NullPointerException();
 
-		if (this.studentIDValidation("S" + studentId.toString()) == true) {
-			return "S" + studentId.toString();
-		} else {
-			throw new NullPointerException();
-		}
 	}
+
+
 
 	public synchronized String generateCourseID() {
 		if (courseId < 100000) {

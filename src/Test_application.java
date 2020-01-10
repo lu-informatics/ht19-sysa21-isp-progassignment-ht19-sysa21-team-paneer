@@ -14,7 +14,7 @@ public class Test_application {
 		
 		
 		Student s1 = new Student();
-		s1.setName("Helene Sch�nbeck");
+		s1.setName("Helene Schonbeck");
 		s1.setStudentId("S10000");
 		
 		Student s2 = new Student();
