@@ -1,6 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
 
@@ -17,7 +17,7 @@ public class DateLabelFormatter extends AbstractFormatter {
 	@Override
 	public String valueToString(Object value){
 		if (value != null) {
-			Date cal = (Date) value;
+			Calendar cal = (Calendar) value;
 			return dateFormatter.format(cal.getTime());
 		}
 

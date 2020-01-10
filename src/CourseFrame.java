@@ -423,7 +423,7 @@ public class CourseFrame extends JFrame {
 				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForCreditParseException();
 				}
-				catch (NullPointerException exception) {
+				catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
 			}
@@ -463,7 +463,7 @@ public class CourseFrame extends JFrame {
 				} catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForCreditParseException();
 				}
-				catch (NullPointerException exception) {
+				catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
 			}
@@ -648,9 +648,6 @@ public class CourseFrame extends JFrame {
 				catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
-				catch (NullPointerException exception) {
-					viewController.showExceptionWindowForUnlinkedStudent();
-				}
 			}
 		});
 		panelUnregisterStudent.add(btnUnregisterStudent);
@@ -680,9 +677,6 @@ public class CourseFrame extends JFrame {
 					}
 					catch (NumberFormatException exception) {
 						viewController.showExceptionWindowForEmptyFields();
-					}
-					catch (NullPointerException exception) {
-						viewController.showExceptionWindowForUnlinkedExam();
 					}
 				}
 			}
@@ -752,7 +746,7 @@ public class CourseFrame extends JFrame {
 
 		JLabel lblDate = new JLabel("Date:");
 		panelAddNewExam.add(lblDate);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, viewController.getDateFormatter());
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
 		panelAddNewExam.add(datePicker);
 
@@ -787,23 +781,20 @@ public class CourseFrame extends JFrame {
 					String hours = textFieldHours.getText().toString();
 					String minutes = textFieldMinutes.getText().toString();
 					String location = comboBoxLocation.getSelectedItem().toString();
-					String examID = viewController.generateExamID().toString();
 					String courseID = (String) comboBoxCourseForNewExam.getSelectedItem();
-					viewController.addNewExamToCourse(date, hours, minutes, location, examID, courseID);
+					viewController.addNewExamToCourse(date, hours, minutes, location, courseID);
 					lblResponse.setText("Exam added to course.");
-				}
-				catch (NumberFormatException exception) {
-					viewController.showExceptionWindowForEmptyFields();
 				}
 				catch (DateTimeException exception) {
 					viewController.showExceptionWindowForTimeParseException();
-				} catch (ParseException exception) {
-					viewController.showExceptionWindowForNoAvailableIdentifier();
-				}
-				catch (NullPointerException exception) {
-					viewController.showExceptionWindowForNoCourses();
+				}  catch(NumberFormatException exception) {
+					viewController.showExceptionWindowForTimeParseException(); 
 				} catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForEmptyFields();
+				}catch (NullPointerException exception) {
+					viewController.showExceptionWindowForNoCourses();
+				} catch (ParseException exception) {
+					viewController.showExceptionWindowForTimeParseException(); 
 				}
 			}
 		});

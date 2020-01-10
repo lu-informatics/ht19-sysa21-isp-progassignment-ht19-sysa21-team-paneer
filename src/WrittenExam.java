@@ -3,8 +3,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
-
-
 public class WrittenExam {
 
 	private HashMap<String, Result> register = new HashMap<>();
