@@ -1,5 +1,5 @@
-
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,34 +14,26 @@ import javax.swing.table.DefaultTableModel;
 public class ViewController {
 
 	private Integer studentId = 10000;
+
 	private Integer courseId = 10000;
 	private Integer examID = 10000;
+	private String[] locations = new String[] { "Room A123", "Room A167", "Room B198", "Room B067" };
 	private DefaultTableModel courseTableModel;
 	private DefaultTableModel examTableModel;
 	private DefaultComboBoxModel<String> courseModel;
 	private DefaultComboBoxModel<String> examModel;
-	private String[] examTableColumns = new String[] { "Exam ID", "Course Code", "Date", "Time", "Location",
-			"Max. Points" };;
-	private String[] courseTableColumns = new String[] { "Course Code", "Name", "Credits" };
+	private String[] examTableColumns = new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"};;
+	private String[] courseTableColumns = new String[]{"Course Code", "Name", "Credits"};
 	private String[] studentTableColumns = new String[] { "Student ID", "Name" };
-	private String[] locations = new String[] { "Room A123", "Room A167", "Room B198", "Room B067" };
-	private DateLabelFormatter dateFormatter;
+	private SimpleDateFormat dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
-
-	public DateLabelFormatter getDateFormatter() {
+	
+	public SimpleDateFormat getDateFormatter() {
 		return dateFormatter;
 	}
 
-	public void setDateFormatter(DateLabelFormatter dateFormatter) {
+	public void setDateFormatter(SimpleDateFormat dateFormatter) {
 		this.dateFormatter = dateFormatter;
-	}
-
-	public String[] getStudentTableColumns() {
-		return studentTableColumns;
-	}
-
-	public void setStudentTableColumns(String[] studentTableColumns) {
-		this.studentTableColumns = studentTableColumns;
 	}
 
 	public DefaultTableModel getCourseTableModel() {
@@ -99,6 +91,15 @@ public class ViewController {
 	public void setStudentModel(DefaultComboBoxModel<String> studentModel) {
 		this.studentModel = studentModel;
 	}
+	
+	public String[] getStudentTableColumns() {
+		return studentTableColumns;
+	}
+
+	public void setStudentTableColumns(String[] studentTableColumns) {
+		this.studentTableColumns = studentTableColumns;
+	}
+
 
 	// Connects to the views
 
@@ -129,15 +130,17 @@ public class ViewController {
 
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
-		studentData = new StudentData(this);
-		dateFormatter = new DateLabelFormatter();
+		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
 	}
 
 	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
 		this.courseRegister = courseRegister;
 		this.examRegister = examRegister;
+
 		this.studentRegister = studentRegister;
+
+		studentModel = getStudents();
 
 		courseFrame = new CourseFrame(this);
 		resultFrame = new ResultFrame(this);
@@ -147,37 +150,12 @@ public class ViewController {
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
 		studentData = new StudentData(this);
-		dateFormatter = new DateLabelFormatter();
+		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		courseModel = getCourses();
-		studentModel = getStudents();
 
 	}
 
-	// Methods viewControll
-
-	public void administrateStudents(ViewController controller) {
-		studentFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void administrateCourses(ViewController controller) {
-		courseFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void resultReports(ViewController controller) {
-		resultFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void returnToMain() {
-		startFrame.setVisible(true);
-		courseFrame.setVisible(false);
-		resultFrame.setVisible(false);
-		studentFrame.setVisible(false);
-
-	}
-
+	// Metoder för CourseView objekt
 	public void viewBack() {
 		courseFrame.getPanelCourseRegister().setVisible(false);
 		courseFrame.getPanelWrittenExams().setVisible(false);
@@ -185,7 +163,6 @@ public class ViewController {
 	}
 
 	public void openCourseRegister() {
-
 		courseFrame.getPanelCourseRegister().setVisible(true);
 		courseFrame.getPanelWrittenExams().setVisible(false);
 		courseFrame.getPanelWelcome().setVisible(false);
@@ -257,11 +234,6 @@ public class ViewController {
 		courseFrame.getPanelCourseForExam().setVisible(true);
 	}
 
-	public void viewStudentData() {
-		studentData.getTableStudent().setModel(fetchStudentTableModel());
-		studentData.setVisible(true);
-	}
-
 	public void viewCourseData() {
 		courseData.getTableCourse().setModel(fetchCourseTableModel());
 		courseData.setVisible(true);
@@ -279,33 +251,26 @@ public class ViewController {
 	public void goBackFromExamData() {
 		examData.setVisible(false);
 	}
-
+	
+	public void viewStudentData() {
+		studentData.getTableStudent().setModel(fetchStudentTableModel());
+		studentData.setVisible(true);
+	}
 	public void goBackFromStudentData() {
 		studentData.setVisible(false);
 	}
 
-	// Methods for OptionPanes
-
+	
+	//Exception handling
 	public void showExceptionWindowForEmptyFields() {
 		JOptionPane.showMessageDialog(null, "Some of the fields were empty. Please fill in all the required fields.",
 				"Empty fields", JOptionPane.WARNING_MESSAGE);
-	}
-
-	public void showExceptionWindowForUnlinkedExam() {
-		JOptionPane.showMessageDialog(null, "The exam is not part of the selected course. Please choose another exam.",
-				"Exam not part of course", JOptionPane.WARNING_MESSAGE);
 	}
 
 	public void showExceptionWindowForNoExams() {
 		JOptionPane.showMessageDialog(null,
 				"There are no exams on the selected course or no students registered. Please add an exam, choose another course or add a student if there are no students registered.",
 				"No exams on course/No students", JOptionPane.WARNING_MESSAGE);
-	}
-
-	public void showExceptionWindowForUnlinkedStudent() {
-		JOptionPane.showMessageDialog(null,
-				"The student is not registered for the selected exam. Please choose another student.",
-				"Student not registered for exam", JOptionPane.WARNING_MESSAGE);
 	}
 
 	public void showExceptionWindowForCreditParseException() {
@@ -315,7 +280,7 @@ public class ViewController {
 
 	public void showExceptionWindowForTimeParseException() {
 		JOptionPane.showMessageDialog(null,
-				"Please only enter integer values in the \"Time\" fields in the format hh:mm.",
+				"Please enter integer values in the \"Time\" fields in the format hh:mm (00-24:00-59).",
 				"Non-integer values entered", JOptionPane.WARNING_MESSAGE);
 	}
 
@@ -330,6 +295,7 @@ public class ViewController {
 				"There is no memory left for adding new courses. Please delete a course to continue.",
 				"Memory has run out", JOptionPane.WARNING_MESSAGE);
 	}
+	
 
 	public void showExceptionWindowForNoStudent() {
 		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
@@ -346,10 +312,9 @@ public class ViewController {
 				JOptionPane.WARNING_MESSAGE);
 	}
 
-	// Method to isolate ID from combobox information. to Use in other methods
 	public String stripString(String comboBoxString) {
-		int endIndex = comboBoxString.indexOf(",");
-		return comboBoxString.substring(0, endIndex);
+		int startIndex = comboBoxString.indexOf(",");
+		return comboBoxString.substring(0, startIndex);
 	}
 
 	// Methods for CourseView
@@ -373,7 +338,11 @@ public class ViewController {
 	public void deleteCourse(String courseString) {
 		String courseCode = this.stripString(courseString);
 		courseRegister.removeCourse(courseCode);
-		courseId = Integer.parseInt(courseCode.substring(1));
+		//Resets the ID counter to the lowest free ID which could be the key of the deleted object.
+		int deletedIdValue = Integer.parseInt(courseCode.substring(1));
+		if (deletedIdValue<courseId) {
+			courseId = deletedIdValue;
+		}
 
 		this.updateCourses();
 	}
@@ -400,12 +369,17 @@ public class ViewController {
 		Course c = courseRegister.findCourse(courseCode);
 		c.removeExam(examID);
 		examRegister.removeExam(examID);
-		this.examID = Integer.parseInt(examID.substring(1));
+		
+		//Resets the ID counter to the lowest free ID which could be the key of the deleted object.
+		int deletedIDValue = Integer.parseInt(examID.substring(1));
+		if (deletedIDValue < this.examID) {
+			this.examID = deletedIDValue;
+		}
 
 		this.filterExams(courseString);
 	}
 
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String examID,
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location,
 			String courseString) throws ParseException, IllegalArgumentException {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
@@ -417,7 +391,7 @@ public class ViewController {
 			throw new IllegalArgumentException();
 		}
 		e.setLocation(location);
-		e.setExamId(examID);
+		e.setExamId(this.generateExamID());
 		int hour = Integer.parseInt(hours);
 		int minute = Integer.parseInt(minutes);
 		LocalTime time = LocalTime.of(hour, minute);
@@ -475,7 +449,7 @@ public class ViewController {
 		for (Map.Entry<String, WrittenExam> entry : sortedExamMap.entrySet()) {
 			examTableData[i][0] = entry.getKey();
 			examTableData[i][1] = entry.getValue().getCourse().getCourseCode();
-			examTableData[i][2] = dateFormatter.valueToString(entry.getValue().getDate());
+			examTableData[i][2] = dateFormatter.format(entry.getValue().getDate());
 			examTableData[i][3] = entry.getValue().getTime().toString();
 			examTableData[i][4] = entry.getValue().getLocation();
 			examTableData[i][5] = "100";
@@ -533,8 +507,6 @@ public class ViewController {
 		DefaultComboBoxModel<String> filteredStudentModel = new DefaultComboBoxModel<String>(students);
 		courseFrame.getComboBoxStudentIDUnregister().setModel(filteredStudentModel);
 	}
-
-	// Methods for studentView
 
 	public void registerNewStudent(String firstName, String lastName) throws NullPointerException {
 
@@ -648,40 +620,56 @@ public class ViewController {
 
 	}
 
-	public String generateCourseID() {
+
+
+	public synchronized String generateCourseID() {
 		if (courseId < 100000) {
 			if (courseRegister.findCourse("C" + courseId) == null) {
-
+				if (this.courseIDValidation("C" + courseId)) {
+					return "C" + courseId;
+				} else {
+					throw new NullPointerException();
+				}
+			}
+			else {
 				while (courseRegister.findCourse("C" + courseId) != null) {
 					courseId++;
 				}
-				if (this.courseIDValidation("C" + courseId.toString()) == true) {
-					return "C" + studentId.toString();
-
+				if (this.courseIDValidation("C" + courseId)) {
+					return "C" + courseId;
 				} else {
 					throw new NullPointerException();
 				}
 			}
 		}
-		throw new NullPointerException();
+		else {
+			throw new NullPointerException();
+		}
 	}
 
 	public String generateExamID() {
 		if (examID < 100000) {
 			if (examRegister.findExam("E" + examID) == null) {
-
+				if (this.examIDValidation("E" + examID.toString())) {
+					return "E" + examID;
+				} else {
+					throw new NullPointerException();
+				}
+			}
+			else {
 				while (examRegister.findExam("E" + examID) != null) {
 					examID++;
 				}
 				if (this.examIDValidation("E" + examID.toString())) {
-					return "E" + examID.toString();
-
+					return "E" + examID;
 				} else {
 					throw new NullPointerException();
 				}
 			}
 		}
-		throw new NullPointerException();
+		else {
+			throw new NullPointerException();
+		}
 	}
 
 	// ID Validation - matches the entered ID by using regular expressions set to
@@ -700,7 +688,29 @@ public class ViewController {
 		return id.matches("E[1-9]{1}[0-9]{4}");
 	}
 
-//Methods for resultView
+	// View controllers
+	public void administrateStudents(ViewController controller) {
+		studentFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void administrateCourses(ViewController controller) {
+		courseFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void resultReports(ViewController controller) {
+		resultFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void returnToMain() {
+		startFrame.setVisible(true);
+		courseFrame.setVisible(false);
+		resultFrame.setVisible(false);
+		studentFrame.setVisible(false);
+
+	}
 
 	public void registerResultForStudent(String studentId, String examId, int score) {
 		Student s = studentRegister.findStudent(studentId);
