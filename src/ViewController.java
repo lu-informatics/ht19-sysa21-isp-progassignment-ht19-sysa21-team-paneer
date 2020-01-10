@@ -547,6 +547,7 @@ public class ViewController {
 	public void deleteStudent(String studentString) {
 		String tempStudentID = this.stripString(studentString);
 		studentRegister.removeStudent(tempStudentID);
+		
 		int deletedIdValue = Integer.parseInt(tempStudentID.substring(1));
 		courseId = Integer.parseInt(tempStudentID.substring(1));
 		if (deletedIdValue < studentId) {
@@ -554,6 +555,7 @@ public class ViewController {
 		}
 
 		this.updateStudents();
+		
 	}
 
 	public String findStudentName(String studentID) {
