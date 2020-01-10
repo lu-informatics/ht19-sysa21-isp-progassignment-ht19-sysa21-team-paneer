@@ -52,14 +52,17 @@ public class Test_application {
 		r1.setResult(36);
 		r1.setExam(e1);
 		r1.setStudent(s1);
+		
 		Result r2 = new Result();
 		r2.setResult(68);
 		r2.setExam(e1);
 		r2.setStudent(s2);
+		
 		Result r3 = new Result();
 		r3.setResult(98);
 		r3.setExam(e1);
 		r3.setStudent(s3);
+		
 		//Lägger till student i register
 		studentRegister.addStudent(s1);
 		studentRegister.addStudent(s2);
@@ -77,10 +80,12 @@ public class Test_application {
 		c1.addExam(e1);
 		c2.addExam(e2);
 		
+		//lägger till resultat för tenta
 		e1.addResult(r1);
 		e1.addResult(r2);
 		e1.addResult(r3);
 		
+		//lägger till resultat till student
 		s1.addResult(r1);
 		s2.addResult(r2);
 		s3.addResult(r3);
@@ -100,7 +105,7 @@ public class Test_application {
 		System.out.println(e1.calculateMedian());
 		System.out.println(e1.calculateAverage());
 		
-
+		
 
 		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 

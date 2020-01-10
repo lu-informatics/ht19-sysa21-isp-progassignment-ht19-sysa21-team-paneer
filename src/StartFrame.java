@@ -11,11 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class StartFrame extends JFrame {
-	// Problemområdeskomponenter
-	private CourseRegister courseRegister = new CourseRegister();
-	private StudentRegister studentRegister = new StudentRegister();
-	private ExamRegister examRegister = new ExamRegister();
-
+	// 
 	// Controllerklassen
 	private ViewController viewController;
 

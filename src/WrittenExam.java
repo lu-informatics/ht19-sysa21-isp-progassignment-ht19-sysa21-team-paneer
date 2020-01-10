@@ -158,15 +158,4 @@ public class WrittenExam {
 	}
 
 }
-//TODO Ta bort och byt till riktiga klassen
-//class Student {
-//	private String studentId;
-//
-//	public String getStudentId() {
-//		return studentId;
-//	}
-//
-//	public void setStudentId(String studentId) {
-//		this.studentId = studentId;
-//	}
-//}
+
