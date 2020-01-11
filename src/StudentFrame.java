@@ -246,12 +246,12 @@ public class StudentFrame extends JFrame {
 		// Start Delete Student Panel
 		deletePanel = new JPanel();
 		layeredPane.add(deletePanel, "name_526566720530800");
-		deletePanel.setLayout(null);
 		deletePanel.setVisible(false);
+		deletePanel.setLayout(null);
 
 		JLabel lblStudentDelete = new JLabel("Delete Student");
-		lblStudentDelete.setFont(new Font("Arial", Font.PLAIN, 17));
 		lblStudentDelete.setBounds(15, 28, 190, 20);
+		lblStudentDelete.setFont(new Font("Arial", Font.PLAIN, 17));
 		deletePanel.add(lblStudentDelete);
 
 		JLabel lblChooseAStudentToDelete = new JLabel("Choose a student below");
@@ -259,14 +259,12 @@ public class StudentFrame extends JFrame {
 		deletePanel.add(lblChooseAStudentToDelete);
 
 		comboBoxChooseStudentToDelete = new JComboBox<String>(viewController.getStudents());
-
-		comboBoxChooseStudentToDelete.setSize(309, 26);
-		comboBoxChooseStudentToDelete.setLocation(15, 99);
+		comboBoxChooseStudentToDelete.setBounds(15, 99, 309, 26);
 		deletePanel.add(comboBoxChooseStudentToDelete);
 
 		JButton btnDelete = new JButton("Delete");
-		btnDelete.setVisible(true);
 		btnDelete.setBounds(209, 176, 115, 29);
+		btnDelete.setVisible(true);
 		deletePanel.add(btnDelete);
 
 		JLabel lbl_DeleteRespons = new JLabel("");
@@ -324,7 +322,7 @@ public class StudentFrame extends JFrame {
 				deletePanel.setVisible(false);
 			}
 		});
-		btnFindStudent.setBounds(15, 153, 204, 29);
+		btnFindStudent.setBounds(15, 141, 204, 29);
 		contentPane.add(btnFindStudent);
 
 		JButton btnBackToStart = new JButton("Return to main menu");
@@ -347,16 +345,16 @@ public class StudentFrame extends JFrame {
 				deletePanel.setVisible(true);
 			}
 		});
-		btnDeleteStudent.setBounds(15, 198, 204, 29);
+		btnDeleteStudent.setBounds(15, 175, 204, 29);
 		contentPane.add(btnDeleteStudent);
 
-		JButton btnShowAllStudents = new JButton("Show all students");
+		JButton btnShowAllStudents = new JButton("View all students");
 		btnShowAllStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				viewController.viewStudentData();
 			}
 		});
-		btnShowAllStudents.setBounds(15, 243, 204, 29);
+		btnShowAllStudents.setBounds(15, 208, 204, 29);
 		contentPane.add(btnShowAllStudents);
 
 	}
