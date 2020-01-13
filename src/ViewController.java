@@ -161,7 +161,7 @@ public class ViewController {
 
 	}
 
-	// Metoder fÃ¶r CourseView objekt
+	// Metoder för CourseView objekt
 	public void viewBack() {
 		courseFrame.getPanelCourseRegister().setVisible(false);
 		courseFrame.getPanelWrittenExams().setVisible(false);
@@ -317,7 +317,7 @@ public class ViewController {
 	}
 
 	public void showExceptionWindowForIDError() {
-		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
+		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID-error", "Error",
 				JOptionPane.WARNING_MESSAGE);
 	}
 	
@@ -392,7 +392,7 @@ public class ViewController {
 	}
 
 	public void addNewExamToCourse(Date date, String hours, String minutes, String location,
-			String courseString) throws ParseException, IllegalArgumentException {
+		String courseString) throws ParseException, IllegalArgumentException {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 		WrittenExam e = new WrittenExam();
