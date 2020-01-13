@@ -111,17 +111,20 @@ public class ViewController {
 	CourseData courseData;
 	ExamData examData;
 	StudentData studentData;
+	Result result;
 
 	// Connects to the data storage
 	CourseRegister courseRegister;
 	StudentRegister studentRegister;
 	ExamRegister examRegister;
 
+
 	// Constructors
 	public ViewController() {
 		this.courseRegister = new CourseRegister();
 		this.studentRegister = new StudentRegister();
 		this.examRegister = new ExamRegister();
+		this.result = new Result();
 
 		courseFrame = new CourseFrame(this);
 		resultFrame = new ResultFrame(this);
@@ -131,14 +134,15 @@ public class ViewController {
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
 		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		
 
 	}
 
-	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
+	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister, Result result) {
 		this.courseRegister = courseRegister;
 		this.examRegister = examRegister;
-
 		this.studentRegister = studentRegister;
+		this.result = result;
 
 		studentModel = getStudents();
 
@@ -400,9 +404,8 @@ public class ViewController {
 		c.addExam(e);
 	}
 
-	public void registerStudent(String studentString, String examID) {
+	public void registerStudentForExam(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
-
 		Student s = studentRegister.findStudent(studentID);
 		WrittenExam e = examRegister.findExam(examID);
 		s.registerExam(e);
@@ -490,6 +493,7 @@ public class ViewController {
 		courseFrame.getComboBoxExamID().setModel(examModel);
 		courseFrame.getComboBoxExamIDRegister().setModel(examModel);
 		courseFrame.getComboBoxExamIDUnregister().setModel(examModel);
+		resultFrame.getComboBoxChooseExam().setModel(examModel);
 	}
 
 	public void filterStudents(String examID) {
@@ -580,6 +584,7 @@ public class ViewController {
 		studentModel = this.getStudents();
 		studentFrame.getComboBoxChooseStudent().setModel(studentModel);
 		studentFrame.getComboBoxChooseStudentToDelete().setModel(studentModel);
+		courseFrame.getComboBoxStudentID().setModel(studentModel);
 
 	}
 
@@ -596,6 +601,8 @@ public class ViewController {
 		}
 		return new DefaultTableModel(studentTableData, studentTableColumns);
 	}
+	
+
 
 	// ID-generators
 	public String generateStudentID() {
@@ -714,11 +721,22 @@ public class ViewController {
 
 	}
 
-	public void registerResultForStudent(String studentId, String examId, int score) {
-		Student s = studentRegister.findStudent(studentId);
-		s.getResults().get(examId).setResult(score);
+	public void registerResultForStudent(String studentString, String examID, int score) {
+		String studentID = this.stripString(studentString);
+		Student s = studentRegister.findStudent(studentID);
+		s.getResults().get(examID).setResult(score);
 
 	}
+	
+	public int findResultForStudent(String studentString, String examID) {
+		String studentID = this.stripString(studentString);
+		Student s = studentRegister.findStudent(studentID);
+		return s.getResults().get(examID).getResult();
+		
+	}
+	
+	
+
 
 	public void showStatistics(String examId) {
 		WrittenExam writtenExam = examRegister.findExam(examId);
@@ -729,5 +747,12 @@ public class ViewController {
 		resultFrame.getLblM().setText(String.valueOf(median));
 		resultFrame.getLblAvg().setText(String.valueOf(average));
 	}
+	
+	public String calculateGrade(int points) {
+		return result.gradeCalculator(points);
+		
+	}
+
+	
 
 }

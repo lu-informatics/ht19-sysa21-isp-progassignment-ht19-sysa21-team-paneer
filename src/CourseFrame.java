@@ -577,7 +577,7 @@ public class CourseFrame extends JFrame {
 					String examID = comboBoxExamIDRegister.getSelectedItem().toString();
 					String studentID = comboBoxStudentID.getSelectedItem().toString();
 
-					viewController.registerStudent(studentID, examID);
+					viewController.registerStudentForExam(studentID, examID);
 					lblResponse.setText("Student registered.");
 				} catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
