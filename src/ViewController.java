@@ -25,6 +25,7 @@ public class ViewController {
 	private String[] examTableColumns = new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"};;
 	private String[] courseTableColumns = new String[]{"Course Code", "Name", "Credits"};
 	private String[] studentTableColumns = new String[] { "Student ID", "Name" };
+
 	private SimpleDateFormat dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
 	
@@ -154,12 +155,13 @@ public class ViewController {
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
 		studentData = new StudentData(this);
+
 		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		courseModel = getCourses();
 
 	}
 
-	// Metoder för CourseView objekt
+	// Metoder fÃ¶r CourseView objekt
 	public void viewBack() {
 		courseFrame.getPanelCourseRegister().setVisible(false);
 		courseFrame.getPanelWrittenExams().setVisible(false);
@@ -256,6 +258,8 @@ public class ViewController {
 		examData.setVisible(false);
 	}
 	
+
+
 	public void viewStudentData() {
 		studentData.getTableStudent().setModel(fetchStudentTableModel());
 		studentData.setVisible(true);

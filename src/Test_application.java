@@ -1,4 +1,5 @@
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Map;
 
@@ -20,12 +21,14 @@ public class Test_application {
 		Student s2 = new Student();
 		s2.setName("Victoria Bohnak");
 		s2.setStudentId("S10001");
-		
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Student s3 = new Student();
 		s3.setName("Albin Olsson");
 		s3.setStudentId("S10002");
 		
 		Course c1 = new Course();		
+
 		c1.setCourseCode("C10000");
 		c1.setCredits(10);
 		c1.setName("SYSA12");
@@ -37,15 +40,19 @@ public class Test_application {
 		
 		WrittenExam e1 = new WrittenExam();
 		e1.setExamId("E10000");
-		e1.setDate(Date.valueOf("2020-05-20"));
+
+		WrittenExam e2 = new WrittenExam();
+		e2 .setExamId("E10001");
+		try {
+			e1.setDate(dateFormat.parse("2020-05-20"));
+			e2.setDate(dateFormat.parse("2020-06-02"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		e1.setLocation("Room A123");
 		e1.setTime(LocalTime.NOON);
 		e1.setMaxPoints(100);
 		
-		
-		WrittenExam e2 = new WrittenExam();
-		e2.setExamId("E10001");
-		e2.setDate(Date.valueOf("2020-06-02"));
 		e2.setLocation("Room A123");
 		e2.setTime(LocalTime.NOON);
 		e2.setMaxPoints(100);
