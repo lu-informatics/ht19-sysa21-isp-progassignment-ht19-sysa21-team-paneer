@@ -174,6 +174,8 @@ public class ResultFrame extends JFrame {
 					textFieldResultOutput.setText(viewController.calculateGrade(result));
 				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoResult();
+					textFieldScoreOutput.setText("");
+					textFieldResultOutput.setText("");
 				}
 			}
 		});
