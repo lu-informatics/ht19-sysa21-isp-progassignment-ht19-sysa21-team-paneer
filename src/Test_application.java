@@ -52,6 +52,7 @@ public class Test_application {
 		e1.setTime(LocalTime.NOON);
 		e1.setMaxPoints(100);
 		
+		e2.setLocation("Room A123");
 		e2.setTime(LocalTime.NOON);
 		e2.setMaxPoints(100);
 		
