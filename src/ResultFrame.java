@@ -21,6 +21,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
 
 public class ResultFrame extends JFrame {
 
@@ -110,14 +111,14 @@ public class ResultFrame extends JFrame {
 	 */
 	public ResultFrame(ViewController viewController) {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 651, 630);
+		setBounds(100, 100, 651, 587);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panelFind = new JPanel();
-		panelFind.setBounds(10, 307, 231, 212);
+		panelFind.setBounds(10, 269, 231, 170);
 		contentPane.add(panelFind);
 		panelFind.setLayout(null);
 		panelFind.setVisible(false);
@@ -146,34 +147,37 @@ public class ResultFrame extends JFrame {
 		btnExamResults.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				internalFrameExamResults.setVisible(true);
-				String examId = comboBoxChooseExam.getSelectedItem().toString();
-				viewController.showStatistics(examId);}
-				catch(NullPointerException exception) {
+					String examId = comboBoxChooseExam.getSelectedItem().toString();
+					viewController.showStatistics(examId);
+					internalFrameExamResults.setVisible(true);
+				} catch (java.lang.ArithmeticException exception) {
+					viewController.showExceptionWindowForNoResult();
+				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				}
 
 			}
 		});
 
-		btnExamResults.setBounds(0, 129, 202, 23);
+		btnExamResults.setBounds(0, 129, 196, 29);
 		panelFind.add(btnExamResults);
 
 		JButton btnResultForStudent = new JButton("Result for Student");
 		btnResultForStudent.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-				String examId = comboBoxChooseExam.getSelectedItem().toString();
-				String studentId = comboBoxChooseStudent.getSelectedItem().toString();
-				Integer result = viewController.findResultForStudent(studentId, examId);
-				textFieldScoreOutput.setText(result.toString());
-				textFieldResultOutput.setText(viewController.gradeCalculator(result));}
-				catch(NullPointerException exception) {
+					String examId = comboBoxChooseExam.getSelectedItem().toString();
+					String studentId = comboBoxChooseStudent.getSelectedItem().toString();
+					Integer result = viewController.findResultForStudent(studentId, examId);
+					textFieldScoreOutput.setText(result.toString());
+					textFieldResultOutput.setText(viewController.calculateGrade(result));
+				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoResult();
 				}
 			}
 		});
-		btnResultForStudent.setBounds(0, 94, 202, 23);
+		btnResultForStudent.setBounds(0, 94, 196, 29);
 		panelFind.add(btnResultForStudent);
 
 		JLabel lblNewLabel = new JLabel("Result Administration");
@@ -182,7 +186,7 @@ public class ResultFrame extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		JLabel lblfindstudent = new JLabel("Student:");
-		lblfindstudent.setBounds(10, 264, 103, 22);
+		lblfindstudent.setBounds(10, 226, 103, 22);
 		contentPane.add(lblfindstudent);
 
 		JLabel lblCourseid = new JLabel("Course:");
@@ -193,21 +197,18 @@ public class ResultFrame extends JFrame {
 		lblExamid.setBounds(10, 99, 70, 22);
 		contentPane.add(lblExamid);
 		internalFrameExamResults = new JInternalFrame("Exam Results");
-		internalFrameExamResults.setBounds(267, 24, 277, 176);
+		internalFrameExamResults.setBounds(267, 24, 335, 176);
 		internalFrameExamResults.setVisible(false);
 		internalFrameExamResults.setClosable(true);
 		contentPane.add(internalFrameExamResults);
-		internalFrameExamResults.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
-		comboBoxChooseStudent.setBounds(72, 264, 158, 22);
+		comboBoxChooseStudent.setBounds(72, 226, 158, 22);
 		contentPane.add(comboBoxChooseStudent);
-		comboBoxChooseStudent.setSelectedIndex(-1);
 		comboBoxChooseStudent.setVisible(false);
 
 		comboBoxChooseCourse = new JComboBox<String>(viewController.getCourses());
 		comboBoxChooseCourse.setBounds(72, 55, 158, 22);
-		comboBoxChooseCourse.setSelectedIndex(-1);
 		comboBoxChooseCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -222,7 +223,6 @@ public class ResultFrame extends JFrame {
 
 		comboBoxChooseExam = new JComboBox<String>();
 		comboBoxChooseExam.setBounds(72, 99, 158, 22);
-		comboBoxChooseExam.setSelectedIndex(-1);
 		comboBoxChooseExam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -251,7 +251,6 @@ public class ResultFrame extends JFrame {
 				panelFind.setVisible(true);
 				panelRegister.setVisible(false);
 				comboBoxChooseStudent.setVisible(true);
-				
 
 			}
 		});
@@ -284,7 +283,7 @@ public class ResultFrame extends JFrame {
 		panelRegister.add(lblResultRegister);
 
 		JLabel lblResponse = new JLabel("");
-		lblResponse.setBounds(91, 122, 49, 14);
+		lblResponse.setBounds(10, 122, 195, 14);
 		panelRegister.add(lblResponse);
 
 		textFieldResultInput = new JTextField();
@@ -297,17 +296,16 @@ public class ResultFrame extends JFrame {
 		btnSaveResultForStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				int score = Integer.parseInt(textFieldScoreInput.getText());
-				viewController.gradeCalculator(score);
-				textFieldResultInput.setText((viewController.gradeCalculator(score)));
-				String studentId = comboBoxChooseStudent.getSelectedItem().toString();
-				String examId = comboBoxChooseExam.getSelectedItem().toString();
-				viewController.registerResultForStudent(studentId, examId, score);
-				lblResponse.setText("Result Registered");}
-				catch(NullPointerException exception) {
+					int score = Integer.parseInt(textFieldScoreInput.getText());
+					viewController.calculateGrade(score);
+					textFieldResultInput.setText((viewController.calculateGrade(score)));
+					String studentId = comboBoxChooseStudent.getSelectedItem().toString();
+					String examId = comboBoxChooseExam.getSelectedItem().toString();
+					viewController.registerResultForStudent(studentId, examId, score);
+					lblResponse.setText("Result Registered");
+				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoStudent();
-				}
-				catch(IllegalArgumentException exception) {
+				} catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForWrongGrade();
 				}
 
@@ -316,38 +314,46 @@ public class ResultFrame extends JFrame {
 
 		btnSaveResultForStudent.setBounds(94, 88, 96, 23);
 		panelRegister.add(btnSaveResultForStudent);
+		internalFrameExamResults.getContentPane().setLayout(null);
 
 		JLabel lblStatistics = new JLabel("Statistics:");
+		lblStatistics.setBounds(5, 5, 67, 20);
 		internalFrameExamResults.getContentPane().add(lblStatistics);
 
 		Component rigidArea = Box.createRigidArea(new Dimension(150, 15));
+		rigidArea.setBounds(77, 7, 227, 15);
 		internalFrameExamResults.getContentPane().add(rigidArea);
 
 		JLabel lblAverage = new JLabel("Average:");
+		lblAverage.setBounds(5, 30, 64, 20);
 		internalFrameExamResults.getContentPane().add(lblAverage);
 
 		lblAvg = new JLabel("avg");
+		lblAvg.setBounds(74, 30, 25, 20);
 		internalFrameExamResults.getContentPane().add(lblAvg);
 
 		JLabel lblAmountOfStudents = new JLabel("Amount of students who passed:");
+		lblAmountOfStudents.setBounds(5, 55, 234, 20);
 		internalFrameExamResults.getContentPane().add(lblAmountOfStudents);
 
 		lblAm = new JLabel("am");
+		lblAm.setBounds(238, 55, 22, 20);
 		internalFrameExamResults.getContentPane().add(lblAm);
 
 		JLabel lblMedian = new JLabel("Median:");
+		lblMedian.setBounds(5, 80, 56, 20);
 		internalFrameExamResults.getContentPane().add(lblMedian);
 
 		lblM = new JLabel("m");
+		lblM.setBounds(63, 80, 14, 20);
 		internalFrameExamResults.getContentPane().add(lblM);
 
 		JButton btnReturnToMain = new JButton("Return to main menu");
-		btnReturnToMain.setBounds(10, 535, 196, 23);
+		btnReturnToMain.setBounds(10, 492, 196, 29);
 		btnReturnToMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				viewController.returnToMain();
-				
 
 			}
 		});

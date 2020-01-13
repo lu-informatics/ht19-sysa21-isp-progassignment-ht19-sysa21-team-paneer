@@ -11,13 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class StartFrame extends JFrame {
-	// Problemområdeskomponenter
-	private CourseRegister courseRegister = new CourseRegister();
-	private StudentRegister studentRegister = new StudentRegister();
-	private ExamRegister examRegister = new ExamRegister();
 
-	// Controllerklassen
 	private ViewController viewController;
+	private JPanel contentPane;
+	private JLabel lblWelcomeToResult;
+	private JLabel lblPleaseMakeOne;
+	private JButton btnAdministrateStudents;
+	private JButton btnAdministrateCourses;
+	private JButton btnAdministrateResults;
 
 	public ViewController getController() {
 		return viewController;
@@ -26,14 +27,6 @@ public class StartFrame extends JFrame {
 	public void setController(ViewController controller) {
 		this.viewController = controller;
 	}
-
-	// Gränssnittsobjekt
-	private JPanel contentPane;
-	private JLabel lblWelcomeToResult;
-	private JLabel lblPleaseMakeOne;
-	private JButton btnAdministrateStudents;
-	private JButton btnAdministrateCourses;
-	private JButton btnResultReports;
 
 	/**
 	 * Launch the application.
@@ -59,7 +52,7 @@ public class StartFrame extends JFrame {
 		this.viewController = viewController;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 731, 618);
+		setBounds(100, 100, 415, 618);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -67,11 +60,11 @@ public class StartFrame extends JFrame {
 
 		lblWelcomeToResult = new JLabel("Welcome to Result Master");
 		lblWelcomeToResult.setFont(new Font("Arial", Font.PLAIN, 25));
-		lblWelcomeToResult.setBounds(66, 103, 330, 20);
+		lblWelcomeToResult.setBounds(15, 104, 330, 20);
 		contentPane.add(lblWelcomeToResult);
 
 		lblPleaseMakeOne = new JLabel("Please make one of the following choices");
-		lblPleaseMakeOne.setBounds(66, 154, 340, 20);
+		lblPleaseMakeOne.setBounds(15, 155, 340, 20);
 		contentPane.add(lblPleaseMakeOne);
 
 		btnAdministrateStudents = new JButton("Administrate Students");
@@ -80,7 +73,7 @@ public class StartFrame extends JFrame {
 				viewController.administrateStudents(viewController);
 			}
 		});
-		btnAdministrateStudents.setBounds(66, 236, 209, 48);
+		btnAdministrateStudents.setBounds(15, 237, 209, 48);
 		contentPane.add(btnAdministrateStudents);
 
 		btnAdministrateCourses = new JButton("Administrate Courses");
@@ -89,16 +82,16 @@ public class StartFrame extends JFrame {
 				viewController.administrateCourses(viewController);
 			}
 		});
-		btnAdministrateCourses.setBounds(66, 300, 209, 47);
+		btnAdministrateCourses.setBounds(15, 301, 209, 47);
 		contentPane.add(btnAdministrateCourses);
 
-		btnResultReports = new JButton("Result Reports");
-		btnResultReports.addActionListener(new ActionListener() {
+		btnAdministrateResults = new JButton("Administrate Results");
+		btnAdministrateResults.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				viewController.resultReports(viewController);
 			}
 		});
-		btnResultReports.setBounds(66, 363, 209, 48);
-		contentPane.add(btnResultReports);
+		btnAdministrateResults.setBounds(15, 364, 209, 48);
+		contentPane.add(btnAdministrateResults);
 	}
 }

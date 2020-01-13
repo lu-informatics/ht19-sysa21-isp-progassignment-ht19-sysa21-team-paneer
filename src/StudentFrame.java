@@ -208,7 +208,6 @@ public class StudentFrame extends JFrame {
 		textField_EditLName.setVisible(true);
 
 		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
-		comboBoxChooseStudent.setSelectedIndex(-1);
 		comboBoxChooseStudent.setSize(309, 26);
 		comboBoxChooseStudent.setLocation(15, 99);
 		
@@ -292,7 +291,7 @@ public class StudentFrame extends JFrame {
 						lbl_DeleteRespons.setText("Student deleted");
 
 					} catch (NullPointerException nex) {
-						lbl_DeleteRespons.setText("No student found");
+						viewController.showExceptionWindowForNoStudent();
 						lblNameChanged.setVisible(false);
 					}
 				} else if (choice == JOptionPane.NO_OPTION) {
@@ -354,7 +353,11 @@ public class StudentFrame extends JFrame {
 		JButton btnShowAllStudents = new JButton("View all students");
 		btnShowAllStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewStudentData();
+				try {
+				viewController.viewStudentData();}
+				catch(NullPointerException exception) {
+					viewController.showExceptionWindowForIDError();
+				}
 			}
 		});
 		btnShowAllStudents.setBounds(15, 208, 204, 29);
