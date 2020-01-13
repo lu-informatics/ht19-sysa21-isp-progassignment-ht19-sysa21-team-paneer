@@ -345,10 +345,10 @@ public class CourseFrame extends JFrame {
 		panelEdit.setVisible(false);
 		panelEdit.setLayout(null);
 
-		JButton btnEdit = new JButton("Save");
-		btnEdit.setBounds(151, 0, 100, 29);
-		panelEdit.add(btnEdit);
-		btnEdit.addActionListener(new ActionListener() {
+		JButton btnEditCourse = new JButton("Save");
+		btnEditCourse.setBounds(151, 0, 100, 29);
+		panelEdit.add(btnEditCourse);
+		btnEditCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String courseCode = comboBoxChooseCourse.getSelectedItem().toString();

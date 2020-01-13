@@ -585,6 +585,7 @@ public class ViewController {
 		studentFrame.getComboBoxChooseStudent().setModel(studentModel);
 		studentFrame.getComboBoxChooseStudentToDelete().setModel(studentModel);
 		courseFrame.getComboBoxStudentID().setModel(studentModel);
+		resultFrame.getComboBoxChooseStudent().setModel(studentModel);
 
 	}
 
