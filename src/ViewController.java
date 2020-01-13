@@ -125,7 +125,7 @@ public class ViewController {
 		this.courseRegister = new CourseRegister();
 		this.studentRegister = new StudentRegister();
 		this.examRegister = new ExamRegister();
-		this.result = new Result();
+	
 
 		courseFrame = new CourseFrame(this);
 		resultFrame = new ResultFrame(this);
@@ -139,11 +139,11 @@ public class ViewController {
 
 	}
 
-	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister, Result result) {
+	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
 		this.courseRegister = courseRegister;
 		this.examRegister = examRegister;
 		this.studentRegister = studentRegister;
-		this.result = result;
+	
 
 		studentModel = getStudents();
 
@@ -737,8 +737,6 @@ public class ViewController {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
 		s.getResults().get(examID).setResult(score);
-		
-		
 		}
 	
 
@@ -763,15 +761,24 @@ public class ViewController {
 		resultFrame.getLblAvg().setText(String.valueOf(average));
 	}
 	
-	public String calculateGrade(int points) throws IllegalArgumentException{
-		try{
-			return result.gradeCalculator(points);
+	public String gradeCalculator(int result) {
+		if (result >= 0 && result < 50) {
+			return "F";
+		} else if (result < 55) {
+			return "E";
+		} else if (result < 65) {
+			return "D";
+		} else if (result < 75) {
+			return "C";
+		} else if (result < 85) {
+			return "B";
+		} else if (result <= 100) {
+			return "A";
 		}
-		catch (NullPointerException exception){
+		else{
 			throw new IllegalArgumentException();
 		}
 	}
-
 	
 
 }

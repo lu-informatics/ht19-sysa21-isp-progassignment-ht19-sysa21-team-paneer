@@ -11,7 +11,7 @@ public class Test_application {
 		ExamRegister examRegister = new ExamRegister();
 		CourseRegister courseRegister = new CourseRegister();
 		StudentRegister studentRegister = new StudentRegister();
-		Result result = new Result();
+	
 		
 		
 		Student s1 = new Student();
@@ -76,8 +76,7 @@ public class Test_application {
 		
 		
 		courseRegister.addCourse(c1);
-		courseRegister.addCourse(c2);	
-		
+		courseRegister.addCourse(c2);			
 		examRegister.addExam(e1);
 		examRegister.addExam(e2);
 		
@@ -89,6 +88,8 @@ public class Test_application {
 		s2.registerExam(e1);
 		s3.registerExam(e1);
 		
+		
+		
 		e1.addResult(r1);
 		e1.addResult(r2);
 		e1.addResult(r3);
@@ -96,6 +97,7 @@ public class Test_application {
 		s1.addResult(r1);
 		s2.addResult(r2);
 		s3.addResult(r3);
+		
 		
 		
 		for (Map.Entry<String, Student> entry : studentRegister.getStudents().entrySet()) {
@@ -114,7 +116,7 @@ public class Test_application {
 		
 
 
-		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister, result));
+		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
 
 		startFrame.setVisible(true);
 		

@@ -147,9 +147,13 @@ public class ResultFrame extends JFrame {
 		JButton btnExamResults = new JButton("Overall exam results");
 		btnExamResults.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				internalFrameExamResults.setVisible(true);
 				String examId = comboBoxChooseExam.getSelectedItem().toString();
-				viewController.showStatistics(examId);
+				viewController.showStatistics(examId);}
+				catch(NullPointerException exception) {
+					viewController.showExceptionWindowForEmptyFields();
+				}
 
 			}
 		});
@@ -165,7 +169,7 @@ public class ResultFrame extends JFrame {
 				String studentId = comboBoxChooseStudent.getSelectedItem().toString();
 				Integer result = viewController.findResultForStudent(studentId, examId);
 				textFieldScoreOutput.setText(result.toString());
-				textFieldResultOutput.setText(viewController.calculateGrade(result));}
+				textFieldResultOutput.setText(viewController.gradeCalculator(result));}
 				catch(NullPointerException exception) {
 					viewController.showExceptionWindowForNoResult();
 				}
@@ -296,8 +300,8 @@ public class ResultFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 				int score = Integer.parseInt(textFieldScoreInput.getText());
-				viewController.calculateGrade(score);
-				textFieldResultInput.setText((viewController.calculateGrade(score)));
+				viewController.gradeCalculator(score);
+				textFieldResultInput.setText((viewController.gradeCalculator(score)));
 				String studentId = comboBoxChooseStudent.getSelectedItem().toString();
 				String examId = comboBoxChooseExam.getSelectedItem().toString();
 				viewController.registerResultForStudent(studentId, examId, score);
