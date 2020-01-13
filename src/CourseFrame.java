@@ -322,7 +322,7 @@ public class CourseFrame extends JFrame {
 
 		panelCourseRegister = new JPanel();
 		panelCourseRegister.setVisible(false);
-		panelCourseRegister.setBounds(10, 11, 251, 534);
+		panelCourseRegister.setBounds(10, 11, 251, 483);
 		contentPane.add(panelCourseRegister);
 		panelCourseRegister.setLayout(null);
 
@@ -363,6 +363,9 @@ public class CourseFrame extends JFrame {
 					viewController.showExceptionWindowForCreditParseException();
 				} catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForEmptyFields();
+				}
+				catch (NullPointerException exception) {
+					viewController.showExceptionWindowForNoCourses();
 				}
 			}
 		});
@@ -462,7 +465,7 @@ public class CourseFrame extends JFrame {
 		lblCourseRegister.setFont(new Font("Arial", Font.PLAIN, 20));
 
 		panelDelete = new JPanel();
-		panelDelete.setBounds(0, 254, 251, 199);
+		panelDelete.setBounds(0, 254, 251, 189);
 		panelDelete.setVisible(false);
 		panelCourseRegister.add(panelDelete);
 		panelDelete.setLayout(null);
@@ -491,6 +494,9 @@ public class CourseFrame extends JFrame {
 						lblResponse.setText("Course deleted.");
 					} catch (NumberFormatException exception) {
 						viewController.showExceptionWindowForEmptyFields();
+					}
+					catch (NullPointerException exception) {
+						viewController.showExceptionWindowForNoCourses();
 					}
 				}
 			}
@@ -617,6 +623,10 @@ public class CourseFrame extends JFrame {
 					} catch (NumberFormatException exception) {
 						viewController.showExceptionWindowForEmptyFields();
 					}
+					catch (NullPointerException exception) {
+						viewController.showExceptionWindowForNoExams();
+					}
+					
 				}
 			}
 		});
