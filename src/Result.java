@@ -51,7 +51,9 @@ public class Result {
 		} else if (result <= 100) {
 			return "A";
 		}
-		return null; // inget betyg
+		else{
+			throw new NullPointerException();
+		}
 	}
 
 }

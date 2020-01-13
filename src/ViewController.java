@@ -319,6 +319,13 @@ public class ViewController {
 		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
 				JOptionPane.WARNING_MESSAGE);
 	}
+	
+	public void showExceptionWindowForNoResult() {
+		JOptionPane.showMessageDialog(null, "No result found for the selected item.", "No information", JOptionPane.WARNING_MESSAGE);
+	}
+	public void showExceptionWindowForWrongGrade() {
+		JOptionPane.showMessageDialog(null, "You have entered an incorrect result. Please try again.", "Incorrect information", JOptionPane.WARNING_MESSAGE);
+	}
 
 	public String stripString(String comboBoxString) {
 		int startIndex = comboBoxString.indexOf(",");
@@ -445,6 +452,7 @@ public class ViewController {
 		courseFrame.getComboBoxChooseCourse().setModel(courseModel);
 		courseFrame.getComboBoxCourseForExam().setModel(courseModel);
 		courseFrame.getComboBoxCourseForNewExam().setModel(courseModel);
+		resultFrame.getComboBoxChooseCourse().setModel(courseModel);
 	}
 
 	public DefaultTableModel fetchExamTableModel() {
@@ -514,16 +522,15 @@ public class ViewController {
 
 		DefaultComboBoxModel<String> filteredStudentModel = new DefaultComboBoxModel<String>(students);
 		courseFrame.getComboBoxStudentIDUnregister().setModel(filteredStudentModel);
+		resultFrame.getComboBoxChooseStudent().setModel(filteredStudentModel);
 	}
 
-	public void registerNewStudent(String firstName, String lastName) throws NullPointerException {
+	public void registerNewStudent(String firstName, String lastName) {
 
 		if (!firstName.equals("") && !lastName.equals("")) {
 			Student tmpStudent = new Student();
 
 			tmpStudent.setName(firstName + " " + lastName);
-			;
-
 			tmpStudent.setStudentId(this.generateStudentID());
 			studentRegister.addStudent(tmpStudent);
 			this.updateStudents();
@@ -690,7 +697,7 @@ public class ViewController {
 	// the ID standard
 
 	public boolean studentIDValidation(String id) {
-		return id.matches("S[0-9]{5}");
+		return id.matches("S[1-9]{1}[0-9]{4}");
 
 	}
 
@@ -730,8 +737,11 @@ public class ViewController {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
 		s.getResults().get(examID).setResult(score);
+		
+		
+		}
+	
 
-	}
 	
 	public int findResultForStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
@@ -753,9 +763,13 @@ public class ViewController {
 		resultFrame.getLblAvg().setText(String.valueOf(average));
 	}
 	
-	public String calculateGrade(int points) {
-		return result.gradeCalculator(points);
-		
+	public String calculateGrade(int points) throws IllegalArgumentException{
+		try{
+			return result.gradeCalculator(points);
+		}
+		catch (NullPointerException exception){
+			throw new IllegalArgumentException();
+		}
 	}
 
 	

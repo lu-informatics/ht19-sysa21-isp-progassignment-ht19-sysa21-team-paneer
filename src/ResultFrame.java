@@ -160,11 +160,15 @@ public class ResultFrame extends JFrame {
 		JButton btnResultForStudent = new JButton("Result for Student");
 		btnResultForStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
 				String examId = comboBoxChooseExam.getSelectedItem().toString();
 				String studentId = comboBoxChooseStudent.getSelectedItem().toString();
 				Integer result = viewController.findResultForStudent(studentId, examId);
 				textFieldScoreOutput.setText(result.toString());
-				textFieldResultOutput.setText(viewController.calculateGrade(result));
+				textFieldResultOutput.setText(viewController.calculateGrade(result));}
+				catch(NullPointerException exception) {
+					viewController.showExceptionWindowForNoResult();
+				}
 			}
 		});
 		btnResultForStudent.setBounds(0, 94, 202, 23);
@@ -196,20 +200,33 @@ public class ResultFrame extends JFrame {
 		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
 		comboBoxChooseStudent.setBounds(72, 264, 158, 22);
 		contentPane.add(comboBoxChooseStudent);
+		comboBoxChooseStudent.setSelectedIndex(-1);
 		comboBoxChooseStudent.setVisible(false);
 
 		comboBoxChooseCourse = new JComboBox<String>(viewController.getCourses());
 		comboBoxChooseCourse.setBounds(72, 55, 158, 22);
-		contentPane.add(comboBoxChooseCourse);
-
-		comboBoxChooseExam = new JComboBox<String>();
-		comboBoxChooseExam.setBounds(72, 99, 158, 22);
-		comboBoxChooseExam.addActionListener(new ActionListener() {
+		comboBoxChooseCourse.setSelectedIndex(-1);
+		comboBoxChooseCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					viewController.filterExams((String) comboBoxChooseCourse.getSelectedItem());
 				} catch (NullPointerException exception) {
 					comboBoxChooseExam.setModel(new DefaultComboBoxModel<String>(new String[] { "empty" }));
+				}
+			}
+		});
+		;
+		contentPane.add(comboBoxChooseCourse);
+
+		comboBoxChooseExam = new JComboBox<String>();
+		comboBoxChooseExam.setBounds(72, 99, 158, 22);
+		comboBoxChooseExam.setSelectedIndex(-1);
+		comboBoxChooseExam.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					viewController.filterStudents((String) comboBoxChooseExam.getSelectedItem());
+				} catch (NullPointerException exception) {
+					comboBoxChooseStudent.setModel(new DefaultComboBoxModel<String>(new String[] { "empty" }));
 				}
 			}
 		});
@@ -274,22 +291,29 @@ public class ResultFrame extends JFrame {
 		textFieldResultInput.setColumns(10);
 		panelRegister.add(textFieldResultInput);
 
-		JButton btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
+		JButton btnSaveResultForStudent = new JButton("Save");
+		btnSaveResultForStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				int score = Integer.parseInt(textFieldScoreInput.getText());
 				viewController.calculateGrade(score);
 				textFieldResultInput.setText((viewController.calculateGrade(score)));
 				String studentId = comboBoxChooseStudent.getSelectedItem().toString();
 				String examId = comboBoxChooseExam.getSelectedItem().toString();
 				viewController.registerResultForStudent(studentId, examId, score);
-				lblResponse.setText("Result Registered");
+				lblResponse.setText("Result Registered");}
+				catch(NullPointerException exception) {
+					viewController.showExceptionWindowForNoStudent();
+				}
+				catch(IllegalArgumentException exception) {
+					viewController.showExceptionWindowForWrongGrade();
+				}
 
 			}
 		});
 
-		btnSave.setBounds(94, 88, 96, 23);
-		panelRegister.add(btnSave);
+		btnSaveResultForStudent.setBounds(94, 88, 96, 23);
+		panelRegister.add(btnSaveResultForStudent);
 
 		JLabel lblStatistics = new JLabel("Statistics:");
 		internalFrameExamResults.getContentPane().add(lblStatistics);
@@ -321,6 +345,7 @@ public class ResultFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				viewController.returnToMain();
+				
 
 			}
 		});
