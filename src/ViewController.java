@@ -257,7 +257,6 @@ public class ViewController {
 	public void goBackFromExamData() {
 		examData.setVisible(false);
 	}
-	
 
 
 	public void viewStudentData() {
@@ -267,6 +266,8 @@ public class ViewController {
 	public void goBackFromStudentData() {
 		studentData.setVisible(false);
 	}
+
+	
 
 	
 	//Exception handling
@@ -294,7 +295,7 @@ public class ViewController {
 
 	public void showExceptionWindowForNoCourses() {
 		JOptionPane.showMessageDialog(null,
-				"There are no courses registered. Please add a course before adding any exams.",
+				"There are no courses registered. Please add a course before performing the selected action.",
 				"No courses registered", JOptionPane.WARNING_MESSAGE);
 	}
 
@@ -336,11 +337,7 @@ public class ViewController {
 	public void addCourse(String name, String credits) {
 
 		Course c = new Course();
-		try {
-			c.setName(name);
-		} catch (NullPointerException exception) {
-			throw new NullPointerException();
-		}
+		c.setName(name);
 		String courseCode = this.generateCourseID();
 		c.setCourseCode(courseCode);
 		c.setCredits(Integer.parseInt(credits));
@@ -597,6 +594,7 @@ public class ViewController {
 		studentFrame.getComboBoxChooseStudentToDelete().setModel(studentModel);
 		courseFrame.getComboBoxStudentID().setModel(studentModel);
 		resultFrame.getComboBoxChooseStudent().setModel(studentModel);
+
 
 	}
 
