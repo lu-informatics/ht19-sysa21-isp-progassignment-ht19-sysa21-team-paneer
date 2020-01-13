@@ -37,21 +37,23 @@ public class Result {
 		this.student = student;
 	}
 
-	public char gradeCalculator() {
+	public String gradeCalculator(int result) {
 		if (result >= 0 && result < 50) {
-			return 'F';
+			return "F";
 		} else if (result < 55) {
-			return 'E';
+			return "E";
 		} else if (result < 65) {
-			return 'D';
+			return "D";
 		} else if (result < 75) {
-			return 'C';
+			return "C";
 		} else if (result < 85) {
-			return 'B';
+			return "B";
 		} else if (result <= 100) {
-			return 'A';
+			return "A";
 		}
-		return 'q'; // inget betyg
+		else{
+			throw new NullPointerException();
+		}
 	}
 
 }

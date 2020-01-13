@@ -13,6 +13,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
 public class StudentFrame extends JFrame {
@@ -207,8 +208,10 @@ public class StudentFrame extends JFrame {
 		textField_EditLName.setVisible(true);
 
 		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
+		comboBoxChooseStudent.setSelectedIndex(-1);
 		comboBoxChooseStudent.setSize(309, 26);
 		comboBoxChooseStudent.setLocation(15, 99);
+		
 		editPanel.add(comboBoxChooseStudent);
 
 		textField_EditFName = new JTextField();

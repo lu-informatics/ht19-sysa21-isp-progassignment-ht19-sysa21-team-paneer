@@ -345,10 +345,10 @@ public class CourseFrame extends JFrame {
 		panelEdit.setVisible(false);
 		panelEdit.setLayout(null);
 
-		JButton btnEdit = new JButton("Save");
-		btnEdit.setBounds(151, 0, 100, 29);
-		panelEdit.add(btnEdit);
-		btnEdit.addActionListener(new ActionListener() {
+		JButton btnSaveEditCourse = new JButton("Save");
+		btnSaveEditCourse.setBounds(151, 0, 100, 29);
+		panelEdit.add(btnSaveEditCourse);
+		btnSaveEditCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
@@ -393,10 +393,10 @@ public class CourseFrame extends JFrame {
 		panelCourseRegister.add(panelAdd);
 		panelAdd.setVisible(false);
 
-		JButton btnAdd = new JButton("Save");
-		btnAdd.setBounds(151, 0, 100, 29);
-		btnAdd.setBackground(new Color(240, 240, 240));
-		btnAdd.addActionListener(new ActionListener() {
+		JButton btnAddNewCourse = new JButton("Save");
+		btnAddNewCourse.setBounds(151, 0, 100, 29);
+		btnAddNewCourse.setBackground(new Color(240, 240, 240));
+		btnAddNewCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String name = textFieldEditCourseName.getText();
@@ -413,7 +413,7 @@ public class CourseFrame extends JFrame {
 			}
 		});
 		panelAdd.setLayout(null);
-		panelAdd.add(btnAdd);
+		panelAdd.add(btnAddNewCourse);
 
 		panelCourseActions = new JPanel();
 		panelCourseActions.setBounds(0, 35, 251, 132);
@@ -543,7 +543,6 @@ public class CourseFrame extends JFrame {
 				try {
 					String examID = comboBoxExamIDUnregister.getSelectedItem().toString();
 					String studentID = comboBoxStudentIDUnregister.getSelectedItem().toString();
-
 					viewController.unregisterStudent(studentID, examID);
 					lblResponse.setText("Student unregistered.");
 				} catch (NumberFormatException exception) {
@@ -585,8 +584,7 @@ public class CourseFrame extends JFrame {
 				try {
 					String examID = comboBoxExamIDRegister.getSelectedItem().toString();
 					String studentID = comboBoxStudentID.getSelectedItem().toString();
-
-					viewController.registerStudent(studentID, examID);
+					viewController.registerStudentForExam(studentID, examID);
 					lblResponse.setText("Student registered.");
 				} catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();

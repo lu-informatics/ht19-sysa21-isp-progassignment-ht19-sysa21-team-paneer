@@ -11,6 +11,7 @@ public class Test_application {
 		ExamRegister examRegister = new ExamRegister();
 		CourseRegister courseRegister = new CourseRegister();
 		StudentRegister studentRegister = new StudentRegister();
+		Result result = new Result();
 		
 		
 		Student s1 = new Student();
@@ -18,7 +19,7 @@ public class Test_application {
 		s1.setStudentId("S10000");
 		
 		Student s2 = new Student();
-		s2.setName("Joakim Henriksson");
+		s2.setName("Victoria Bohnak");
 		s2.setStudentId("S10001");
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -35,7 +36,7 @@ public class Test_application {
 		Course c2 = new Course();
 		c2.setCourseCode("C10001");
 		c2.setCredits(20);
-		c2.setName("SySa12");
+		c2.setName("SYSA13");
 		
 		WrittenExam e1 = new WrittenExam();
 		e1.setExamId("E10000");
@@ -68,22 +69,25 @@ public class Test_application {
 		r3.setResult(98);
 		r3.setExam(e1);
 		r3.setStudent(s3);
-		//Lägger till student i register
+		
 		studentRegister.addStudent(s1);
 		studentRegister.addStudent(s2);
 		studentRegister.addStudent(s3);
 		
-		//Lägger till kurs i register
-		courseRegister.addCourse(c1);
-		courseRegister.addCourse(c2);
 		
-		//lägger till tenta i register
+		courseRegister.addCourse(c1);
+		courseRegister.addCourse(c2);	
+		
 		examRegister.addExam(e1);
 		examRegister.addExam(e2);
 		
-		//Lägger till tenta till kurs
+	
 		c1.addExam(e1);
 		c2.addExam(e2);
+		
+		s1.registerExam(e1);
+		s2.registerExam(e1);
+		s3.registerExam(e1);
 		
 		e1.addResult(r1);
 		e1.addResult(r2);
@@ -110,7 +114,7 @@ public class Test_application {
 		
 
 
-		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister));
+		StartFrame startFrame = new StartFrame(new ViewController(courseRegister, examRegister, studentRegister, result));
 
 		startFrame.setVisible(true);
 		
