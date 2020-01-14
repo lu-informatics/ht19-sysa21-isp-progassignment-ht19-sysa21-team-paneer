@@ -29,7 +29,7 @@ public class Test_application {
 
 		Student s5 = new Student();
 		s5.setName("Valdemar Andersen");
-		s5.setStudentId("S10004");
+		s5.setStudentId("S100004");
 
 		Course c1 = new Course();
 		c1.setCourseCode("C10000");
@@ -72,22 +72,27 @@ public class Test_application {
 
 		Result r1 = new Result();
 		r1.setResult(36);
+		r1.setLetterGrade("F");
 		r1.setExam(e1);
 		r1.setStudent(s1);
 		Result r2 = new Result();
 		r2.setResult(68);
+		r2.setLetterGrade("C");
 		r2.setExam(e1);
 		r2.setStudent(s2);
 		Result r3 = new Result();
 		r3.setResult(98);
+		r3.setLetterGrade("A");
 		r3.setExam(e1);
 		r3.setStudent(s3);
 		Result r4 = new Result();
 		r4.setResult(73);
+		r4.setLetterGrade("C");
 		r4.setExam(e2);
 		r4.setStudent(s5);
 		Result r5 = new Result();
 		r5.setResult(57);
+		r5.setLetterGrade("D");
 		r5.setExam(e2);
 		r5.setStudent(s4);
 
