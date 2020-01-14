@@ -152,7 +152,6 @@ public class ViewController {
 	}
 
 	// Methods for CourseView
-
 	public void viewCourseData() {
 		courseData.getTableCourse().setModel(fetchCourseTableModel());
 		courseData.setVisible(true);
@@ -400,7 +399,7 @@ public class ViewController {
 			examTableData[i][2] = dateFormatter.format(entry.getValue().getDate());
 			examTableData[i][3] = entry.getValue().getTime().toString();
 			examTableData[i][4] = entry.getValue().getLocation();
-			examTableData[i][5] = "100";
+			examTableData[i][5] = String.valueOf(entry.getValue().getMaxPoints());
 			i++;
 		}
 		return new DefaultTableModel(examTableData, examTableColumns);

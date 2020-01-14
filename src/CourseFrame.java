@@ -25,8 +25,6 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import javax.swing.Box;
-
 public class CourseFrame extends JFrame {
 
 	/**
@@ -267,6 +265,85 @@ public class CourseFrame extends JFrame {
 	public void setPanelCourseForNewExam(JPanel panelCourseForNewExam) {
 		this.panelCourseForNewExam = panelCourseForNewExam;
 	}
+	
+	//View control methods
+	public void viewBack() {
+		getPanelCourseRegister().setVisible(false);
+		getPanelWrittenExams().setVisible(false);
+		getPanelWelcome().setVisible(true);
+	}
+
+	public void openCourseRegister() {
+		getPanelCourseRegister().setVisible(true);
+		getPanelWrittenExams().setVisible(false);
+		getPanelWelcome().setVisible(false);
+	}
+
+	public void openExamRegister() {
+		getPanelCourseRegister().setVisible(false);
+		getPanelWrittenExams().setVisible(true);
+		getPanelWelcome().setVisible(false);
+	}
+
+	public void viewNewCourse() {
+		getPanelAdd().setVisible(true);
+		getPanelEdit().setVisible(false);
+		getPanelDelete().setVisible(false);
+		getPanelCourseInfo().setVisible(true);
+		getPanelChooseCourse().setVisible(false);
+	}
+
+	public void viewEditCourse() {
+		getPanelAdd().setVisible(false);
+		getPanelEdit().setVisible(true);
+		getPanelDelete().setVisible(false);
+		getPanelCourseInfo().setVisible(true);
+		getPanelChooseCourse().setVisible(true);
+	}
+
+	public void viewDeleteCourse() {
+		getPanelAdd().setVisible(false);
+		getPanelEdit().setVisible(false);
+		getPanelDelete().setVisible(true);
+		getPanelCourseInfo().setVisible(false);
+		getPanelChooseCourse().setVisible(true);
+	}
+
+	public void viewNewExam() {
+		getPanelAddNewExam().setVisible(true);
+		getPanelExistingExam().setVisible(false);
+		getPanelUnregisterStudent().setVisible(false);
+		getPanelRegisterStudent().setVisible(false);
+		getPanelCourseForNewExam().setVisible(true);
+		getPanelCourseForExam().setVisible(false);
+	}
+
+	public void viewRemoveExam() {
+		getPanelAddNewExam().setVisible(false);
+		getPanelExistingExam().setVisible(true);
+		getPanelUnregisterStudent().setVisible(false);
+		getPanelRegisterStudent().setVisible(false);
+		getPanelCourseForNewExam().setVisible(false);
+		getPanelCourseForExam().setVisible(true);
+	}
+
+	public void viewRegisterStudent() {
+		getPanelAddNewExam().setVisible(false);
+		getPanelExistingExam().setVisible(false);
+		getPanelUnregisterStudent().setVisible(false);
+		getPanelRegisterStudent().setVisible(true);
+		getPanelCourseForNewExam().setVisible(false);
+		getPanelCourseForExam().setVisible(true);
+	}
+
+	public void viewUnregisterStudent() {
+		getPanelAddNewExam().setVisible(false);
+		getPanelExistingExam().setVisible(false);
+		getPanelUnregisterStudent().setVisible(true);
+		getPanelRegisterStudent().setVisible(false);
+		getPanelCourseForNewExam().setVisible(false);
+		getPanelCourseForExam().setVisible(true);
+	}
 
 	/**
 	 * Launch the application.
@@ -309,7 +386,7 @@ public class CourseFrame extends JFrame {
 		btnGoBack.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewBack();
+				viewBack();
 				viewController.returnToMain();
 			}
 		});
@@ -392,7 +469,7 @@ public class CourseFrame extends JFrame {
 		buttonGroupCourses.add(btnEditCourse);
 		btnEditCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewEditCourse();
+				viewEditCourse();
 			}
 		});
 
@@ -401,7 +478,7 @@ public class CourseFrame extends JFrame {
 		buttonGroupCourses.add(btnNewCourse);
 		btnNewCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewNewCourse();
+				viewNewCourse();
 			}
 		});
 		panelCourseActions.setLayout(null);
@@ -412,7 +489,7 @@ public class CourseFrame extends JFrame {
 		btnDeleteCourse.setBounds(0, 74, 200, 29);
 		btnDeleteCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewDeleteCourse();
+				viewDeleteCourse();
 			}
 		});
 		panelCourseActions.add(btnDeleteCourse);
@@ -477,7 +554,7 @@ public class CourseFrame extends JFrame {
 		panelAdd.add(btnAddNewCourse);
 		btnGoBack_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewBack();
+				viewBack();
 			}
 		});
 		btnDelete.addActionListener(new ActionListener() {
@@ -678,7 +755,7 @@ public class CourseFrame extends JFrame {
 					String hours = textFieldHours.getText().toString();
 					String minutes = textFieldMinutes.getText().toString();
 					String location = comboBoxLocation.getSelectedItem().toString();
-					String courseID = (String) comboBoxCourseForNewExam.getSelectedItem();
+					String courseID = comboBoxCourseForNewExam.getSelectedItem().toString();
 					viewController.addNewExamToCourse(date, hours, minutes, location, courseID);
 					lblResponse.setText("Exam added to course.");
 				} catch (DateTimeException exception) {
@@ -746,7 +823,7 @@ public class CourseFrame extends JFrame {
 		panelWrittenExamActions.add(rdbtnAddNew);
 		rdbtnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewNewExam();
+				viewNewExam();
 			}
 
 		});
@@ -756,7 +833,7 @@ public class CourseFrame extends JFrame {
 		panelWrittenExamActions.add(rdbtnRemoveExam);
 		rdbtnRemoveExam.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewRemoveExam();
+				viewRemoveExam();
 			}
 
 		});
@@ -766,7 +843,7 @@ public class CourseFrame extends JFrame {
 		panelWrittenExamActions.add(rdbtnRegisterStudentFor);
 		rdbtnRegisterStudentFor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewRegisterStudent();
+				viewRegisterStudent();
 			}
 
 		});
@@ -776,14 +853,14 @@ public class CourseFrame extends JFrame {
 		panelWrittenExamActions.add(rdbtnUnregisterStudentFor);
 		rdbtnUnregisterStudentFor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewUnregisterStudent();
+				viewUnregisterStudent();
 			}
 		});
 
 		JButton btnGoBack_2 = new JButton("Go back");
 		btnGoBack_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewBack();
+				viewBack();
 			}
 		});
 		btnGoBack_2.setBounds(0, 418, 89, 34);
@@ -803,7 +880,7 @@ public class CourseFrame extends JFrame {
 		btnOpenCourseRegister.setBounds(0, 45, 205, 29);
 		btnOpenCourseRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.openCourseRegister();
+				openCourseRegister();
 			}
 		});
 		panelWelcome.add(btnOpenCourseRegister);
@@ -812,7 +889,7 @@ public class CourseFrame extends JFrame {
 		btnOpenExamRegister.setBounds(0, 79, 205, 29);
 		btnOpenExamRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.openExamRegister();
+				openExamRegister();
 			}
 		});
 		panelWelcome.add(btnOpenExamRegister);
