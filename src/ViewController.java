@@ -161,85 +161,7 @@ public class ViewController {
 
 	}
 
-	// Metoder för CourseView objekt
-	public void viewBack() {
-		courseFrame.getPanelCourseRegister().setVisible(false);
-		courseFrame.getPanelWrittenExams().setVisible(false);
-		courseFrame.getPanelWelcome().setVisible(true);
-	}
-
-	public void openCourseRegister() {
-		courseFrame.getPanelCourseRegister().setVisible(true);
-		courseFrame.getPanelWrittenExams().setVisible(false);
-		courseFrame.getPanelWelcome().setVisible(false);
-	}
-
-	public void openExamRegister() {
-		courseFrame.getPanelCourseRegister().setVisible(false);
-		courseFrame.getPanelWrittenExams().setVisible(true);
-		courseFrame.getPanelWelcome().setVisible(false);
-	}
-
-	public void viewNewCourse() {
-		courseFrame.getPanelAdd().setVisible(true);
-		courseFrame.getPanelEdit().setVisible(false);
-		courseFrame.getPanelDelete().setVisible(false);
-		courseFrame.getPanelCourseInfo().setVisible(true);
-		courseFrame.getPanelChooseCourse().setVisible(false);
-	}
-
-	public void viewEditCourse() {
-		courseFrame.getPanelAdd().setVisible(false);
-		courseFrame.getPanelEdit().setVisible(true);
-		courseFrame.getPanelDelete().setVisible(false);
-		courseFrame.getPanelCourseInfo().setVisible(true);
-		courseFrame.getPanelChooseCourse().setVisible(true);
-	}
-
-	public void viewDeleteCourse() {
-		courseFrame.getPanelAdd().setVisible(false);
-		courseFrame.getPanelEdit().setVisible(false);
-		courseFrame.getPanelDelete().setVisible(true);
-		courseFrame.getPanelCourseInfo().setVisible(false);
-		courseFrame.getPanelChooseCourse().setVisible(true);
-	}
-
-	public void viewNewExam() {
-		courseFrame.getPanelAddNewExam().setVisible(true);
-		courseFrame.getPanelExistingExam().setVisible(false);
-		courseFrame.getPanelUnregisterStudent().setVisible(false);
-		courseFrame.getPanelRegisterStudent().setVisible(false);
-		courseFrame.getPanelCourseForNewExam().setVisible(true);
-		courseFrame.getPanelCourseForExam().setVisible(false);
-	}
-
-	public void viewRemoveExam() {
-		courseFrame.getPanelAddNewExam().setVisible(false);
-		courseFrame.getPanelExistingExam().setVisible(true);
-		courseFrame.getPanelUnregisterStudent().setVisible(false);
-		courseFrame.getPanelRegisterStudent().setVisible(false);
-		courseFrame.getPanelCourseForNewExam().setVisible(false);
-		courseFrame.getPanelCourseForExam().setVisible(true);
-	}
-
-	public void viewRegisterStudent() {
-		courseFrame.getPanelAddNewExam().setVisible(false);
-		courseFrame.getPanelExistingExam().setVisible(false);
-		courseFrame.getPanelUnregisterStudent().setVisible(false);
-		courseFrame.getPanelRegisterStudent().setVisible(true);
-		courseFrame.getPanelCourseForNewExam().setVisible(false);
-		courseFrame.getPanelCourseForExam().setVisible(true);
-	}
-
-	public void viewUnregisterStudent() {
-		courseFrame.getPanelAddNewExam().setVisible(false);
-		courseFrame.getPanelExistingExam().setVisible(false);
-		courseFrame.getPanelUnregisterStudent().setVisible(true);
-		courseFrame.getPanelRegisterStudent().setVisible(false);
-		courseFrame.getPanelCourseForNewExam().setVisible(false);
-		courseFrame.getPanelCourseForExam().setVisible(true);
-	}
-
+	// Metoder fï¿½r CourseView objekt
 	public void viewCourseData() {
 		courseData.getTableCourse().setModel(fetchCourseTableModel());
 		courseData.setVisible(true);
@@ -362,7 +284,6 @@ public class ViewController {
 	public void editCourse(String courseString, String courseCredits, String name) {
 		int credits = Integer.parseInt(courseCredits);
 		String courseCode = this.stripString(courseString);
-		System.out.println(courseString + "stripped to: " + courseCode);
 		courseRegister.editCourse(courseCode, name, credits);
 		this.updateCourses();
 	}
@@ -464,7 +385,7 @@ public class ViewController {
 			examTableData[i][2] = dateFormatter.format(entry.getValue().getDate());
 			examTableData[i][3] = entry.getValue().getTime().toString();
 			examTableData[i][4] = entry.getValue().getLocation();
-			examTableData[i][5] = "100";
+			examTableData[i][5] = String.valueOf(entry.getValue().getMaxPoints());
 			i++;
 		}
 		return new DefaultTableModel(examTableData, examTableColumns);
@@ -641,7 +562,7 @@ public class ViewController {
 
 
 
-	public synchronized String generateCourseID() {
+	public String generateCourseID() {
 		if (courseId < 100000) {
 			if (courseRegister.findCourse("C" + courseId) == null) {
 				if (this.courseIDValidation("C" + courseId)) {
