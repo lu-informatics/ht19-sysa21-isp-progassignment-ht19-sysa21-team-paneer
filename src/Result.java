@@ -1,7 +1,7 @@
 
 public class Result {
 	private int result;
-	private char letterGrade;
+	private String letterGrade;
 	private WrittenExam exam;
 	private Student student;
 
@@ -13,11 +13,11 @@ public class Result {
 		this.result = result;
 	}
 
-	public char getLetterGrade() {
+	public String getLetterGrade() {
 		return letterGrade;
 	}
 
-	public void setLetterGrade(char letterGrade) {
+	public void setLetterGrade(String letterGrade) {
 		this.letterGrade = letterGrade;
 	}
 
@@ -52,7 +52,7 @@ public class Result {
 			return "A";
 		}
 		else{
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		}
 	}
 
