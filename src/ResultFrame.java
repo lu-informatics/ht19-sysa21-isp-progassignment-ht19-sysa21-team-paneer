@@ -329,7 +329,7 @@ public class ResultFrame extends JFrame {
 		internalFrameExamResults.getContentPane().add(lblAverage);
 
 		lblAvg = new JLabel("avg");
-		lblAvg.setBounds(74, 30, 25, 20);
+		lblAvg.setBounds(74, 30, 77, 20);
 		internalFrameExamResults.getContentPane().add(lblAvg);
 
 		JLabel lblAmountOfStudents = new JLabel("Amount of students who passed:");
