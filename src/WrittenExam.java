@@ -104,7 +104,7 @@ public class WrittenExam {
 	}
 
 	// returnerar -1 om det inte finns en median
-	public int calculateMedian() {
+	public float calculateMedian() {
 		int[] result = getResultAsArraySorted(true);
 		int size = result.length;
 		// specialfall om resultat är tom
@@ -126,7 +126,7 @@ public class WrittenExam {
 			int medianIndex = (size - 2) / 2;
 			int firstNumber = result[medianIndex];
 			int secondNumber = result[medianIndex + 1];
-			int median = (firstNumber + secondNumber) / 2;
+			float median = (firstNumber + secondNumber) / 2;
 			return median;
 		}
 	}

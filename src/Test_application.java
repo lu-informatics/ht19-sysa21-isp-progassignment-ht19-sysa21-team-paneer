@@ -75,7 +75,7 @@ public class Test_application {
 		e3.setMaxPoints(100);
 		
 		Result r1 = new Result();
-		r1.setResult(36);
+		r1.setResult(59);
 		r1.setExam(e1);
 		r1.setStudent(s1);
 		
@@ -88,6 +88,15 @@ public class Test_application {
 		r3.setResult(98);
 		r3.setExam(e1);
 		r3.setStudent(s3);
+		
+		Result r4 = new Result();
+		r4.setResult(73);
+		r4.setExam(e2);
+		r4.setStudent(s5);
+		
+		
+		
+		
 
 
 		studentRegister.addStudent(s1);
@@ -120,13 +129,13 @@ public class Test_application {
 		e1.addResult(r2);
 		e1.addResult(r3);
 		e2.addResult(r4);
-		e2.addResult(r5);
+		
 		
 		//lägger till resultat till student
 		s1.addResult(r1);
 		s2.addResult(r2);
 		s3.addResult(r3);
-		s4.addResult(r5);
+		
 		s5.addResult(r4);
 		
 		

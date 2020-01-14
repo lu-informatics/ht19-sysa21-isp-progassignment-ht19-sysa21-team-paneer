@@ -161,7 +161,7 @@ public class ViewController {
 
 	}
 
-	// Metoder för CourseView objekt
+	// Metoder fï¿½r CourseView objekt
 	public void viewBack() {
 		courseFrame.getPanelCourseRegister().setVisible(false);
 		courseFrame.getPanelWrittenExams().setVisible(false);
@@ -754,7 +754,7 @@ public class ViewController {
 	public void showStatistics(String examId) {
 		WrittenExam writtenExam = examRegister.findExam(examId);
 		int amountOfStudentsPassed = writtenExam.calculateNumberOfPassed();
-		int median = writtenExam.calculateMedian();
+		float median = writtenExam.calculateMedian();
 		double average = writtenExam.calculateAverage();
 		resultFrame.getLblAm().setText(String.valueOf(amountOfStudentsPassed));
 		resultFrame.getLblM().setText(String.valueOf(median));
