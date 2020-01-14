@@ -3,7 +3,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -271,7 +270,7 @@ public class StudentFrame extends JFrame {
 		lbl_DeleteRespons.setBounds(15, 272, 190, 20);
 		deletePanel.add(lbl_DeleteRespons);
 
-		
+
 
 	btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -4,7 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
 
 public class ResultFrame extends JFrame {
 
@@ -82,6 +84,8 @@ public class ResultFrame extends JFrame {
 	public void setComboBoxChooseExam(JComboBox<String> comboBoxChooseExam) {
 		this.comboBoxChooseExam = comboBoxChooseExam;
 	}
+
+
 
 
 	/**
@@ -166,7 +170,7 @@ public class ResultFrame extends JFrame {
 					String studentId = comboBoxChooseStudent.getSelectedItem().toString();
 					Integer result = viewController.findResultForStudent(studentId, examId);
 					textFieldScoreOutput.setText(result.toString());
-					textFieldResultOutput.setText(viewController.calculateGrade(result));
+					textFieldResultOutput.setText(viewController.findLetterGradeForStudent(studentId, examId));
 				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoResult();
 					textFieldScoreOutput.setText("");
@@ -326,7 +330,7 @@ public class ResultFrame extends JFrame {
 		internalFrameExamResults.getContentPane().add(lblAverage);
 
 		lblAvg = new JLabel("avg");
-		lblAvg.setBounds(74, 30, 25, 20);
+		lblAvg.setBounds(74, 30, 77, 20);
 		internalFrameExamResults.getContentPane().add(lblAvg);
 
 		JLabel lblAmountOfStudents = new JLabel("Amount of students who passed:");
@@ -334,7 +338,7 @@ public class ResultFrame extends JFrame {
 		internalFrameExamResults.getContentPane().add(lblAmountOfStudents);
 
 		lblAm = new JLabel("am");
-		lblAm.setBounds(238, 55, 22, 20);
+		lblAm.setBounds(238, 55, 66, 20);
 		internalFrameExamResults.getContentPane().add(lblAm);
 
 		JLabel lblMedian = new JLabel("Median:");
@@ -342,7 +346,7 @@ public class ResultFrame extends JFrame {
 		internalFrameExamResults.getContentPane().add(lblMedian);
 
 		lblM = new JLabel("m");
-		lblM.setBounds(63, 80, 14, 20);
+		lblM.setBounds(63, 80, 77, 20);
 		internalFrameExamResults.getContentPane().add(lblM);
 
 		JButton btnReturnToMain = new JButton("Return to main menu");
@@ -359,4 +363,5 @@ public class ResultFrame extends JFrame {
 	}
 
 	
+
 }

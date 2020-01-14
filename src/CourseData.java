@@ -15,7 +15,7 @@ public class CourseData extends JFrame {
 	/**
 	 * 
 	 */
-	
+
 	private JPanel contentPane;
 	private JTable tableCourse;
 	private JButton btnGoBack;
