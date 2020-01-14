@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -662,13 +663,14 @@ public class ViewController {
 	}
 
 	public void showStatistics(String examId) {
+		DecimalFormat dec = new DecimalFormat("#0.0");
 		WrittenExam writtenExam = examRegister.findExam(examId);
 		int amountOfStudentsPassed = writtenExam.calculateNumberOfPassed();
-		double median = writtenExam.calculateMedian();
-		double average = writtenExam.calculateAverage();
+		String median = dec.format(writtenExam.calculateMedian());
+		String average = dec.format(writtenExam.calculateAverage());
 		resultFrame.getLblAm().setText(String.valueOf(amountOfStudentsPassed));
-		resultFrame.getLblM().setText(String.valueOf(median));
-		resultFrame.getLblAvg().setText(String.valueOf(average));
+		resultFrame.getLblM().setText(median);
+		resultFrame.getLblAvg().setText(average);
 	}
 
 	public String calculateGrade(int points) {
