@@ -29,7 +29,7 @@ public class Test_application {
 
 		Student s5 = new Student();
 		s5.setName("Valdemar Andersen");
-		s5.setStudentId("S100004");
+		s5.setStudentId("S10004");
 
 		Course c1 = new Course();
 		c1.setCourseCode("C10000");

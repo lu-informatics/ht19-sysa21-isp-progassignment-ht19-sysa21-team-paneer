@@ -20,7 +20,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-
 public class ResultFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -85,8 +84,6 @@ public class ResultFrame extends JFrame {
 		this.comboBoxChooseExam = comboBoxChooseExam;
 	}
 
-
-
 	/**
 	 * Launch the application.
 	 */
@@ -148,10 +145,12 @@ public class ResultFrame extends JFrame {
 					String examId = comboBoxChooseExam.getSelectedItem().toString();
 					viewController.showStatistics(examId);
 					internalFrameExamResults.setVisible(true);
-				} catch (java.lang.ArithmeticException exception) {
+				} catch (ArithmeticException exception) {
 					viewController.showExceptionWindowForNoResult();
 				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForEmptyFields();
+				} catch (IllegalArgumentException exception) {
+					viewController.showExceptionWindowForNoResult();
 				}
 
 			}
@@ -361,6 +360,4 @@ public class ResultFrame extends JFrame {
 
 	}
 
-	
-	
 }

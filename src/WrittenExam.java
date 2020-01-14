@@ -99,7 +99,7 @@ public class WrittenExam {
 		int size = result.length;
 		// if result is empty
 		if (size == 0) {
-			return -1;
+			throw new IllegalArgumentException();
 		}
 
 		// used only if there is only 1 number in the Array 

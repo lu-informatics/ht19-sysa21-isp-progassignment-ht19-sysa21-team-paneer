@@ -151,7 +151,7 @@ public class ViewController {
 
 	}
 
-	// Methods for CourseView
+	// View controllers
 	public void viewCourseData() {
 		courseData.getTableCourse().setModel(fetchCourseTableModel());
 		courseData.setVisible(true);
@@ -179,7 +179,7 @@ public class ViewController {
 		studentData.setVisible(false);
 	}
 	
-	// View controllers
+
 	public void administrateStudents(ViewController controller) {
 		studentFrame.setVisible(true);
 		startFrame.setVisible(false);
