@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 public class StudentData extends JFrame {
 
 	private JPanel contentPane;
-	private JButton btnBackToMainMenu;
 	private JTable tableStudent;
 	
 	

@@ -4,32 +4,32 @@ import java.util.HashMap;
 
 public class StudentRegister {
 
-	private HashMap<String, Student> students = new HashMap<String, Student>();
+	private HashMap<String, Student> studentList = new HashMap<String, Student>();
 
-	public HashMap<String, Student> getStudents() {
-		return students;
+	public HashMap<String, Student> getStudentList() {
+		return studentList;
 	}
 
 	
-	public void setStudenter(HashMap<String, Student> studenter) {
-		this.students = studenter;
+	public void setStudentList(HashMap<String, Student> studentList) {
+		this.studentList = studentList;
 	}
 
 	public void addStudent(Student student) {
-		students.put(student.getStudentId(), student);
+		studentList.put(student.getStudentId(), student);
 	}
 
 	public Student removeStudent(String studentID) {
-		return students.remove(studentID);
+		return studentList.remove(studentID);
 	}
 
 	public Student findStudent(String studentID) {
-		return students.get(studentID);
+		return studentList.get(studentID);
 
 	}
 
 	public Student editStudent(String studentID, String name) {
-		Student s = students.get(studentID);
+		Student s = studentList.get(studentID);
 		if (s != null) {
 			s.setName(name);
 		}
