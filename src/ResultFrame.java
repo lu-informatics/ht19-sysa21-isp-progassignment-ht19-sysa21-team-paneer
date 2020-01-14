@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -340,7 +339,7 @@ public class ResultFrame extends JFrame {
 		internalFrameExamResults.getContentPane().add(lblMedian);
 
 		lblM = new JLabel("m");
-		lblM.setBounds(63, 80, 14, 20);
+		lblM.setBounds(63, 80, 77, 20);
 		internalFrameExamResults.getContentPane().add(lblM);
 
 		JButton btnReturnToMain = new JButton("Return to main menu");

@@ -1,24 +1,24 @@
 import java.util.HashMap;
 public class ExamRegister {
 	
-	private HashMap<String, WrittenExam> register = new HashMap<String, WrittenExam>();
+	private HashMap<String, WrittenExam> examList = new HashMap<String, WrittenExam>();
 	
 	public HashMap<String, WrittenExam> getRegister() {
-		return register;
+		return examList;
 	}
 	public void setRegister(HashMap<String, WrittenExam> register) {
-		this.register = register;
+		this.examList = register;
 	}
 	public void addExam(WrittenExam exam) {
-		register.put(exam.getExamId(), exam);
+		examList.put(exam.getExamId(), exam);		
 	}
 	public WrittenExam findExam(String id) {
-		return register.get(id);
+		return examList.get(id);
 	}
 	public WrittenExam removeExam(String id) {
-		return register.remove(id);
+		return examList.remove(id);
 	}
 	public WrittenExam editExam(String id, WrittenExam exam) {
-		return register.replace(id, exam);
+		return examList.replace(id, exam);
 	}
 }
