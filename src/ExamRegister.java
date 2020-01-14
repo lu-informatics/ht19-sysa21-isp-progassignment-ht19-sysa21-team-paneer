@@ -18,7 +18,4 @@ public class ExamRegister {
 	public WrittenExam removeExam(String id) {
 		return examList.remove(id);
 	}
-	public WrittenExam editExam(String id, WrittenExam exam) {
-		return examList.replace(id, exam);
-	}
 }
