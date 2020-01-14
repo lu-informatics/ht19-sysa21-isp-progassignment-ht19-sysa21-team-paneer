@@ -640,7 +640,10 @@ public class ViewController {
 	public void registerResultForStudent(String studentString, String examID, int score) {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
-		s.getResults().get(examID).setResult(score);
+		Result result = s.getResults().get(examID);
+		result.setResult(score);
+		result.setLetterGrade(result.gradeCalculator(score));
+		
 
 	}
 
@@ -648,6 +651,13 @@ public class ViewController {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
 		return s.getResults().get(examID).getResult();
+
+	}
+	
+	public String findLetterGradeForStudent(String studentString, String examID) {
+		String studentID = this.stripString(studentString);
+		Student s = studentRegister.findStudent(studentID);
+		return s.getResults().get(examID).getLetterGrade();
 
 	}
 

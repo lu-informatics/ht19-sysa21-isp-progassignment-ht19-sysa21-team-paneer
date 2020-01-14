@@ -169,7 +169,7 @@ public class ResultFrame extends JFrame {
 					String studentId = comboBoxChooseStudent.getSelectedItem().toString();
 					Integer result = viewController.findResultForStudent(studentId, examId);
 					textFieldScoreOutput.setText(result.toString());
-					textFieldResultOutput.setText(viewController.calculateGrade(result));
+					textFieldResultOutput.setText(viewController.findLetterGradeForStudent(studentId, examId));
 				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoResult();
 					textFieldScoreOutput.setText("");
