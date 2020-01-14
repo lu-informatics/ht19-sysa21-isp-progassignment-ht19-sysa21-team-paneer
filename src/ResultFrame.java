@@ -1,13 +1,11 @@
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -21,7 +19,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.SwingConstants;
+
 
 public class ResultFrame extends JFrame {
 
@@ -87,7 +85,7 @@ public class ResultFrame extends JFrame {
 		this.comboBoxChooseExam = comboBoxChooseExam;
 	}
 
-	ViewController viewController;
+
 
 	/**
 	 * Launch the application.
@@ -347,7 +345,7 @@ public class ResultFrame extends JFrame {
 		internalFrameExamResults.getContentPane().add(lblMedian);
 
 		lblM = new JLabel("m");
-		lblM.setBounds(63, 80, 14, 20);
+		lblM.setBounds(63, 80, 77, 20);
 		internalFrameExamResults.getContentPane().add(lblM);
 
 		JButton btnReturnToMain = new JButton("Return to main menu");
@@ -363,23 +361,6 @@ public class ResultFrame extends JFrame {
 
 	}
 
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-	}
+	
+	
 }

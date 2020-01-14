@@ -5,21 +5,20 @@ import java.util.HashMap;
 
 public class WrittenExam {
 
-	private HashMap<String, Result> register = new HashMap<>();
-	private HashMap<Integer, Result> register2 = new HashMap<>();
+	private HashMap<String, Result> resultListExam = new HashMap<>();
 	private String examId;
 	private Date date;
 	private String location;
 	private LocalTime time;
-	private int maxPoints = 100;
+	private final int MAXPOINTS = 100;
 	private Course course;
 
-	public HashMap<String, Result> getRegister() {
-		return register;
+	public HashMap<String, Result> getResultListExam() {
+		return resultListExam;
 	}
 
-	public void setRegister(HashMap<String, Result> register) {
-		this.register = register;
+	public void setResultListExam(HashMap<String, Result> register) {
+		this.resultListExam = register;
 	}
 
 	public String getExamId() {
@@ -54,14 +53,7 @@ public class WrittenExam {
 		this.time = time;
 	}
 
-	public HashMap<Integer, Result> getRegister2() {
-		return register2;
-	}
-
-	public void setRegister2(HashMap<Integer, Result> register2) {
-		this.register2 = register2;
-	}
-
+	
 	public Course getCourse() {
 		return course;
 	}
@@ -71,29 +63,27 @@ public class WrittenExam {
 	}
 
 	public int getMaxPoints() {
-		return maxPoints;
+		return MAXPOINTS;
 	}
 
-	public void setMaxPoints(int maxPoints) {
-		this.maxPoints = maxPoints;
-	}
+
 
 	public void addResult(Result result) {
-		register.put(result.getStudent().getStudentId(), result);
-		register2.put(result.getResult(), result);
+		resultListExam.put(result.getStudent().getStudentId(), result);
+		
 	}
 
 	public Result removeResult(Result result) {
-		register.remove(result.getStudent().getStudentId());
-		return register2.remove(result.getResult());
+		
+		return resultListExam.remove(result.getStudent().getStudentId());
 	}
 
-	// Hjälpfunktion
+//Help Function
 	private int[] getResultAsArraySorted(boolean sort) {
-		int size = register.values().size();
+		int size = resultListExam.values().size();
 		int[] result = new int[size];
 		int i = 0;
-		for (Result asd : register.values()) {
+		for (Result asd : resultListExam.values()) {
 			result[i++] = asd.getResult();
 		}
 		if (sort) {
@@ -103,30 +93,30 @@ public class WrittenExam {
 		return result;
 	}
 
-	// returnerar -1 om det inte finns en median
-	public int calculateMedian() {
+	// returns -1 if there is no median 
+	public double calculateMedian() {
 		int[] result = getResultAsArraySorted(true);
 		int size = result.length;
-		// specialfall om resultat är tom
+		// if result is empty
 		if (size == 0) {
 			return -1;
 		}
 
-		// specialfall om det bara finns ett tal i Arrayen blir det medianen
+		// used only if there is only 1 number in the Array 
 		if (size == 1) {
 			return result[0];
 		}
-
+		//is it's an uneven number
 		if (size % 2 == 1) {
 			int medianIndex = (size - 1) / 2;
 			return result[medianIndex];
 		}
-		// divisionen kan ej hantera flyttal ändra till float?
+		
 		else {
 			int medianIndex = (size - 2) / 2;
 			int firstNumber = result[medianIndex];
 			int secondNumber = result[medianIndex + 1];
-			int median = (firstNumber + secondNumber) / 2;
+			double median = (double)(firstNumber + secondNumber) / 2;
 			return median;
 		}
 	}
@@ -135,18 +125,18 @@ public class WrittenExam {
 		int[] result = getResultAsArraySorted(false);
 		int size = result.length;
 		int sum = 0;
-		for (int i : result) {
-			sum = sum + i;
+		for (int score : result) {
+			sum += score;
 		}
-		double average = sum / size;
+		double average = (double)sum / size;
 		return average;
 	}
 
-	// returnerar antal studenter som klarade tenta
+	// number of student who passed the exam
 	public int calculateNumberOfPassed() {
 		int passed = 0;
 
-		for (Result result : register.values()) {
+		for (Result result : resultListExam.values()) {
 			if (result.getResult() > 49) {
 				passed++;
 			}

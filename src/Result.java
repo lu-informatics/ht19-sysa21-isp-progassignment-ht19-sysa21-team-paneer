@@ -52,7 +52,7 @@ public class Result {
 			return "A";
 		}
 		else{
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		}
 	}
 

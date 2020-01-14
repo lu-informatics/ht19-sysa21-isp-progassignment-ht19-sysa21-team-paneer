@@ -1,5 +1,4 @@
 
-
 import java.util.HashMap;
 
 public class Course {
@@ -20,7 +19,7 @@ public class Course {
 		return name;
 	}
 
-	public void setName(String name) throws IllegalArgumentException {
+	public void setName(String name){
 		if (!name.equals("")) {
 			this.name = name;
 		}

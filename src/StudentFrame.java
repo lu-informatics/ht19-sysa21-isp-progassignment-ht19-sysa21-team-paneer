@@ -1,10 +1,8 @@
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -13,7 +11,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
 public class StudentFrame extends JFrame {
@@ -273,13 +270,7 @@ public class StudentFrame extends JFrame {
 		lbl_DeleteRespons.setBounds(15, 272, 190, 20);
 		deletePanel.add(lbl_DeleteRespons);
 
-		comboBoxChooseStudentToDelete.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e) {
-				comboBoxChooseStudentToDelete = (JComboBox<String>) e.getSource();
-
-			}
-		});
 
 	btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

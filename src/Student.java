@@ -6,16 +6,16 @@ public class Student {
 
 	private String studentId;
 	private String name;
-	private HashMap <String,Result> results = new HashMap<String,Result>(); 
+	private HashMap <String,Result> resultListStudent = new HashMap<String,Result>(); 
 	
 	public HashMap<String,Result> getResults() {
-		return results;
+		return resultListStudent;
 	}
 	public void setResults(HashMap<String, Result> results) {
-		this.results = results;
+		this.resultListStudent = results;
 	}
 
-	public String getStudentId() {
+		public String getStudentId() {
 		return studentId;
 	}
 	public void setStudentId(String studentId) {
@@ -24,7 +24,7 @@ public class Student {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) throws IllegalArgumentException {
+	public void setName(String name){
 		if (!name.equals(" ")) {
 			this.name = name;
 		}
@@ -38,36 +38,31 @@ public class Student {
 		Result r = new Result();
 		r.setExam(exam);
 		r.setStudent(this);
-		results.put(exam.getExamId(), r);
+		resultListStudent.put(exam.getExamId(), r);
 		exam.addResult(r);
 	}
 	
 	public WrittenExam unregisterExam(String examID) {
-		WrittenExam w = results.get(examID).getExam();
-		Result r = results.remove(examID);
+		WrittenExam w = resultListStudent.get(examID).getExam();
+		Result r = resultListStudent.remove(examID);
 		w.removeResult(r);
 		return w;
 		
 	}
 	
-	public Result registerResultsForStudent(String examID, int grade) {
-		Result r = results.get(examID);
-		r.setResult(grade);
-		return r;
-	
-	}
+
 	
 	public void addResult(Result r) {
-		results.put(r.getExam().getExamId(), r);
+		resultListStudent.put(r.getExam().getExamId(), r);
 	}
 
 	public Result removeResult(String examID) {
-		return results.remove(examID);
+		return resultListStudent.remove(examID);
 		
 	}
 
 	public WrittenExam findWrittenExam(String examID) {
-		 return results.get(examID).getExam();
+		 return resultListStudent.get(examID).getExam();
 	}
 
 
