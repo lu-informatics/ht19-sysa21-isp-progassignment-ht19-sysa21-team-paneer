@@ -202,6 +202,8 @@ public class ViewController {
 		studentFrame.setVisible(false);
 
 	}
+	
+	
 
 	// Exception handling
 	public void showExceptionWindowForEmptyFields() {

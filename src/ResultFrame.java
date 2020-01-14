@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -13,9 +15,11 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
 
 public class ResultFrame extends JFrame {
 
@@ -80,6 +84,8 @@ public class ResultFrame extends JFrame {
 	public void setComboBoxChooseExam(JComboBox<String> comboBoxChooseExam) {
 		this.comboBoxChooseExam = comboBoxChooseExam;
 	}
+
+
 
 	/**
 	 * Launch the application.
@@ -331,7 +337,7 @@ public class ResultFrame extends JFrame {
 		internalFrameExamResults.getContentPane().add(lblAmountOfStudents);
 
 		lblAm = new JLabel("am");
-		lblAm.setBounds(238, 55, 22, 20);
+		lblAm.setBounds(238, 55, 66, 20);
 		internalFrameExamResults.getContentPane().add(lblAm);
 
 		JLabel lblMedian = new JLabel("Median:");
@@ -354,4 +360,7 @@ public class ResultFrame extends JFrame {
 		contentPane.add(btnReturnToMain);
 
 	}
+
+	
+	
 }
