@@ -23,7 +23,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -692,7 +691,7 @@ public class CourseFrame extends JFrame {
 					try {
 						String courseCode = comboBoxCourseForExam.getSelectedItem().toString();
 						String examID = comboBoxExamID.getSelectedItem().toString();
-						viewController.removeFromCourse(courseCode, examID);
+						viewController.removeExamFromCourse(courseCode, examID);
 						lblResponse.setText("Exam removed from course.");
 					} catch (NumberFormatException exception) {
 						viewController.showExceptionWindowForEmptyFields();

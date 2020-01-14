@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,21 +13,20 @@ import javax.swing.table.DefaultTableModel;
 public class ViewController {
 
 	private Integer studentId = 10000;
-
 	private Integer courseId = 10000;
 	private Integer examID = 10000;
-	private String[] locations = new String[] { "Room A123", "Room A167", "Room B198", "Room B067" };
+	private final String[] LOCATIONS = new String[] { "Room A123", "Room A167", "Room B198", "Room B067" };
 	private DefaultTableModel courseTableModel;
 	private DefaultTableModel examTableModel;
 	private DefaultComboBoxModel<String> courseModel;
 	private DefaultComboBoxModel<String> examModel;
-	private String[] examTableColumns = new String[]{"Exam ID", "Course Code", "Date", "Time", "Location", "Max. Points"};;
-	private String[] courseTableColumns = new String[]{"Course Code", "Name", "Credits"};
-	private String[] studentTableColumns = new String[] { "Student ID", "Name" };
-
-	private SimpleDateFormat dateFormatter;
 	private DefaultComboBoxModel<String> studentModel;
-	
+	private String[] examTableColumns = new String[] { "Exam ID", "Course Code", "Date", "Time", "Location",
+			"Max. Points" };;
+	private String[] courseTableColumns = new String[] { "Course Code", "Name", "Credits" };
+	private String[] studentTableColumns = new String[] { "Student ID", "Name" };
+	private SimpleDateFormat dateFormatter;
+
 	public SimpleDateFormat getDateFormatter() {
 		return dateFormatter;
 	}
@@ -92,7 +90,7 @@ public class ViewController {
 	public void setStudentModel(DefaultComboBoxModel<String> studentModel) {
 		this.studentModel = studentModel;
 	}
-	
+
 	public String[] getStudentTableColumns() {
 		return studentTableColumns;
 	}
@@ -101,31 +99,25 @@ public class ViewController {
 		this.studentTableColumns = studentTableColumns;
 	}
 
-
 	// Connects to the views
-
 	CourseFrame courseFrame;
 	ResultFrame resultFrame;
 	StartFrame startFrame;
 	StudentFrame studentFrame;
-
 	CourseData courseData;
 	ExamData examData;
 	StudentData studentData;
-	Result result;
 
 	// Connects to the data storage
 	CourseRegister courseRegister;
 	StudentRegister studentRegister;
 	ExamRegister examRegister;
 
-
 	// Constructors
 	public ViewController() {
 		this.courseRegister = new CourseRegister();
 		this.studentRegister = new StudentRegister();
 		this.examRegister = new ExamRegister();
-		this.result = new Result();
 
 		courseFrame = new CourseFrame(this);
 		resultFrame = new ResultFrame(this);
@@ -135,15 +127,13 @@ public class ViewController {
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
 		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-		
 
 	}
 
-	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister, Result result) {
+	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
 		this.courseRegister = courseRegister;
 		this.examRegister = examRegister;
 		this.studentRegister = studentRegister;
-		this.result = result;
 
 		studentModel = getStudents();
 
@@ -160,8 +150,8 @@ public class ViewController {
 		courseModel = getCourses();
 
 	}
-
-	// Metoder f�r CourseView objekt
+	
+	// Methods for CourseView
 	public void viewCourseData() {
 		courseData.getTableCourse().setModel(fetchCourseTableModel());
 		courseData.setVisible(true);
@@ -180,19 +170,40 @@ public class ViewController {
 		examData.setVisible(false);
 	}
 
-
 	public void viewStudentData() {
 		studentData.getTableStudent().setModel(fetchStudentTableModel());
 		studentData.setVisible(true);
 	}
+
 	public void goBackFromStudentData() {
 		studentData.setVisible(false);
 	}
-
 	
+	// View controllers
+	public void administrateStudents(ViewController controller) {
+		studentFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
 
-	
-	//Exception handling
+	public void administrateCourses(ViewController controller) {
+		courseFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void resultReports(ViewController controller) {
+		resultFrame.setVisible(true);
+		startFrame.setVisible(false);
+	}
+
+	public void returnToMain() {
+		startFrame.setVisible(true);
+		courseFrame.setVisible(false);
+		resultFrame.setVisible(false);
+		studentFrame.setVisible(false);
+
+	}
+
+	// Exception handling
 	public void showExceptionWindowForEmptyFields() {
 		JOptionPane.showMessageDialog(null, "Some of the fields were empty. Please fill in all the required fields.",
 				"Empty fields", JOptionPane.WARNING_MESSAGE);
@@ -226,7 +237,6 @@ public class ViewController {
 				"There is no memory left for adding new courses. Please delete a course to continue.",
 				"Memory has run out", JOptionPane.WARNING_MESSAGE);
 	}
-	
 
 	public void showExceptionWindowForNoStudent() {
 		JOptionPane.showMessageDialog(null, "No Student found.", "No information", JOptionPane.WARNING_MESSAGE);
@@ -242,17 +252,20 @@ public class ViewController {
 		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID-error", "Error",
 				JOptionPane.WARNING_MESSAGE);
 	}
-	
+
 	public void showExceptionWindowForNoResult() {
-		JOptionPane.showMessageDialog(null, "No result found for the selected item.", "No information", JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(null, "No result found for the selected item.", "No information",
+				JOptionPane.WARNING_MESSAGE);
 	}
+
 	public void showExceptionWindowForWrongGrade() {
-		JOptionPane.showMessageDialog(null, "You have entered an incorrect result. Please try again.", "Incorrect information", JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(null, "You have entered an incorrect result. Please try again.",
+				"Incorrect information", JOptionPane.WARNING_MESSAGE);
 	}
 
 	public String stripString(String comboBoxString) {
-		int startIndex = comboBoxString.indexOf(",");
-		return comboBoxString.substring(0, startIndex);
+		int endIndex = comboBoxString.indexOf(",");
+		return comboBoxString.substring(0, endIndex);
 	}
 
 	// Methods for CourseView
@@ -272,9 +285,10 @@ public class ViewController {
 	public void deleteCourse(String courseString) {
 		String courseCode = this.stripString(courseString);
 		courseRegister.removeCourse(courseCode);
-		//Resets the ID counter to the lowest free ID which could be the key of the deleted object.
+		// Resets the ID counter to the lowest free ID which could be the key of the
+		// deleted object.
 		int deletedIdValue = Integer.parseInt(courseCode.substring(1));
-		if (deletedIdValue<courseId) {
+		if (deletedIdValue < courseId) {
 			courseId = deletedIdValue;
 		}
 
@@ -288,7 +302,7 @@ public class ViewController {
 		this.updateCourses();
 	}
 
-	public void addToCourse(String courseString, String examID) {
+	public void addExamToCourse(String courseString, String examID) {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 
@@ -297,13 +311,14 @@ public class ViewController {
 		e.setCourse(c);
 	}
 
-	public void removeFromCourse(String courseString, String examID) {
+	public void removeExamFromCourse(String courseString, String examID) {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 		c.removeExam(examID);
 		examRegister.removeExam(examID);
-		
-		//Resets the ID counter to the lowest free ID which could be the key of the deleted object.
+
+		// Resets the ID counter to the lowest free ID which could be the key of the
+		// deleted object.
 		int deletedIDValue = Integer.parseInt(examID.substring(1));
 		if (deletedIDValue < this.examID) {
 			this.examID = deletedIDValue;
@@ -312,12 +327,11 @@ public class ViewController {
 		this.filterExams(courseString);
 	}
 
-	public void addNewExamToCourse(Date date, String hours, String minutes, String location,
-		String courseString) throws ParseException, IllegalArgumentException {
+	public void addNewExamToCourse(Date date, String hours, String minutes, String location, String courseString)
+			throws ParseException, IllegalArgumentException {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 		WrittenExam e = new WrittenExam();
-
 		if (date != null) {
 			e.setDate(date);
 		} else {
@@ -349,7 +363,7 @@ public class ViewController {
 	}
 
 	public DefaultComboBoxModel<String> getLocations() {
-		return new DefaultComboBoxModel<String>(locations);
+		return new DefaultComboBoxModel<String>(LOCATIONS);
 	}
 
 	public DefaultComboBoxModel<String> getCourses() {
@@ -429,7 +443,7 @@ public class ViewController {
 	public void filterStudents(String examID) {
 		int i = 0;
 		WrittenExam e = examRegister.findExam(examID);
-		HashMap<String, Result> resultList = e.getRegister();
+		HashMap<String, Result> resultList = e.getResultListExam();
 		String[] students = new String[resultList.size()];
 
 		for (Map.Entry<String, Result> entry : resultList.entrySet()) {
@@ -480,7 +494,7 @@ public class ViewController {
 	public void deleteStudent(String studentString) {
 		String tempStudentID = this.stripString(studentString);
 		studentRegister.removeStudent(tempStudentID);
-		
+
 		int deletedIdValue = Integer.parseInt(tempStudentID.substring(1));
 		courseId = Integer.parseInt(tempStudentID.substring(1));
 		if (deletedIdValue < studentId) {
@@ -488,7 +502,7 @@ public class ViewController {
 		}
 
 		this.updateStudents();
-		
+
 	}
 
 	public String findStudentName(String studentID) {
@@ -498,7 +512,7 @@ public class ViewController {
 
 	public DefaultComboBoxModel<String> getStudents() {
 		int i = 0;
-		HashMap<String, Student> studentList = studentRegister.getStudents();
+		HashMap<String, Student> studentList = studentRegister.getStudentList();
 		String[] students = new String[studentList.size()];
 
 		for (Map.Entry<String, Student> entry : studentList.entrySet()) {
@@ -516,11 +530,10 @@ public class ViewController {
 		courseFrame.getComboBoxStudentID().setModel(studentModel);
 		resultFrame.getComboBoxChooseStudent().setModel(studentModel);
 
-
 	}
 
 	public DefaultTableModel fetchStudentTableModel() {
-		HashMap<String, Student> studentList = studentRegister.getStudents();
+		HashMap<String, Student> studentList = studentRegister.getStudentList();
 		Map<String, Student> sortedStudentMap = new TreeMap<String, Student>(studentList);
 
 		String[][] studentTableData = new String[sortedStudentMap.keySet().size()][studentTableColumns.length];
@@ -532,8 +545,6 @@ public class ViewController {
 		}
 		return new DefaultTableModel(studentTableData, studentTableColumns);
 	}
-	
-
 
 	// ID-generators
 	public String generateStudentID() {
@@ -560,8 +571,6 @@ public class ViewController {
 
 	}
 
-
-
 	public String generateCourseID() {
 		if (courseId < 100000) {
 			if (courseRegister.findCourse("C" + courseId) == null) {
@@ -570,8 +579,7 @@ public class ViewController {
 				} else {
 					throw new NullPointerException();
 				}
-			}
-			else {
+			} else {
 				while (courseRegister.findCourse("C" + courseId) != null) {
 					courseId++;
 				}
@@ -581,8 +589,7 @@ public class ViewController {
 					throw new NullPointerException();
 				}
 			}
-		}
-		else {
+		} else {
 			throw new NullPointerException();
 		}
 	}
@@ -595,8 +602,7 @@ public class ViewController {
 				} else {
 					throw new NullPointerException();
 				}
-			}
-			else {
+			} else {
 				while (examRegister.findExam("E" + examID) != null) {
 					examID++;
 				}
@@ -606,8 +612,7 @@ public class ViewController {
 					throw new NullPointerException();
 				}
 			}
-		}
-		else {
+		} else {
 			throw new NullPointerException();
 		}
 	}
@@ -628,69 +633,39 @@ public class ViewController {
 		return id.matches("E[1-9]{1}[0-9]{4}");
 	}
 
-	// View controllers
-	public void administrateStudents(ViewController controller) {
-		studentFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void administrateCourses(ViewController controller) {
-		courseFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void resultReports(ViewController controller) {
-		resultFrame.setVisible(true);
-		startFrame.setVisible(false);
-	}
-
-	public void returnToMain() {
-		startFrame.setVisible(true);
-		courseFrame.setVisible(false);
-		resultFrame.setVisible(false);
-		studentFrame.setVisible(false);
-
-	}
+//Methods for resultFrame
 
 	public void registerResultForStudent(String studentString, String examID, int score) {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
 		s.getResults().get(examID).setResult(score);
-		
-		
-		}
-	
 
-	
+	}
+
 	public int findResultForStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
 		return s.getResults().get(examID).getResult();
-		
-	}
-	
-	
 
+	}
 
 	public void showStatistics(String examId) {
 		WrittenExam writtenExam = examRegister.findExam(examId);
 		int amountOfStudentsPassed = writtenExam.calculateNumberOfPassed();
-		int median = writtenExam.calculateMedian();
+		double median = writtenExam.calculateMedian();
 		double average = writtenExam.calculateAverage();
 		resultFrame.getLblAm().setText(String.valueOf(amountOfStudentsPassed));
 		resultFrame.getLblM().setText(String.valueOf(median));
 		resultFrame.getLblAvg().setText(String.valueOf(average));
 	}
-	
-	public String calculateGrade(int points) throws IllegalArgumentException{
-		try{
-			return result.gradeCalculator(points);
-		}
-		catch (NullPointerException exception){
+
+	public String calculateGrade(int points) {
+		try {
+			Result r = new Result();
+			return r.gradeCalculator(points);
+		} catch (IllegalArgumentException exception) {
 			throw new IllegalArgumentException();
 		}
 	}
-
-	
 
 }
