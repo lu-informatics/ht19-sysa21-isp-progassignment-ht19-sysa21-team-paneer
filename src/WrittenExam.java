@@ -90,10 +90,10 @@ public class WrittenExam {
 
 	// Hjälpfunktion
 	private int[] getResultAsArraySorted(boolean sort) {
-		int size = register2.values().size();
+		int size = register.values().size();
 		int[] result = new int[size];
 		int i = 0;
-		for (Result asd : register2.values()) {
+		for (Result asd : register.values()) {
 			result[i++] = asd.getResult();
 		}
 		if (sort) {
@@ -146,7 +146,7 @@ public class WrittenExam {
 	public int calculateNumberOfPassed() {
 		int passed = 0;
 
-		for (Result result : register2.values()) {
+		for (Result result : register.values()) {
 			if (result.getResult() > 49) {
 				passed++;
 			}
@@ -156,4 +156,3 @@ public class WrittenExam {
 	}
 
 }
-

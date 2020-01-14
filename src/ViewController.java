@@ -112,17 +112,20 @@ public class ViewController {
 	CourseData courseData;
 	ExamData examData;
 	StudentData studentData;
+	Result result;
 
 	// Connects to the data storage
 	CourseRegister courseRegister;
 	StudentRegister studentRegister;
 	ExamRegister examRegister;
 
+
 	// Constructors
 	public ViewController() {
 		this.courseRegister = new CourseRegister();
 		this.studentRegister = new StudentRegister();
 		this.examRegister = new ExamRegister();
+		this.result = new Result();
 
 		courseFrame = new CourseFrame(this);
 		resultFrame = new ResultFrame(this);
@@ -132,14 +135,15 @@ public class ViewController {
 		courseData = new CourseData(this);
 		examData = new ExamData(this);
 		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		
 
 	}
 
-	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister) {
+	public ViewController(CourseRegister courseRegister, ExamRegister examRegister, StudentRegister studentRegister, Result result) {
 		this.courseRegister = courseRegister;
 		this.examRegister = examRegister;
-
 		this.studentRegister = studentRegister;
+		this.result = result;
 
 		studentModel = getStudents();
 
@@ -157,7 +161,7 @@ public class ViewController {
 
 	}
 
-	// Metoder fÃ¶r CourseView objekt
+	// Metoder för CourseView objekt
 	public void viewBack() {
 		courseFrame.getPanelCourseRegister().setVisible(false);
 		courseFrame.getPanelWrittenExams().setVisible(false);
@@ -253,7 +257,6 @@ public class ViewController {
 	public void goBackFromExamData() {
 		examData.setVisible(false);
 	}
-	
 
 
 	public void viewStudentData() {
@@ -263,6 +266,8 @@ public class ViewController {
 	public void goBackFromStudentData() {
 		studentData.setVisible(false);
 	}
+
+	
 
 	
 	//Exception handling
@@ -290,7 +295,7 @@ public class ViewController {
 
 	public void showExceptionWindowForNoCourses() {
 		JOptionPane.showMessageDialog(null,
-				"There are no courses registered. Please add a course before adding any exams.",
+				"There are no courses registered. Please add a course before performing the selected action.",
 				"No courses registered", JOptionPane.WARNING_MESSAGE);
 	}
 
@@ -312,8 +317,15 @@ public class ViewController {
 	}
 
 	public void showExceptionWindowForIDError() {
-		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID creation", "Error",
+		JOptionPane.showMessageDialog(null, "Something went wrong. Error Code: ID-error", "Error",
 				JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public void showExceptionWindowForNoResult() {
+		JOptionPane.showMessageDialog(null, "No result found for the selected item.", "No information", JOptionPane.WARNING_MESSAGE);
+	}
+	public void showExceptionWindowForWrongGrade() {
+		JOptionPane.showMessageDialog(null, "You have entered an incorrect result. Please try again.", "Incorrect information", JOptionPane.WARNING_MESSAGE);
 	}
 
 	public String stripString(String comboBoxString) {
@@ -325,11 +337,7 @@ public class ViewController {
 	public void addCourse(String name, String credits) {
 
 		Course c = new Course();
-		try {
-			c.setName(name);
-		} catch (NullPointerException exception) {
-			throw new NullPointerException();
-		}
+		c.setName(name);
 		String courseCode = this.generateCourseID();
 		c.setCourseCode(courseCode);
 		c.setCredits(Integer.parseInt(credits));
@@ -384,7 +392,7 @@ public class ViewController {
 	}
 
 	public void addNewExamToCourse(Date date, String hours, String minutes, String location,
-			String courseString) throws ParseException, IllegalArgumentException {
+		String courseString) throws ParseException, IllegalArgumentException {
 		String courseCode = this.stripString(courseString);
 		Course c = courseRegister.findCourse(courseCode);
 		WrittenExam e = new WrittenExam();
@@ -404,9 +412,8 @@ public class ViewController {
 		c.addExam(e);
 	}
 
-	public void registerStudent(String studentString, String examID) {
+	public void registerStudentForExam(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
-
 		Student s = studentRegister.findStudent(studentID);
 		WrittenExam e = examRegister.findExam(examID);
 		s.registerExam(e);
@@ -442,6 +449,7 @@ public class ViewController {
 		courseFrame.getComboBoxChooseCourse().setModel(courseModel);
 		courseFrame.getComboBoxCourseForExam().setModel(courseModel);
 		courseFrame.getComboBoxCourseForNewExam().setModel(courseModel);
+		resultFrame.getComboBoxChooseCourse().setModel(courseModel);
 	}
 
 	public DefaultTableModel fetchExamTableModel() {
@@ -494,6 +502,7 @@ public class ViewController {
 		courseFrame.getComboBoxExamID().setModel(examModel);
 		courseFrame.getComboBoxExamIDRegister().setModel(examModel);
 		courseFrame.getComboBoxExamIDUnregister().setModel(examModel);
+		resultFrame.getComboBoxChooseExam().setModel(examModel);
 	}
 
 	public void filterStudents(String examID) {
@@ -510,16 +519,15 @@ public class ViewController {
 
 		DefaultComboBoxModel<String> filteredStudentModel = new DefaultComboBoxModel<String>(students);
 		courseFrame.getComboBoxStudentIDUnregister().setModel(filteredStudentModel);
+		resultFrame.getComboBoxChooseStudent().setModel(filteredStudentModel);
 	}
 
-	public void registerNewStudent(String firstName, String lastName) throws NullPointerException {
+	public void registerNewStudent(String firstName, String lastName) {
 
 		if (!firstName.equals("") && !lastName.equals("")) {
 			Student tmpStudent = new Student();
 
 			tmpStudent.setName(firstName + " " + lastName);
-			;
-
 			tmpStudent.setStudentId(this.generateStudentID());
 			studentRegister.addStudent(tmpStudent);
 			this.updateStudents();
@@ -584,6 +592,9 @@ public class ViewController {
 		studentModel = this.getStudents();
 		studentFrame.getComboBoxChooseStudent().setModel(studentModel);
 		studentFrame.getComboBoxChooseStudentToDelete().setModel(studentModel);
+		courseFrame.getComboBoxStudentID().setModel(studentModel);
+		resultFrame.getComboBoxChooseStudent().setModel(studentModel);
+
 
 	}
 
@@ -600,6 +611,8 @@ public class ViewController {
 		}
 		return new DefaultTableModel(studentTableData, studentTableColumns);
 	}
+	
+
 
 	// ID-generators
 	public String generateStudentID() {
@@ -682,7 +695,7 @@ public class ViewController {
 	// the ID standard
 
 	public boolean studentIDValidation(String id) {
-		return id.matches("S[0-9]{5}");
+		return id.matches("S[1-9]{1}[0-9]{4}");
 
 	}
 
@@ -718,11 +731,25 @@ public class ViewController {
 
 	}
 
-	public void registerResultForStudent(String studentId, String examId, int score) {
-		Student s = studentRegister.findStudent(studentId);
-		s.getResults().get(examId).setResult(score);
+	public void registerResultForStudent(String studentString, String examID, int score) {
+		String studentID = this.stripString(studentString);
+		Student s = studentRegister.findStudent(studentID);
+		s.getResults().get(examID).setResult(score);
+		
+		
+		}
+	
 
+	
+	public int findResultForStudent(String studentString, String examID) {
+		String studentID = this.stripString(studentString);
+		Student s = studentRegister.findStudent(studentID);
+		return s.getResults().get(examID).getResult();
+		
 	}
+	
+	
+
 
 	public void showStatistics(String examId) {
 		WrittenExam writtenExam = examRegister.findExam(examId);
@@ -733,5 +760,16 @@ public class ViewController {
 		resultFrame.getLblM().setText(String.valueOf(median));
 		resultFrame.getLblAvg().setText(String.valueOf(average));
 	}
+	
+	public String calculateGrade(int points) throws IllegalArgumentException{
+		try{
+			return result.gradeCalculator(points);
+		}
+		catch (NullPointerException exception){
+			throw new IllegalArgumentException();
+		}
+	}
+
+	
 
 }

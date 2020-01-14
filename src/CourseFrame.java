@@ -294,7 +294,7 @@ public class CourseFrame extends JFrame {
 	public CourseFrame(ViewController viewController) {
 
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 346, 640);
+		setBounds(100, 100, 346, 593);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -322,7 +322,7 @@ public class CourseFrame extends JFrame {
 
 		panelCourseRegister = new JPanel();
 		panelCourseRegister.setVisible(false);
-		panelCourseRegister.setBounds(10, 11, 251, 534);
+		panelCourseRegister.setBounds(10, 11, 251, 454);
 		contentPane.add(panelCourseRegister);
 		panelCourseRegister.setLayout(null);
 
@@ -330,25 +330,21 @@ public class CourseFrame extends JFrame {
 		panelChooseCourse.setBounds(0, 183, 251, 60);
 		panelChooseCourse.setVisible(false);
 
-		panelAdd = new JPanel();
-		panelAdd.setBounds(0, 409, 251, 34);
-		panelAdd.setVisible(false);
-
 		panelCourseInfo = new JPanel();
-		panelCourseInfo.setBounds(0, 254, 288, 137);
+		panelCourseInfo.setBounds(0, 254, 288, 81);
 		panelCourseInfo.setVisible(false);
 
 		panelEdit = new JPanel();
-		panelEdit.setBounds(0, 409, 251, 34);
+		panelEdit.setBounds(0, 351, 251, 34);
 		panelEdit.setVisible(false);
 		panelCourseRegister.add(panelEdit);
 		panelEdit.setVisible(false);
 		panelEdit.setLayout(null);
 
-		JButton btnEdit = new JButton("Save");
-		btnEdit.setBounds(151, 0, 100, 29);
-		panelEdit.add(btnEdit);
-		btnEdit.addActionListener(new ActionListener() {
+		JButton btnSaveEditCourse = new JButton("Save");
+		btnSaveEditCourse.setBounds(151, 0, 100, 29);
+		panelEdit.add(btnSaveEditCourse);
+		btnSaveEditCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
@@ -363,6 +359,8 @@ public class CourseFrame extends JFrame {
 					viewController.showExceptionWindowForCreditParseException();
 				} catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForEmptyFields();
+				} catch (NullPointerException exception) {
+					viewController.showExceptionWindowForNoCourses();
 				}
 			}
 		});
@@ -387,30 +385,6 @@ public class CourseFrame extends JFrame {
 		textFieldEditCourseName.setBounds(105, 44, 146, 26);
 		panelCourseInfo.add(textFieldEditCourseName);
 		textFieldEditCourseName.setColumns(10);
-		panelCourseRegister.add(panelAdd);
-		panelAdd.setVisible(false);
-
-		JButton btnAdd = new JButton("Save");
-		btnAdd.setBounds(151, 0, 100, 29);
-		btnAdd.setBackground(new Color(240, 240, 240));
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					String name = textFieldEditCourseName.getText();
-					String credits = textFieldEditCredits.getText();
-					viewController.addCourse(name, credits);
-					lblResponse.setText("Course added.");
-					textFieldEditCourseName.setText("");
-					textFieldEditCredits.setText("");
-				} catch (NumberFormatException exception) {
-					viewController.showExceptionWindowForCreditParseException();
-				} catch (IllegalArgumentException exception) {
-					viewController.showExceptionWindowForEmptyFields();
-				}
-			}
-		});
-		panelAdd.setLayout(null);
-		panelAdd.add(btnAdd);
 
 		panelCourseActions = new JPanel();
 		panelCourseActions.setBounds(0, 35, 251, 132);
@@ -462,7 +436,7 @@ public class CourseFrame extends JFrame {
 		lblCourseRegister.setFont(new Font("Arial", Font.PLAIN, 20));
 
 		panelDelete = new JPanel();
-		panelDelete.setBounds(0, 254, 251, 199);
+		panelDelete.setBounds(0, 254, 251, 81);
 		panelDelete.setVisible(false);
 		panelCourseRegister.add(panelDelete);
 		panelDelete.setLayout(null);
@@ -474,8 +448,36 @@ public class CourseFrame extends JFrame {
 		panelDelete.add(btnDelete);
 
 		JButton btnGoBack_1 = new JButton("Go back");
-		btnGoBack_1.setBounds(0, 448, 89, 34);
+		btnGoBack_1.setBounds(0, 401, 89, 29);
 		panelCourseRegister.add(btnGoBack_1);
+
+		panelAdd = new JPanel();
+		panelAdd.setBounds(0, 351, 251, 52);
+		panelCourseRegister.add(panelAdd);
+		panelAdd.setVisible(false);
+		panelAdd.setVisible(false);
+
+		JButton btnAddNewCourse = new JButton("Save");
+		btnAddNewCourse.setBounds(151, 0, 100, 29);
+		btnAddNewCourse.setBackground(new Color(240, 240, 240));
+		btnAddNewCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String name = textFieldEditCourseName.getText();
+					String credits = textFieldEditCredits.getText();
+					viewController.addCourse(name, credits);
+					lblResponse.setText("Course added.");
+					textFieldEditCourseName.setText("");
+					textFieldEditCredits.setText("");
+				} catch (NumberFormatException exception) {
+					viewController.showExceptionWindowForCreditParseException();
+				} catch (IllegalArgumentException exception) {
+					viewController.showExceptionWindowForEmptyFields();
+				}
+			}
+		});
+		panelAdd.setLayout(null);
+		panelAdd.add(btnAddNewCourse);
 		btnGoBack_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				viewController.viewBack();
@@ -491,11 +493,13 @@ public class CourseFrame extends JFrame {
 						lblResponse.setText("Course deleted.");
 					} catch (NumberFormatException exception) {
 						viewController.showExceptionWindowForEmptyFields();
+					} catch (NullPointerException exception) {
+						viewController.showExceptionWindowForNoCourses();
 					}
 				}
 			}
 		});
-		panelWrittenExams.setBounds(10, 11, 251, 483);
+		panelWrittenExams.setBounds(10, 11, 251, 464);
 		contentPane.add(panelWrittenExams);
 		panelWrittenExams.setLayout(null);
 
@@ -537,11 +541,12 @@ public class CourseFrame extends JFrame {
 				try {
 					String examID = comboBoxExamIDUnregister.getSelectedItem().toString();
 					String studentID = comboBoxStudentIDUnregister.getSelectedItem().toString();
-
 					viewController.unregisterStudent(studentID, examID);
 					lblResponse.setText("Student unregistered.");
 				} catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
+				} catch (NullPointerException exception) {
+					viewController.showExceptionWindowForNoStudent();
 				}
 			}
 		});
@@ -576,8 +581,7 @@ public class CourseFrame extends JFrame {
 				try {
 					String examID = comboBoxExamIDRegister.getSelectedItem().toString();
 					String studentID = comboBoxStudentID.getSelectedItem().toString();
-
-					viewController.registerStudent(studentID, examID);
+					viewController.registerStudentForExam(studentID, examID);
 					lblResponse.setText("Student registered.");
 				} catch (NumberFormatException exception) {
 					viewController.showExceptionWindowForEmptyFields();
@@ -615,7 +619,10 @@ public class CourseFrame extends JFrame {
 						lblResponse.setText("Exam removed from course.");
 					} catch (NumberFormatException exception) {
 						viewController.showExceptionWindowForEmptyFields();
+					} catch (NullPointerException exception) {
+						viewController.showExceptionWindowForNoExams();
 					}
+
 				}
 			}
 		});
@@ -817,7 +824,11 @@ public class CourseFrame extends JFrame {
 		btnViewAllCourses.setBounds(0, 112, 205, 29);
 		btnViewAllCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewCourseData();
+				try {
+					viewController.viewCourseData();
+				} catch (NullPointerException exception) {
+					viewController.showExceptionWindowForIDError();
+				}
 			}
 		});
 		panelWelcome.add(btnViewAllCourses);
@@ -826,15 +837,19 @@ public class CourseFrame extends JFrame {
 		btnViewAllExams.setBounds(0, 147, 205, 29);
 		btnViewAllExams.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewExamData();
+				try {
+					viewController.viewExamData();
+				} catch (NullPointerException exception) {
+					viewController.showExceptionWindowForIDError();
+				}
 			}
 		});
 		panelWelcome.add(btnViewAllExams);
-		btnGoBack.setBounds(10, 561, 187, 29);
+		btnGoBack.setBounds(10, 509, 187, 29);
 		contentPane.add(btnGoBack);
 
 		lblResponse = new JLabel("");
-		lblResponse.setBounds(10, 521, 251, 29);
+		lblResponse.setBounds(10, 475, 251, 29);
 		contentPane.add(lblResponse);
 
 	}

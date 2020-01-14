@@ -13,6 +13,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
 public class StudentFrame extends JFrame {
@@ -209,6 +210,7 @@ public class StudentFrame extends JFrame {
 		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
 		comboBoxChooseStudent.setSize(309, 26);
 		comboBoxChooseStudent.setLocation(15, 99);
+		
 		editPanel.add(comboBoxChooseStudent);
 
 		textField_EditFName = new JTextField();
@@ -289,7 +291,7 @@ public class StudentFrame extends JFrame {
 						lbl_DeleteRespons.setText("Student deleted");
 
 					} catch (NullPointerException nex) {
-						lbl_DeleteRespons.setText("No student found");
+						viewController.showExceptionWindowForNoStudent();
 						lblNameChanged.setVisible(false);
 					}
 				} else if (choice == JOptionPane.NO_OPTION) {
@@ -351,7 +353,11 @@ public class StudentFrame extends JFrame {
 		JButton btnShowAllStudents = new JButton("View all students");
 		btnShowAllStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewController.viewStudentData();
+				try {
+				viewController.viewStudentData();}
+				catch(NullPointerException exception) {
+					viewController.showExceptionWindowForIDError();
+				}
 			}
 		});
 		btnShowAllStudents.setBounds(15, 208, 204, 29);
