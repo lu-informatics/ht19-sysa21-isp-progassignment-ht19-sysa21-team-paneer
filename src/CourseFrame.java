@@ -9,7 +9,6 @@ import java.text.ParseException;
 import java.time.DateTimeException;
 import java.util.Date;
 import java.util.Properties;
-
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;

@@ -150,7 +150,7 @@ public class ViewController {
 		courseModel = getCourses();
 
 	}
-	
+
 	// Methods for CourseView
 	public void viewCourseData() {
 		courseData.getTableCourse().setModel(fetchCourseTableModel());
