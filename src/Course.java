@@ -19,11 +19,10 @@ public class Course {
 		return name;
 	}
 
-	public void setName(String name){
+	public void setName(String name) {
 		if (!name.equals("")) {
 			this.name = name;
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException();
 		}
 	}

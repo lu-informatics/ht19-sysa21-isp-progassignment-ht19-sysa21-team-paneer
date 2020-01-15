@@ -154,7 +154,7 @@ public class StudentFrame extends JFrame {
 		);
 		btnSave.setBounds(179, 248, 115, 29);
 		addPanel.add(btnSave);
-		
+
 		JLabel lblMandatoryFieldsInfo = new JLabel("Fields marked with * are mandatory");
 		lblMandatoryFieldsInfo.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblMandatoryFieldsInfo.setBounds(15, 201, 277, 20);
@@ -212,7 +212,7 @@ public class StudentFrame extends JFrame {
 		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
 		comboBoxChooseStudent.setSize(309, 26);
 		comboBoxChooseStudent.setLocation(15, 99);
-		
+
 		editPanel.add(comboBoxChooseStudent);
 
 		textField_EditFName = new JTextField();
@@ -224,7 +224,7 @@ public class StudentFrame extends JFrame {
 		JButton btnSaveChanges = new JButton("Save changes");
 		btnSaveChanges.setBounds(178, 327, 146, 29);
 		editPanel.add(btnSaveChanges);
-		
+
 		JLabel lblNewLabel = new JLabel("Fields marked with * are mandatory");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblNewLabel.setBounds(15, 271, 210, 20);
@@ -280,9 +280,7 @@ public class StudentFrame extends JFrame {
 		lbl_DeleteRespons.setBounds(15, 272, 190, 20);
 		deletePanel.add(lbl_DeleteRespons);
 
-
-
-	btnDelete.addActionListener(new ActionListener() {
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int choice = viewController.showConfirmWindowForDeleting();
 				if (choice == JOptionPane.YES_OPTION) {
@@ -302,7 +300,7 @@ public class StudentFrame extends JFrame {
 				}
 			}
 		});
-	
+
 //Start buttons
 		JButton btnRegisterNewStudent = new JButton("Register new Student");
 		btnRegisterNewStudent.addActionListener(new ActionListener() {
@@ -355,8 +353,8 @@ public class StudentFrame extends JFrame {
 		btnShowAllStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				viewController.viewStudentData();}
-				catch(NullPointerException exception) {
+					viewController.viewStudentData();
+				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForIDError();
 				}
 			}

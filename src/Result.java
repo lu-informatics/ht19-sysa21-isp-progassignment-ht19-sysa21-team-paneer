@@ -50,8 +50,7 @@ public class Result {
 			return "B";
 		} else if (result <= 100) {
 			return "A";
-		}
-		else{
+		} else {
 			throw new IllegalArgumentException();
 		}
 	}
