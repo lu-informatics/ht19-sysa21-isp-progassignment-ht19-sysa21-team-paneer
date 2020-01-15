@@ -152,8 +152,13 @@ public class StudentFrame extends JFrame {
 		}
 
 		);
-		btnSave.setBounds(177, 213, 115, 29);
+		btnSave.setBounds(179, 248, 115, 29);
 		addPanel.add(btnSave);
+		
+		JLabel lblMandatoryFieldsInfo = new JLabel("Fields marked with * are mandatory");
+		lblMandatoryFieldsInfo.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblMandatoryFieldsInfo.setBounds(15, 201, 277, 20);
+		addPanel.add(lblMandatoryFieldsInfo);
 
 		// Start Edit Student Panel
 		editPanel = new JPanel();
@@ -217,8 +222,13 @@ public class StudentFrame extends JFrame {
 		textField_EditFName.setVisible(true);
 
 		JButton btnSaveChanges = new JButton("Save changes");
-		btnSaveChanges.setBounds(178, 285, 146, 29);
+		btnSaveChanges.setBounds(178, 327, 146, 29);
 		editPanel.add(btnSaveChanges);
+		
+		JLabel lblNewLabel = new JLabel("Fields marked with * are mandatory");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblNewLabel.setBounds(15, 271, 210, 20);
+		editPanel.add(lblNewLabel);
 		btnSaveChanges.setVisible(true);
 
 		btnSaveChanges.addActionListener(new ActionListener() {
@@ -355,5 +365,4 @@ public class StudentFrame extends JFrame {
 		contentPane.add(btnShowAllStudents);
 
 	}
-
 }
