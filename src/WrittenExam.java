@@ -53,7 +53,6 @@ public class WrittenExam {
 		this.time = time;
 	}
 
-	
 	public Course getCourse() {
 		return course;
 	}
@@ -66,15 +65,13 @@ public class WrittenExam {
 		return MAXPOINTS;
 	}
 
-
-
 	public void addResult(Result result) {
 		resultListExam.put(result.getStudent().getStudentId(), result);
-		
+
 	}
 
 	public Result removeResult(Result result) {
-		
+
 		return resultListExam.remove(result.getStudent().getStudentId());
 	}
 
@@ -93,7 +90,7 @@ public class WrittenExam {
 		return result;
 	}
 
-	// returns -1 if there is no median 
+	// returns -1 if there is no median
 	public double calculateMedian() {
 		int[] result = getResultAsArraySorted(true);
 		int size = result.length;
@@ -102,21 +99,21 @@ public class WrittenExam {
 			throw new IllegalArgumentException();
 		}
 
-		// used only if there is only 1 number in the Array 
+		// used only if there is only 1 number in the Array
 		if (size == 1) {
 			return result[0];
 		}
-		//is it's an uneven number
+		// is it's an uneven number
 		if (size % 2 == 1) {
 			int medianIndex = (size - 1) / 2;
 			return result[medianIndex];
 		}
-		
+
 		else {
 			int medianIndex = (size - 2) / 2;
 			int firstNumber = result[medianIndex];
 			int secondNumber = result[medianIndex + 1];
-			double median = (double)(firstNumber + secondNumber) / 2;
+			double median = (double) (firstNumber + secondNumber) / 2;
 			return median;
 		}
 	}
@@ -128,7 +125,7 @@ public class WrittenExam {
 		for (int score : result) {
 			sum += score;
 		}
-		double average = (double)sum / size;
+		double average = (double) sum / size;
 		return average;
 	}
 

@@ -152,8 +152,13 @@ public class StudentFrame extends JFrame {
 		}
 
 		);
-		btnSave.setBounds(177, 213, 115, 29);
+		btnSave.setBounds(179, 248, 115, 29);
 		addPanel.add(btnSave);
+
+		JLabel lblMandatoryFieldsInfo = new JLabel("Fields marked with * are mandatory");
+		lblMandatoryFieldsInfo.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblMandatoryFieldsInfo.setBounds(15, 201, 277, 20);
+		addPanel.add(lblMandatoryFieldsInfo);
 
 		// Start Edit Student Panel
 		editPanel = new JPanel();
@@ -207,7 +212,7 @@ public class StudentFrame extends JFrame {
 		comboBoxChooseStudent = new JComboBox<String>(viewController.getStudents());
 		comboBoxChooseStudent.setSize(309, 26);
 		comboBoxChooseStudent.setLocation(15, 99);
-		
+
 		editPanel.add(comboBoxChooseStudent);
 
 		textField_EditFName = new JTextField();
@@ -217,8 +222,13 @@ public class StudentFrame extends JFrame {
 		textField_EditFName.setVisible(true);
 
 		JButton btnSaveChanges = new JButton("Save changes");
-		btnSaveChanges.setBounds(178, 285, 146, 29);
+		btnSaveChanges.setBounds(178, 327, 146, 29);
 		editPanel.add(btnSaveChanges);
+
+		JLabel lblNewLabel = new JLabel("Fields marked with * are mandatory");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblNewLabel.setBounds(15, 271, 210, 20);
+		editPanel.add(lblNewLabel);
 		btnSaveChanges.setVisible(true);
 
 		btnSaveChanges.addActionListener(new ActionListener() {
@@ -270,9 +280,7 @@ public class StudentFrame extends JFrame {
 		lbl_DeleteRespons.setBounds(15, 272, 190, 20);
 		deletePanel.add(lbl_DeleteRespons);
 
-
-
-	btnDelete.addActionListener(new ActionListener() {
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int choice = viewController.showConfirmWindowForDeleting();
 				if (choice == JOptionPane.YES_OPTION) {
@@ -292,7 +300,7 @@ public class StudentFrame extends JFrame {
 				}
 			}
 		});
-	
+
 //Start buttons
 		JButton btnRegisterNewStudent = new JButton("Register new Student");
 		btnRegisterNewStudent.addActionListener(new ActionListener() {
@@ -345,8 +353,8 @@ public class StudentFrame extends JFrame {
 		btnShowAllStudents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				viewController.viewStudentData();}
-				catch(NullPointerException exception) {
+					viewController.viewStudentData();
+				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForIDError();
 				}
 			}
@@ -355,5 +363,4 @@ public class StudentFrame extends JFrame {
 		contentPane.add(btnShowAllStudents);
 
 	}
-
 }

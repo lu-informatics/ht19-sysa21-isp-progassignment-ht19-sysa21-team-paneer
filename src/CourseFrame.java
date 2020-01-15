@@ -266,8 +266,8 @@ public class CourseFrame extends JFrame {
 	public void setPanelCourseForNewExam(JPanel panelCourseForNewExam) {
 		this.panelCourseForNewExam = panelCourseForNewExam;
 	}
-	
-	//View control methods
+
+	// View control methods
 	public void viewBack() {
 		getPanelCourseRegister().setVisible(false);
 		getPanelWrittenExams().setVisible(false);
@@ -392,191 +392,90 @@ public class CourseFrame extends JFrame {
 			}
 		});
 
-		panelWrittenExams = new JPanel();
-		panelWrittenExams.setVisible(false);
-
 		panelCourseRegister = new JPanel();
 		panelCourseRegister.setVisible(false);
-		panelCourseRegister.setBounds(10, 11, 251, 454);
-		contentPane.add(panelCourseRegister);
-		panelCourseRegister.setLayout(null);
 
-		panelChooseCourse = new JPanel();
-		panelChooseCourse.setBounds(0, 183, 251, 60);
-		panelChooseCourse.setVisible(false);
+		panelWrittenExams = new JPanel();
+		panelWrittenExams.setVisible(false);
+		panelWrittenExams.setBounds(10, 11, 251, 464);
+		contentPane.add(panelWrittenExams);
+		panelWrittenExams.setLayout(null);
 
-		panelCourseInfo = new JPanel();
-		panelCourseInfo.setBounds(0, 254, 288, 81);
-		panelCourseInfo.setVisible(false);
+		panelAddNewExam = new JPanel();
+		panelAddNewExam.setBounds(0, 192, 251, 194);
+		panelWrittenExams.add(panelAddNewExam);
+		panelAddNewExam.setVisible(false);
+		panelAddNewExam.setLayout(null);
 
-		panelEdit = new JPanel();
-		panelEdit.setBounds(0, 351, 251, 34);
-		panelEdit.setVisible(false);
-		panelCourseRegister.add(panelEdit);
-		panelEdit.setVisible(false);
-		panelEdit.setLayout(null);
+		JLabel lblDate = new JLabel("Date*:");
+		lblDate.setBounds(0, 9, 38, 20);
+		panelAddNewExam.add(lblDate);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBounds(46, 5, 202, 29);
 
-		JButton btnSaveEditCourse = new JButton("Save");
-		btnSaveEditCourse.setBounds(151, 0, 100, 29);
-		panelEdit.add(btnSaveEditCourse);
-		btnSaveEditCourse.addActionListener(new ActionListener() {
+		panelAddNewExam.add(datePicker);
+
+		JLabel lblTime = new JLabel("Start time*");
+		lblTime.setBounds(0, 42, 69, 20);
+		panelAddNewExam.add(lblTime);
+
+		textFieldHours = new JTextField();
+		textFieldHours.setBounds(79, 39, 76, 26);
+		panelAddNewExam.add(textFieldHours);
+		textFieldHours.setColumns(5);
+
+		JLabel label = new JLabel(":");
+		label.setBounds(160, 42, 6, 20);
+		panelAddNewExam.add(label);
+
+		textFieldMinutes = new JTextField();
+		textFieldMinutes.setBounds(171, 39, 76, 26);
+		panelAddNewExam.add(textFieldMinutes);
+		textFieldMinutes.setColumns(5);
+
+		Component horizontalStrut = Box.createHorizontalStrut(30);
+		horizontalStrut.setBounds(58, 83, 30, 12);
+		panelAddNewExam.add(horizontalStrut);
+
+		JLabel lblLocation = new JLabel("Location*");
+		lblLocation.setBounds(0, 73, 59, 20);
+		panelAddNewExam.add(lblLocation);
+
+		comboBoxLocation = new JComboBox<String>(viewController.getLocations());
+		comboBoxLocation.setBounds(104, 70, 147, 26);
+		panelAddNewExam.add(comboBoxLocation);
+
+		JButton btnAddExamTo = new JButton("Add exam to course");
+		btnAddExamTo.setBounds(73, 149, 175, 29);
+		btnAddExamTo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
-					String credits = textFieldEditCredits.getText();
-					String name = textFieldEditCourseName.getText();
-
-					viewController.editCourse(courseCode, credits, name);
-					lblResponse.setText("Course edited.");
-					textFieldEditCourseName.setText("");
-					textFieldEditCredits.setText("");
+					Date date = (Date) datePicker.getModel().getValue();
+					String hours = textFieldHours.getText().toString();
+					String minutes = textFieldMinutes.getText().toString();
+					String location = comboBoxLocation.getSelectedItem().toString();
+					String courseID = comboBoxCourseForNewExam.getSelectedItem().toString();
+					viewController.addNewExamToCourse(date, hours, minutes, location, courseID);
+					lblResponse.setText("Exam added to course.");
+				} catch (DateTimeException exception) {
+					viewController.showExceptionWindowForTimeParseException();
 				} catch (NumberFormatException exception) {
-					viewController.showExceptionWindowForCreditParseException();
+					viewController.showExceptionWindowForTimeParseException();
 				} catch (IllegalArgumentException exception) {
 					viewController.showExceptionWindowForEmptyFields();
 				} catch (NullPointerException exception) {
 					viewController.showExceptionWindowForNoCourses();
+				} catch (ParseException exception) {
+					viewController.showExceptionWindowForTimeParseException();
 				}
 			}
 		});
-		panelCourseRegister.add(panelCourseInfo);
-		panelCourseInfo.setLayout(null);
+		panelAddNewExam.add(btnAddExamTo);
 
-		JLabel lblCredits = new JLabel("Credits*:");
-		lblCredits.setBounds(0, 5, 70, 20);
-		panelCourseInfo.add(lblCredits);
-
-		textFieldEditCredits = new JTextField();
-		textFieldEditCredits.setBounds(105, 2, 146, 26);
-		panelCourseInfo.add(textFieldEditCredits);
-		textFieldEditCredits.setToolTipText("Only integer numbers");
-		textFieldEditCredits.setColumns(10);
-
-		JLabel lblCourseName = new JLabel("Name*:");
-		lblCourseName.setBounds(0, 47, 99, 20);
-		panelCourseInfo.add(lblCourseName);
-
-		textFieldEditCourseName = new JTextField();
-		textFieldEditCourseName.setBounds(105, 44, 146, 26);
-		panelCourseInfo.add(textFieldEditCourseName);
-		textFieldEditCourseName.setColumns(10);
-
-		panelCourseActions = new JPanel();
-		panelCourseActions.setBounds(0, 35, 251, 132);
-		panelCourseRegister.add(panelCourseActions);
-
-		JButton btnEditCourse = new JButton("Edit course");
-		btnEditCourse.setBounds(0, 39, 200, 29);
-		buttonGroupCourses.add(btnEditCourse);
-		btnEditCourse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewEditCourse();
-			}
-		});
-
-		JButton btnNewCourse = new JButton("Register new course");
-		btnNewCourse.setBounds(0, 5, 200, 29);
-		buttonGroupCourses.add(btnNewCourse);
-		btnNewCourse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewNewCourse();
-			}
-		});
-		panelCourseActions.setLayout(null);
-		panelCourseActions.add(btnNewCourse);
-		panelCourseActions.add(btnEditCourse);
-
-		JButton btnDeleteCourse = new JButton("Delete course");
-		btnDeleteCourse.setBounds(0, 74, 200, 29);
-		btnDeleteCourse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewDeleteCourse();
-			}
-		});
-		panelCourseActions.add(btnDeleteCourse);
-		panelCourseRegister.add(panelChooseCourse);
-
-		comboBoxChooseCourse = new JComboBox<String>(viewController.getCourses());
-		comboBoxChooseCourse.setBounds(104, 5, 147, 26);
-		panelChooseCourse.setLayout(null);
-
-		JLabel lblCourseIdChooseCourse = new JLabel("Course ID:");
-		lblCourseIdChooseCourse.setBounds(0, 8, 77, 20);
-		panelChooseCourse.add(lblCourseIdChooseCourse);
-		panelChooseCourse.add(comboBoxChooseCourse);
-
-		JLabel lblCourseRegister = new JLabel("Course Administration");
-		lblCourseRegister.setBounds(0, 5, 205, 19);
-		panelCourseRegister.add(lblCourseRegister);
-		lblCourseRegister.setFont(new Font("Arial", Font.PLAIN, 20));
-
-		panelDelete = new JPanel();
-		panelDelete.setBounds(0, 254, 251, 81);
-		panelDelete.setVisible(false);
-		panelCourseRegister.add(panelDelete);
-		panelDelete.setLayout(null);
-
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(151, 16, 100, 29);
-		btnDelete.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnDelete.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		panelDelete.add(btnDelete);
-
-		JButton btnGoBack_1 = new JButton("Go back");
-		btnGoBack_1.setBounds(0, 401, 89, 29);
-		panelCourseRegister.add(btnGoBack_1);
-
-		panelAdd = new JPanel();
-		panelAdd.setBounds(0, 351, 251, 52);
-		panelCourseRegister.add(panelAdd);
-		panelAdd.setVisible(false);
-		panelAdd.setVisible(false);
-
-		JButton btnAddNewCourse = new JButton("Save");
-		btnAddNewCourse.setBounds(151, 0, 100, 29);
-		btnAddNewCourse.setBackground(new Color(240, 240, 240));
-		btnAddNewCourse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					String name = textFieldEditCourseName.getText();
-					String credits = textFieldEditCredits.getText();
-					viewController.addCourse(name, credits);
-					lblResponse.setText("Course added.");
-					textFieldEditCourseName.setText("");
-					textFieldEditCredits.setText("");
-				} catch (NumberFormatException exception) {
-					viewController.showExceptionWindowForCreditParseException();
-				} catch (IllegalArgumentException exception) {
-					viewController.showExceptionWindowForEmptyFields();
-				}
-			}
-		});
-		panelAdd.setLayout(null);
-		panelAdd.add(btnAddNewCourse);
-		btnGoBack_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewBack();
-			}
-		});
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int choice = viewController.showConfirmWindowForDeleting();
-				if (choice == JOptionPane.YES_OPTION) {
-					try {
-						String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
-						viewController.deleteCourse(courseCode);
-						lblResponse.setText("Course deleted.");
-					} catch (NumberFormatException exception) {
-						viewController.showExceptionWindowForEmptyFields();
-					} catch (NullPointerException exception) {
-						viewController.showExceptionWindowForNoCourses();
-					}
-				}
-			}
-		});
-		panelWrittenExams.setBounds(10, 11, 251, 464);
-		contentPane.add(panelWrittenExams);
-		panelWrittenExams.setLayout(null);
+		JLabel lblNewfieldsMarkedWith = new JLabel("Fields marked with * are mandatory");
+		lblNewfieldsMarkedWith.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblNewfieldsMarkedWith.setBounds(0, 104, 221, 20);
+		panelAddNewExam.add(lblNewfieldsMarkedWith);
 
 		panelUnregisterStudent = new JPanel();
 		panelUnregisterStudent.setBounds(0, 192, 251, 194);
@@ -703,77 +602,6 @@ public class CourseFrame extends JFrame {
 		});
 		panelExistingExam.add(btnRemoveFromCourse);
 
-		panelAddNewExam = new JPanel();
-		panelAddNewExam.setBounds(0, 192, 251, 194);
-		panelWrittenExams.add(panelAddNewExam);
-		panelAddNewExam.setVisible(false);
-		panelAddNewExam.setLayout(null);
-
-		JLabel lblDate = new JLabel("Date:");
-		lblDate.setBounds(0, 9, 38, 20);
-		panelAddNewExam.add(lblDate);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.setBounds(46, 5, 202, 29);
-
-		panelAddNewExam.add(datePicker);
-
-		JLabel lblTime = new JLabel("Start time");
-		lblTime.setBounds(0, 42, 69, 20);
-		panelAddNewExam.add(lblTime);
-
-		textFieldHours = new JTextField();
-		textFieldHours.setBounds(79, 39, 76, 26);
-		panelAddNewExam.add(textFieldHours);
-		textFieldHours.setColumns(5);
-
-		JLabel label = new JLabel(":");
-		label.setBounds(160, 42, 6, 20);
-		panelAddNewExam.add(label);
-
-		textFieldMinutes = new JTextField();
-		textFieldMinutes.setBounds(171, 39, 76, 26);
-		panelAddNewExam.add(textFieldMinutes);
-		textFieldMinutes.setColumns(5);
-
-		Component horizontalStrut = Box.createHorizontalStrut(30);
-		horizontalStrut.setBounds(58, 83, 30, 12);
-		panelAddNewExam.add(horizontalStrut);
-
-		JLabel lblLocation = new JLabel("Location");
-		lblLocation.setBounds(0, 73, 59, 20);
-		panelAddNewExam.add(lblLocation);
-
-		comboBoxLocation = new JComboBox<String>(viewController.getLocations());
-		comboBoxLocation.setBounds(104, 70, 147, 26);
-		panelAddNewExam.add(comboBoxLocation);
-
-		JButton btnAddExamTo = new JButton("Add exam to course");
-		btnAddExamTo.setBounds(73, 124, 175, 29);
-		btnAddExamTo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Date date = (Date) datePicker.getModel().getValue();
-					String hours = textFieldHours.getText().toString();
-					String minutes = textFieldMinutes.getText().toString();
-					String location = comboBoxLocation.getSelectedItem().toString();
-					String courseID = comboBoxCourseForNewExam.getSelectedItem().toString();
-					viewController.addNewExamToCourse(date, hours, minutes, location, courseID);
-					lblResponse.setText("Exam added to course.");
-				} catch (DateTimeException exception) {
-					viewController.showExceptionWindowForTimeParseException();
-				} catch (NumberFormatException exception) {
-					viewController.showExceptionWindowForTimeParseException();
-				} catch (IllegalArgumentException exception) {
-					viewController.showExceptionWindowForEmptyFields();
-				} catch (NullPointerException exception) {
-					viewController.showExceptionWindowForNoCourses();
-				} catch (ParseException exception) {
-					viewController.showExceptionWindowForTimeParseException();
-				}
-			}
-		});
-		panelAddNewExam.add(btnAddExamTo);
-
 		panelCourseForNewExam = new JPanel();
 		panelCourseForNewExam.setBounds(0, 151, 251, 41);
 		panelWrittenExams.add(panelCourseForNewExam);
@@ -866,6 +694,188 @@ public class CourseFrame extends JFrame {
 		});
 		btnGoBack_2.setBounds(0, 418, 89, 34);
 		panelWrittenExams.add(btnGoBack_2);
+		panelCourseRegister.setBounds(10, 11, 251, 454);
+		contentPane.add(panelCourseRegister);
+		panelCourseRegister.setLayout(null);
+
+		panelChooseCourse = new JPanel();
+		panelChooseCourse.setBounds(0, 183, 251, 60);
+		panelChooseCourse.setVisible(false);
+
+		panelCourseInfo = new JPanel();
+		panelCourseInfo.setBounds(0, 254, 288, 96);
+		panelCourseInfo.setVisible(false);
+
+		panelEdit = new JPanel();
+		panelEdit.setBounds(0, 351, 251, 34);
+		panelEdit.setVisible(false);
+		panelCourseRegister.add(panelEdit);
+		panelEdit.setVisible(false);
+		panelEdit.setLayout(null);
+
+		JButton btnSaveEditCourse = new JButton("Save");
+		btnSaveEditCourse.setBounds(151, 0, 100, 29);
+		panelEdit.add(btnSaveEditCourse);
+		btnSaveEditCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
+					String credits = textFieldEditCredits.getText();
+					String name = textFieldEditCourseName.getText();
+
+					viewController.editCourse(courseCode, credits, name);
+					lblResponse.setText("Course edited.");
+					textFieldEditCourseName.setText("");
+					textFieldEditCredits.setText("");
+				} catch (NumberFormatException exception) {
+					viewController.showExceptionWindowForCreditParseException();
+				} catch (IllegalArgumentException exception) {
+					viewController.showExceptionWindowForEmptyFields();
+				} catch (NullPointerException exception) {
+					viewController.showExceptionWindowForNoCourses();
+				}
+			}
+		});
+		panelCourseRegister.add(panelCourseInfo);
+		panelCourseInfo.setLayout(null);
+
+		JLabel lblCredits = new JLabel("Credits*:");
+		lblCredits.setBounds(0, 5, 70, 20);
+		panelCourseInfo.add(lblCredits);
+
+		textFieldEditCredits = new JTextField();
+		textFieldEditCredits.setBounds(105, 2, 146, 26);
+		panelCourseInfo.add(textFieldEditCredits);
+		textFieldEditCredits.setToolTipText("Only integer numbers");
+		textFieldEditCredits.setColumns(10);
+
+		JLabel lblCourseName = new JLabel("Name*:");
+		lblCourseName.setBounds(0, 47, 99, 20);
+		panelCourseInfo.add(lblCourseName);
+
+		textFieldEditCourseName = new JTextField();
+		textFieldEditCourseName.setBounds(105, 44, 146, 26);
+		panelCourseInfo.add(textFieldEditCourseName);
+		textFieldEditCourseName.setColumns(10);
+
+		JLabel lblMandatoryFields = new JLabel("Fields marked with * are mandatory");
+		lblMandatoryFields.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblMandatoryFields.setBounds(1, 76, 220, 20);
+		panelCourseInfo.add(lblMandatoryFields);
+
+		panelCourseActions = new JPanel();
+		panelCourseActions.setBounds(0, 35, 251, 132);
+		panelCourseRegister.add(panelCourseActions);
+
+		JButton btnEditCourse = new JButton("Edit course");
+		btnEditCourse.setBounds(0, 39, 200, 29);
+		buttonGroupCourses.add(btnEditCourse);
+		btnEditCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewEditCourse();
+			}
+		});
+
+		JButton btnNewCourse = new JButton("Register new course");
+		btnNewCourse.setBounds(0, 5, 200, 29);
+		buttonGroupCourses.add(btnNewCourse);
+		btnNewCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewNewCourse();
+			}
+		});
+		panelCourseActions.setLayout(null);
+		panelCourseActions.add(btnNewCourse);
+		panelCourseActions.add(btnEditCourse);
+
+		JButton btnDeleteCourse = new JButton("Delete course");
+		btnDeleteCourse.setBounds(0, 74, 200, 29);
+		btnDeleteCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewDeleteCourse();
+			}
+		});
+		panelCourseActions.add(btnDeleteCourse);
+		panelCourseRegister.add(panelChooseCourse);
+
+		comboBoxChooseCourse = new JComboBox<String>(viewController.getCourses());
+		comboBoxChooseCourse.setBounds(104, 5, 147, 26);
+		panelChooseCourse.setLayout(null);
+
+		JLabel lblCourseIdChooseCourse = new JLabel("Course ID:");
+		lblCourseIdChooseCourse.setBounds(0, 8, 77, 20);
+		panelChooseCourse.add(lblCourseIdChooseCourse);
+		panelChooseCourse.add(comboBoxChooseCourse);
+
+		JLabel lblCourseRegister = new JLabel("Course Administration");
+		lblCourseRegister.setBounds(0, 5, 205, 19);
+		panelCourseRegister.add(lblCourseRegister);
+		lblCourseRegister.setFont(new Font("Arial", Font.PLAIN, 20));
+
+		panelDelete = new JPanel();
+		panelDelete.setBounds(0, 254, 251, 81);
+		panelDelete.setVisible(false);
+		panelCourseRegister.add(panelDelete);
+		panelDelete.setLayout(null);
+
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBounds(151, 16, 100, 29);
+		btnDelete.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnDelete.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		panelDelete.add(btnDelete);
+
+		JButton btnGoBack_1 = new JButton("Go back");
+		btnGoBack_1.setBounds(0, 401, 89, 29);
+		panelCourseRegister.add(btnGoBack_1);
+
+		panelAdd = new JPanel();
+		panelAdd.setBounds(0, 351, 251, 52);
+		panelCourseRegister.add(panelAdd);
+		panelAdd.setVisible(false);
+		panelAdd.setVisible(false);
+
+		JButton btnAddNewCourse = new JButton("Save");
+		btnAddNewCourse.setBounds(151, 0, 100, 29);
+		btnAddNewCourse.setBackground(new Color(240, 240, 240));
+		btnAddNewCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String name = textFieldEditCourseName.getText();
+					String credits = textFieldEditCredits.getText();
+					viewController.addCourse(name, credits);
+					lblResponse.setText("Course added.");
+					textFieldEditCourseName.setText("");
+					textFieldEditCredits.setText("");
+				} catch (NumberFormatException exception) {
+					viewController.showExceptionWindowForCreditParseException();
+				} catch (IllegalArgumentException exception) {
+					viewController.showExceptionWindowForEmptyFields();
+				}
+			}
+		});
+		panelAdd.setLayout(null);
+		panelAdd.add(btnAddNewCourse);
+		btnGoBack_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewBack();
+			}
+		});
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int choice = viewController.showConfirmWindowForDeleting();
+				if (choice == JOptionPane.YES_OPTION) {
+					try {
+						String courseCode = comboBoxChooseCourse.getSelectedItem().toString();
+						viewController.deleteCourse(courseCode);
+						lblResponse.setText("Course deleted.");
+					} catch (NumberFormatException exception) {
+						viewController.showExceptionWindowForEmptyFields();
+					} catch (NullPointerException exception) {
+						viewController.showExceptionWindowForNoCourses();
+					}
+				}
+			}
+		});
 
 		panelWelcome = new JPanel();
 		panelWelcome.setBounds(10, 11, 205, 203);

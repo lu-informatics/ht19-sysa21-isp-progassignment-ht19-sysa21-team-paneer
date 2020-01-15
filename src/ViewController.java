@@ -179,7 +179,6 @@ public class ViewController {
 	public void goBackFromStudentData() {
 		studentData.setVisible(false);
 	}
-	
 
 	public void administrateStudents(ViewController controller) {
 		studentFrame.setVisible(true);
@@ -203,8 +202,6 @@ public class ViewController {
 		studentFrame.setVisible(false);
 
 	}
-	
-	
 
 	// Exception handling
 	public void showExceptionWindowForEmptyFields() {
@@ -644,7 +641,6 @@ public class ViewController {
 		Result result = s.getResults().get(examID);
 		result.setResult(score);
 		result.setLetterGrade(result.gradeCalculator(score));
-		
 
 	}
 
@@ -654,7 +650,7 @@ public class ViewController {
 		return s.getResults().get(examID).getResult();
 
 	}
-	
+
 	public String findLetterGradeForStudent(String studentString, String examID) {
 		String studentID = this.stripString(studentString);
 		Student s = studentRegister.findStudent(studentID);
