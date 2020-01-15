@@ -19,7 +19,15 @@ public class Course {
 		return name;
 	}
 
-
+	public void setName(String name) {
+		if (!name.equals("")) {
+			this.name = name;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
+		
+	}
 
 	public int getCredits() {
 		return credits;
